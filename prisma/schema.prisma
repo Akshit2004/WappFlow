@@ -108,6 +108,8 @@ model Template {
   category       String       // "Marketing" | "Utility" | "Authentication"
   buttons        String[]     // Postgres scalar list support
   mediaType      String       @default("none") // "none" | "image" | "video" | "document"
+  metaStatus     String       @default("pending") // "pending" | "approved" | "rejected"
+  metaId         String?      // Meta template ID for status polling
   organizationId String
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   createdAt      DateTime     @default(now())

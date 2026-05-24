@@ -64,6 +64,11 @@ export async function GET(
     const templates = await prisma.template.findMany({
       where: { organizationId: orgId },
       orderBy: { createdAt: "desc" },
+      select: {
+        id: true, name: true, body: true, category: true,
+        buttons: true, mediaType: true, metaStatus: true, metaId: true,
+        organizationId: true, createdAt: true,
+      },
     });
 
     const chatbotNodes = await prisma.chatbotNode.findMany({

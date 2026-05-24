@@ -50,6 +50,8 @@ export interface Template {
   category: "Marketing" | "Utility" | "Authentication";
   buttons: string[];
   mediaType?: "none" | "image" | "video" | "document";
+  metaStatus?: "pending" | "approved" | "rejected";
+  metaId?: string;
 }
 
 export interface ChatbotNode {
@@ -152,13 +154,13 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const clearSystemLogs = () => setSystemLogs([]);
 
   const addTemplate = (newTmpl: Omit<Template, "id">) => {
-    const id = `t-${Date.now()}`;
+    const id = newTmpl.metaId ? `meta-${newTmpl.metaId}` : `t-${Date.now()}`;
     const tmpl: Template = {
       ...newTmpl,
       id,
     };
     setTemplates((prev) => [...prev, tmpl]);
-    addSystemLog("crm", `Created Meta pre-approved template: ${tmpl.name} (${tmpl.category})`);
+    addSystemLog("crm", `Created template: ${tmpl.name} (${tmpl.category}) - ${tmpl.metaStatus || "pending"}`);
   };
 
   const initializeWorkspace = useCallback((data: {
