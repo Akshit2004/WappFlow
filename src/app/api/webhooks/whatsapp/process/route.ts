@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { formatPhoneNumber } from "@/lib/whatsapp";
+import { handleAutoResponder } from "@/lib/autoresponder";
 
 export async function POST(req: NextRequest) {
   try {
@@ -72,6 +73,11 @@ export async function POST(req: NextRequest) {
         organizationId: org.id,
       },
     });
+
+    if (contact.assignedAgent === "Bot") {
+      // Trigger the Groq AI auto-responder in the background
+      handleAutoResponder(contact.id, org.id);
+    }
 
     return NextResponse.json({ status: "ok", contactId: contact.id }, { status: 200 });
   } catch (err: any) {

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyWebhook, validateWebhookSignature, WhatsAppWebhookPayload } from "@/lib/whatsapp";
 import { prisma } from "@/lib/prisma";
+import { handleAutoResponder } from "@/lib/autoresponder";
 
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
@@ -121,6 +122,11 @@ export async function POST(req: NextRequest) {
                 organizationId: org.id,
               },
             });
+
+            if (contact.assignedAgent === "Bot") {
+              // Trigger auto-responder asynchronously so webhook returns quickly
+              handleAutoResponder(contact.id, org.id);
+            }
           }
         }
       }

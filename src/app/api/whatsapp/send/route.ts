@@ -33,14 +33,41 @@ export async function POST(req: NextRequest) {
       }
     });
 
-    // Update contact last message in PostgreSQL
-    await prisma.contact.update({
-      where: { id: contactId },
-      data: {
-        lastMessage: text.length > 35 ? text.substring(0, 32) + "..." : text,
-        lastMessageTime: timeStr
-      }
+    const contact = await prisma.contact.findUnique({
+      where: { id: contactId }
     });
+
+    const agentName = session.user?.name || "Agent";
+
+    if (contact && contact.assignedAgent === "Bot") {
+      // Human agent takeover
+      await prisma.contact.update({
+        where: { id: contactId },
+        data: {
+          assignedAgent: agentName,
+          lastMessage: text.length > 35 ? text.substring(0, 32) + "..." : text,
+          lastMessageTime: timeStr
+        }
+      });
+
+      await prisma.systemLog.create({
+        data: {
+          timestamp: timeStr,
+          type: "crm",
+          message: `Agent ${agentName} took over conversation from AI Bot for contact ${contact.name}`,
+          organizationId: orgId
+        }
+      });
+    } else {
+      // Standard update last message in PostgreSQL
+      await prisma.contact.update({
+        where: { id: contactId },
+        data: {
+          lastMessage: text.length > 35 ? text.substring(0, 32) + "..." : text,
+          lastMessageTime: timeStr
+        }
+      });
+    }
 
     // Dispatch real message via Meta API if credentials are set
     const result = await sendWhatsAppMessage({ to: formattedPhone, text });

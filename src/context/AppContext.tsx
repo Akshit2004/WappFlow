@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode, useRef } from "react";
 
 // Types
 export interface Contact {
@@ -111,6 +111,8 @@ interface AppContextType {
   addSystemLog: (type: SystemLog["type"], message: string) => void;
   clearSystemLogs: () => void;
   addTemplate: (template: Omit<Template, "id">) => void;
+  lockSync: () => void;
+  unlockSync: () => void;
   initializeWorkspace: (data: {
     contacts: Contact[];
     campaigns: Campaign[];
@@ -163,6 +165,18 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     addSystemLog("crm", `Created template: ${tmpl.name} (${tmpl.category}) - ${tmpl.metaStatus || "pending"}`);
   };
 
+  const syncLockedRef = useRef(false);
+
+  const lockSync = useCallback(() => {
+    syncLockedRef.current = true;
+  }, []);
+
+  const unlockSync = useCallback(() => {
+    setTimeout(() => {
+      syncLockedRef.current = false;
+    }, 1500);
+  }, []);
+
   const initializeWorkspace = useCallback((data: {
     contacts: Contact[];
     campaigns: Campaign[];
@@ -173,6 +187,9 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     systemLogs: SystemLog[];
     members: Member[];
   }) => {
+    if (syncLockedRef.current) {
+      return;
+    }
     setContacts(data.contacts);
     setCampaigns(data.campaigns);
     setTemplates(data.templates);
@@ -203,19 +220,48 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     return contact;
   };
 
-  const updateContact = (id: string, updates: Partial<Contact>) => {
+  const updateContact = async (id: string, updates: Partial<Contact>) => {
+    lockSync();
     setContacts((prev) =>
       prev.map((c) => (c.id === id ? { ...c, ...updates } : c))
     );
     if (updates.tags) {
       addSystemLog("crm", `Updated tags for contact ID ${id}`);
     }
+    try {
+      const res = await fetch(`/api/contact/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updates),
+      });
+      if (!res.ok) {
+        addSystemLog("crm", `Failed to save contact updates for ID ${id} to sandbox database.`);
+      }
+    } catch (err: any) {
+      addSystemLog("crm", `Error updating contact ID ${id}: ${err.message}`);
+    } finally {
+      unlockSync();
+    }
   };
 
-  const deleteContact = (id: string) => {
+  const deleteContact = async (id: string) => {
+    lockSync();
     setContacts((prev) => prev.filter((c) => c.id !== id));
     if (activeContactId === id) setActiveContactId(null);
-    addSystemLog("crm", `Deleted contact ID ${id}`);
+    try {
+      const res = await fetch(`/api/contact/${id}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) {
+        addSystemLog("crm", `Failed to delete contact ID ${id} from sandbox database.`);
+      } else {
+        addSystemLog("crm", `Permanently deleted contact ID ${id}`);
+      }
+    } catch (err: any) {
+      addSystemLog("crm", `Error permanently deleting contact ID ${id}: ${err.message}`);
+    } finally {
+      unlockSync();
+    }
   };
 
   const sendLiveChatMessage = (contactId: string, text: string, sender: "user" | "agent" | "system" = "agent", buttons?: string[]) => {
@@ -351,6 +397,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         addSystemLog,
         clearSystemLogs,
         addTemplate,
+        lockSync,
+        unlockSync,
         initializeWorkspace,
       }}
     >

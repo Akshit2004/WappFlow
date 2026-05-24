@@ -21,10 +21,12 @@ import {
   ArrowLeft
 } from "lucide-react";
 import { useApp, Contact, Message } from "../context/AppContext";
+import { useSession } from "next-auth/react";
 
 export const InboxTab: React.FC = () => {
   const params = useParams();
   const orgId = params.orgId as string;
+  const { data: session } = useSession();
   const { 
     contacts, 
     chatHistory, 
@@ -34,13 +36,17 @@ export const InboxTab: React.FC = () => {
     updateContact,
     deleteContact,
     integrations,
-    members
+    members,
+    lockSync,
+    unlockSync
   } = useApp();
 
   const [searchQuery, setSearchQuery] = useState("");
   const [inputText, setInputText] = useState("");
   const [newTagInput, setNewTagInput] = useState("");
   const [showMobileProfile, setShowMobileProfile] = useState(false);
+  const [showSimulate, setShowSimulate] = useState(false);
+  const [simMessage, setSimMessage] = useState("");
   
   const chatEndRef = useRef<HTMLDivElement>(null);
 
@@ -74,9 +80,16 @@ export const InboxTab: React.FC = () => {
 
     if (!contact) return;
 
+    lockSync();
+
     // Send live chat message locally for instant snappy UI response
     sendLiveChatMessage(activeContactId, text, "agent");
     setInputText("");
+
+    if (contact.assignedAgent === "Bot") {
+      const agentName = session?.user?.name || "Agent";
+      updateContact(activeContactId, { assignedAgent: agentName });
+    }
 
     try {
       const phone = contact.phone.replace(/[^0-9]/g, "");
@@ -92,6 +105,8 @@ export const InboxTab: React.FC = () => {
       });
     } catch (err) {
       console.error("Failed to sync live chat message with backend:", err);
+    } finally {
+      unlockSync();
     }
   };
 
@@ -258,6 +273,16 @@ export const InboxTab: React.FC = () => {
               </div>
 
               <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setShowSimulate(!showSimulate)}
+                  className="text-[10px] px-2.5 py-1 rounded-full bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-700 font-bold flex items-center gap-1 select-none transition-all shadow-sm shrink-0 cursor-pointer"
+                  title="Simulate Inbound Customer Message"
+                >
+                  <Bot className="w-3 h-3 text-amber-600" />
+                  Simulate Inbound
+                </button>
+
                 <span className="hidden sm:inline-flex text-[10px] px-2.5 py-1 rounded-full bg-orange-50 text-stone-600 font-semibold items-center gap-1.5 shrink-0">
                   <Laptop className="w-3 h-3 text-zinc-500" />
                   Agent: <span className="font-bold text-stone-800">{activeContact.assignedAgent}</span>
@@ -274,6 +299,91 @@ export const InboxTab: React.FC = () => {
                 </button>
               </div>
             </div>
+
+            {/* Inbound Customer Simulator Banner */}
+            {showSimulate && (
+              <div className="bg-amber-500/10 border-b border-amber-500/20 px-6 py-3 flex items-center justify-between gap-4 z-20 relative select-none animate-slide-up">
+                <div className="flex items-center gap-2 text-xs font-semibold text-amber-800 shrink-0">
+                  <Bot className="w-4 h-4 text-amber-600 animate-bounce" />
+                  <span>Simulate message from {activeContact.name}:</span>
+                </div>
+                <div className="flex items-center gap-2 flex-1 max-w-md">
+                  <input
+                    type="text"
+                    placeholder="Type what this customer says..."
+                    value={simMessage}
+                    onChange={(e) => setSimMessage(e.target.value)}
+                    onKeyDown={async (e) => {
+                      if (e.key === "Enter" && simMessage.trim()) {
+                        const text = simMessage.trim();
+                        setSimMessage("");
+                        setShowSimulate(false);
+                        
+                        lockSync();
+                        sendLiveChatMessage(activeContact.id, text, "user");
+
+                        try {
+                          await fetch("/api/webhooks/whatsapp/process", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                              from: activeContact.phone,
+                              text,
+                              msgId: `sim-${Date.now()}`,
+                              timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                            })
+                          });
+                        } catch (err) {
+                          console.error(err);
+                        } finally {
+                          unlockSync();
+                        }
+                      }
+                    }}
+                    className="flex-1 bg-white border border-amber-200 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-amber-500"
+                  />
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      if (!simMessage.trim()) return;
+                      const text = simMessage.trim();
+                      setSimMessage("");
+                      setShowSimulate(false);
+                      
+                      lockSync();
+                      sendLiveChatMessage(activeContact.id, text, "user");
+
+                      try {
+                        await fetch("/api/webhooks/whatsapp/process", {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify({
+                            from: activeContact.phone,
+                            text,
+                            msgId: `sim-${Date.now()}`,
+                            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                          })
+                        });
+                      } catch (err) {
+                        console.error(err);
+                      } finally {
+                        unlockSync();
+                      }
+                    }}
+                    className="bg-amber-600 hover:bg-amber-500 text-white font-semibold text-xs px-3 py-1.5 rounded-lg transition-all cursor-pointer shrink-0"
+                  >
+                    Send Inbound
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setShowSimulate(false)}
+                    className="p-1.5 rounded-lg hover:bg-amber-100 text-amber-700 cursor-pointer shrink-0"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            )}
 
             {/* Live Message History Scroll */}
             <div className="flex-1 overflow-y-auto p-6 space-y-4 custom-scrollbar relative z-10">
