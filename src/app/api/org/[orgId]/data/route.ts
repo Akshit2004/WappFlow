@@ -96,11 +96,11 @@ export async function GET(
     const chatHistory: Record<string, any[]> = {};
     
     // Initialize contact buckets
-    contacts.forEach((c) => {
+    contacts.forEach((c: any) => {
       chatHistory[c.id] = [];
     });
 
-    messages.forEach((m) => {
+    messages.forEach((m: any) => {
       if (!chatHistory[m.contactId]) {
         chatHistory[m.contactId] = [];
       }
