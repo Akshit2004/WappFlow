@@ -25,33 +25,63 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "Template not found or not sent to Meta" }, { status: 404 });
     }
 
-    const accessToken = process.env.WHATSAPP_ACCESS_TOKEN;
-    const apiVersion = process.env.WHATSAPP_API_VERSION || "v21.0";
+    let dbStatus = template.metaStatus;
+    let metaData: any = null;
 
-    if (!accessToken) {
-      return NextResponse.json({ error: "WhatsApp API not configured" }, { status: 500 });
-    }
-
-    const metaRes = await fetch(
-      `https://graph.facebook.com/${apiVersion}/${template.metaId}?fields=status`,
-      {
-        headers: { Authorization: `Bearer ${accessToken}` },
+    // Sandbox Mock Template Auto-Approval Simulator
+    if (template.metaId.startsWith("mock-meta-")) {
+      const ageMs = Date.now() - new Date(template.createdAt).getTime();
+      // Auto-approve after 12 seconds in WappFlow Sandbox
+      if (ageMs > 12000) {
+        dbStatus = "approved";
+        console.log(`[Sandbox Approval Simulator] Auto-approving template '${template.name}' (${template.id}) after simulated compliance audit.`);
+      } else {
+        dbStatus = "pending";
       }
-    );
+      metaData = { status: dbStatus.toUpperCase(), simulated: true };
+    } else {
+      // Real Meta API verification
+      const accessToken = process.env.WHATSAPP_ACCESS_TOKEN;
+      const apiVersion = process.env.WHATSAPP_API_VERSION || "v21.0";
 
-    const metaData = await metaRes.json();
+      if (!accessToken) {
+        return NextResponse.json({ error: "WhatsApp API not configured" }, { status: 500 });
+      }
 
-    if (!metaRes.ok) {
-      return NextResponse.json({ error: metaData.error?.message || "Meta API error" }, { status: 400 });
+      const metaRes = await fetch(
+        `https://graph.facebook.com/${apiVersion}/${template.metaId}?fields=status`,
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        }
+      );
+
+      metaData = await metaRes.json();
+
+      if (!metaRes.ok) {
+        return NextResponse.json({ error: metaData.error?.message || "Meta API error" }, { status: 400 });
+      }
+
+      const metaStatus = metaData.status?.toLowerCase() || "pending";
+      dbStatus = metaStatus === "approved" ? "approved" : metaStatus === "rejected" ? "rejected" : "pending";
     }
 
-    const metaStatus = metaData.status?.toLowerCase() || "pending";
-    const dbStatus = metaStatus === "approved" ? "approved" : metaStatus === "rejected" ? "rejected" : "pending";
-
+    // Update status in PostgreSQL if it changed
     if (dbStatus !== template.metaStatus) {
       await prisma.template.update({
         where: { id: templateId },
         data: { metaStatus: dbStatus },
+      });
+
+      // Log the approval inside System Logs
+      const d = new Date();
+      const timeStr = `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
+      await prisma.systemLog.create({
+        data: {
+          timestamp: timeStr,
+          type: "crm",
+          message: `Template approval status updated: "${template.name}" is now ${dbStatus.toUpperCase()}`,
+          organizationId: template.organizationId
+        }
       });
     }
 

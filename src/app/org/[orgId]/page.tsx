@@ -9,6 +9,7 @@ import { OverviewTab } from "../../../components/OverviewTab";
 import { InboxTab } from "../../../components/InboxTab";
 import { CampaignsTab } from "../../../components/CampaignsTab";
 import { TemplatesTab } from "../../../components/TemplatesTab";
+import { ChatbotTab } from "../../../components/ChatbotTab";
 import { Loader, AlertCircle, Bot, Menu } from "lucide-react";
 
 export default function TenantDashboard() {
@@ -78,6 +79,8 @@ export default function TenantDashboard() {
         return <CampaignsTab />;
       case "templates":
         return <TemplatesTab />;
+      case "chatbot":
+        return <ChatbotTab />;
       default:
         return <OverviewTab />;
     }

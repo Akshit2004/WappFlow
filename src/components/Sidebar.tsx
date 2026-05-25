@@ -46,6 +46,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: "inbox", label: "Team Inbox", icon: MessageSquare, badge: totalUnread > 0 ? totalUnread : undefined },
     { id: "campaigns", label: "Campaigns", icon: Megaphone },
     { id: "templates", label: "Templates", icon: FileText },
+    { id: "chatbot", label: "Bot Builder", icon: Cpu },
   ];
 
   return (

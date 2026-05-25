@@ -105,13 +105,29 @@ interface AppContextType {
   updateContact: (id: string, updates: Partial<Contact>) => void;
   deleteContact: (id: string) => void;
   deleteCampaign: (id: string) => Promise<void>;
-  sendBroadcast: (campaign: { name: string; targetTag: string; templateName: string; organizationId: string }) => Promise<void>;
+  sendBroadcast: (campaign: { 
+    name: string; 
+    targetTag: string; 
+    templateName: string; 
+    organizationId: string;
+    variables?: Array<{ key: string; type: "contact_field" | "static"; value: string }>;
+    delay?: number;
+    scheduledAt?: string;
+  }) => Promise<void>;
   sendLiveChatMessage: (contactId: string, text: string, sender?: "user" | "agent" | "system", buttons?: string[]) => void;
-  updateChatbotNodes: (nodes: ChatbotNode[]) => void;
+  updateChatbotNodes: (nodes: ChatbotNode[], organizationId: string) => Promise<void>;
   toggleIntegration: (id: string, config?: { apiKey?: string; webhookUrl?: string }) => void;
   addSystemLog: (type: SystemLog["type"], message: string) => void;
   clearSystemLogs: () => void;
-  addTemplate: (template: Omit<Template, "id">) => void;
+  submitMetaTemplate: (templateData: { 
+    name: string; 
+    category: string; 
+    body: string; 
+    buttons: string[]; 
+    mediaType: string; 
+    organizationId: string; 
+  }) => Promise<void>;
+  deleteTemplate: (id: string) => Promise<void>;
   lockSync: () => void;
   unlockSync: () => void;
   initializeWorkspace: (data: {
@@ -156,14 +172,56 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
 
   const clearSystemLogs = () => setSystemLogs([]);
 
-  const addTemplate = (newTmpl: Omit<Template, "id">) => {
-    const id = newTmpl.metaId ? `meta-${newTmpl.metaId}` : `t-${Date.now()}`;
-    const tmpl: Template = {
-      ...newTmpl,
-      id,
-    };
-    setTemplates((prev) => [...prev, tmpl]);
-    addSystemLog("crm", `Created template: ${tmpl.name} (${tmpl.category}) - ${tmpl.metaStatus || "pending"}`);
+  const submitMetaTemplate = async (newTmpl: { 
+    name: string; 
+    category: string; 
+    body: string; 
+    buttons: string[]; 
+    mediaType: string; 
+    organizationId: string; 
+  }) => {
+    try {
+      addSystemLog("crm", `Submitting template "${newTmpl.name}" for Meta approval...`);
+      const res = await fetch("/api/whatsapp/create-template", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newTmpl),
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        addSystemLog("crm", `Template approval submission failed: ${err.error}`);
+        return;
+      }
+
+      const data = await res.json();
+      setTemplates((prev) => [...prev, data.template]);
+      addSystemLog("crm", `Template "${data.template.name}" submitted successfully! Status: ${data.template.metaStatus}`);
+    } catch (err: any) {
+      addSystemLog("crm", `Template creation error: ${err.message}`);
+    }
+  };
+
+  const deleteTemplate = async (id: string) => {
+    lockSync();
+    setTemplates((prev) => prev.filter((t) => t.id !== id));
+    try {
+      addSystemLog("crm", `Permanently deleting template ID ${id} from WappFlow and Meta...`);
+      const res = await fetch(`/api/whatsapp/delete-template/${id}`, {
+        method: "DELETE",
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        addSystemLog("crm", `Failed to delete template ID ${id} completely: ${err.error}`);
+      } else {
+        addSystemLog("crm", `Successfully deleted template ID ${id} from WappFlow and Meta.`);
+      }
+    } catch (err: any) {
+      addSystemLog("crm", `Error deleting template ID ${id}: ${err.message}`);
+    } finally {
+      unlockSync();
+    }
   };
 
   const syncLockedRef = useRef(false);
@@ -328,9 +386,23 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     }
   };
 
-  const sendBroadcast = async (campaignData: { name: string; targetTag: string; templateName: string; organizationId: string }) => {
+  const sendBroadcast = async (campaignData: { 
+    name: string; 
+    targetTag: string; 
+    templateName: string; 
+    organizationId: string;
+    variables?: Array<{ key: string; type: "contact_field" | "static"; value: string }>;
+    delay?: number;
+    scheduledAt?: string;
+  }) => {
     try {
-      addSystemLog("campaign", `Launching broadcast '${campaignData.name}' to matching contacts...`);
+      const isScheduled = !!campaignData.scheduledAt;
+      addSystemLog(
+        "campaign", 
+        isScheduled 
+          ? `Scheduling broadcast '${campaignData.name}' for ${campaignData.scheduledAt}...` 
+          : `Launching broadcast '${campaignData.name}' asynchronously to CRM segment...`
+      );
       
       const res = await fetch("/api/whatsapp/campaign", {
         method: "POST",
@@ -340,15 +412,21 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
 
       if (!res.ok) {
         const err = await res.json();
-        addSystemLog("campaign", `Broadcast launch failed: ${err.error}`);
+        addSystemLog("campaign", `Broadcast action failed: ${err.error}`);
         return;
       }
 
       const data = await res.json();
       setCampaigns((prev) => [data.campaign, ...prev]);
-      addSystemLog("campaign", `Broadcast launched successfully! Fired to ${data.campaign.sent} contacts.`);
+      
+      addSystemLog(
+        "campaign", 
+        isScheduled 
+          ? `Broadcast successfully scheduled! Active date: ${new Date(campaignData.scheduledAt!).toLocaleString()}`
+          : `Broadcast launched successfully! Queueing dispatch to ${data.campaign.sent} matching leads.`
+      );
     } catch (err: any) {
-      addSystemLog("campaign", `Broadcast launch error: ${err.message}`);
+      addSystemLog("campaign", `Broadcast action error: ${err.message}`);
     }
   };
 
@@ -371,9 +449,25 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     }
   };
 
-  const updateChatbotNodes = (newNodes: ChatbotNode[]) => {
+  const updateChatbotNodes = async (newNodes: ChatbotNode[], organizationId: string) => {
     setChatbotNodes(newNodes);
-    addSystemLog("crm", "Chatbot Builder nodes layout saved");
+    try {
+      addSystemLog("crm", `Saving visual chatbot flow layout (${newNodes.length} nodes) to PostgreSQL...`);
+      const res = await fetch(`/api/org/${organizationId}/chatbot`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nodes: newNodes }),
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        addSystemLog("crm", `Failed to save chatbot flow nodes: ${err.error}`);
+      } else {
+        addSystemLog("crm", "Chatbot Builder nodes successfully persisted to PostgreSQL.");
+      }
+    } catch (err: any) {
+      addSystemLog("crm", `Error saving chatbot layout: ${err.message}`);
+    }
   };
 
   const toggleIntegration = (id: string, config?: { apiKey?: string; webhookUrl?: string }) => {
@@ -417,7 +511,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         toggleIntegration,
         addSystemLog,
         clearSystemLogs,
-        addTemplate,
+        submitMetaTemplate,
+        deleteTemplate,
         lockSync,
         unlockSync,
         initializeWorkspace,
