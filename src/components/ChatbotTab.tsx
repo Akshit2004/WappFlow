@@ -717,7 +717,7 @@ export const ChatbotTab: React.FC = () => {
 
           {/* Canvas Blueprint Grid */}
           <div
-            className="w-[2000px] h-[2000px] bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:24px_24px] bg-slate-50/50 absolute"
+            className="w-[2000px] h-[2000px] bg-slate-50 absolute"
             style={{
               transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
               transformOrigin: "0 0"
