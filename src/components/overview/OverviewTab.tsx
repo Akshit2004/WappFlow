@@ -1,12 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
-import { Users, Send, FileCode2, Wallet, Coins, UploadCloud } from "lucide-react";
+import { Users, Send, FileCode2, UploadCloud, ChevronRight } from "lucide-react";
 import { useApp } from "../../context/AppContext";
 import { CSVImporterModal } from "../contacts/CSVImporterModal";
 import { ChecklistWizard } from "./ChecklistWizard";
-import { LiveLogsTerminal } from "./LiveLogsTerminal";
 import { WalletTopupModal } from "./WalletTopupModal";
+import { EditorialHeader } from "./EditorialHeader";
+import { FlowJournalStream } from "./FlowJournalStream";
 
 interface OverviewTabProps {
   onNavigate?: (tab: string) => void;
@@ -21,7 +22,9 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ onNavigate }) => {
     systemLogs, 
     clearSystemLogs, 
     dismissOnboarding, 
-    refreshWorkspace 
+    refreshWorkspace,
+    sendLiveChatMessage,
+    addSystemLog,
   } = useApp();
   
   const [isCSVModalOpen, setIsCSVModalOpen] = useState(false);
@@ -41,25 +44,14 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ onNavigate }) => {
   const showChecklist = !!(organization && !organization.onboardingDismissed && !allStepsDone);
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 sm:p-8 custom-scrollbar space-y-6 sm:space-y-8 animate-slide-up bg-[#f4f6f5]">
-      {/* Page Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 select-none">
-        <div>
-          <h2 className="text-2xl font-extrabold tracking-tight text-slate-900">Dashboard Overview</h2>
-          <p className="text-stone-500 text-sm mt-1 font-medium">Real-time statistics, delivery analysis, and webhook audit logs.</p>
-        </div>
-        <div className="flex items-center gap-2.5 self-start md:self-center">
-          <span className="flex h-2.5 w-2.5 relative">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
-          </span>
-          <span className="text-[11px] font-extrabold uppercase tracking-wide text-emerald-700 bg-emerald-50 px-3.5 py-2 rounded-xl border border-emerald-250/20 shadow-sm shadow-emerald-500/5">
-            System Live & Syncing
-          </span>
-        </div>
-      </div>
+    <div className="flex-1 overflow-y-auto p-6 sm:p-8 custom-scrollbar space-y-8 bg-[#fafaf9] min-h-screen">
+      {/* 1. Elegant Editorial Header & Wallet Dock */}
+      <EditorialHeader 
+        organization={organization}
+        onTopupClick={() => setIsTopupOpen(true)}
+      />
 
-      {/* Getting Started Checklist */}
+      {/* 2. Getting Started Onboarding checklist */}
       {organization && (
         <ChecklistWizard
           organizationId={organization.id}
@@ -74,86 +66,105 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ onNavigate }) => {
         />
       )}
 
-      {/* KPI Cards Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 select-none">
-        {/* Wallet Balance Card */}
-        <div className="glass-panel p-6 rounded-2xl flex items-center justify-between shadow-sm card-hover-premium duration-300 bg-white">
-          <div className="space-y-3 flex-1 min-w-0 pr-2">
-            <span className="text-[10px] font-extrabold text-stone-400 uppercase tracking-widest flex items-center gap-1.5 select-none">
-              <Wallet className="w-4 h-4 text-emerald-600 animate-pulse-soft" />
-              Wallet Balance
-            </span>
-            <h3 className="text-3xl font-extrabold text-slate-900 tracking-tight font-mono">
-              ₹{((organization?.walletBalance as number) ?? 0.0).toLocaleString("en-IN", { minimumFractionDigits: 2 })}
-            </h3>
-            <button 
-              onClick={() => setIsTopupOpen(true)}
-              className="text-[9px] font-extrabold uppercase tracking-wide text-emerald-600 bg-emerald-50 hover:bg-emerald-100 px-2.5 py-1 rounded-lg border border-emerald-250/20 transition-colors flex items-center gap-1 cursor-pointer shrink-0 mt-2.5 w-fit"
-            >
-              <Coins className="w-3 h-3" />
-              Top Up
-            </button>
-          </div>
-          <div className="w-12 h-12 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center shadow-sm shrink-0">
-            <Wallet className="w-5 h-5 text-emerald-600" />
-          </div>
+      {/* 3. Main Editorial Asymmetric Two-Column Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
+        {/* Left Column (3/5): Workspace Timeline Log */}
+        <div className="lg:col-span-3">
+          {/* Chronological Activity Stream Ledger */}
+          <FlowJournalStream
+            systemLogs={systemLogs}
+            clearSystemLogs={clearSystemLogs}
+            onNavigate={onNavigate}
+          />
         </div>
 
-        {/* KPI 1: CRM Leads */}
-        <div className="glass-panel p-6 rounded-2xl flex items-center justify-between shadow-sm card-hover-premium duration-300 bg-white">
-          <div className="space-y-3 flex-1 min-w-0 pr-2">
-            <span className="text-[10px] font-extrabold text-stone-400 uppercase tracking-widest flex items-center justify-between gap-2">
-              Total CRM Leads
-              <button 
-                onClick={() => setIsCSVModalOpen(true)}
-                className="text-[9px] font-extrabold uppercase tracking-wide text-emerald-600 bg-emerald-50 hover:bg-emerald-100 px-2 py-1 rounded-lg border border-emerald-250/20 transition-colors flex items-center gap-1 cursor-pointer shrink-0"
-              >
-                <UploadCloud className="w-3 h-3" />
-                Import
-              </button>
-            </span>
-            <h3 className="text-3xl font-extrabold text-stone-900 tracking-tight">{totalContacts}</h3>
-            <span className="text-[10px] text-stone-400 font-semibold block truncate">Synchronized Shopify/Woo webhooks</span>
-          </div>
-          <div className="w-12 h-12 rounded-2xl bg-blue-50/80 border border-blue-200 text-blue-600 flex items-center justify-center shadow-sm shrink-0">
-            <Users className="w-5 h-5" />
-          </div>
-        </div>
+        {/* Right Column (2/5): Minimalist Pricing Calculator and Metadata Sheet */}
+        <div className="lg:col-span-2 space-y-8">
+          {/* Flat Workspace Metadata Ledger */}
+          <div className="bg-white border border-stone-200 p-6 sm:p-8 hover:border-stone-400 transition-colors duration-300 select-none">
+            <div className="pb-6 border-b border-stone-100">
+              <h3 className="text-lg font-light text-stone-900">
+                Workspace Metadata
+              </h3>
+              <p className="text-xs text-stone-500 tracking-wide mt-1 uppercase">
+                Saas Operational Index
+              </p>
+            </div>
 
-        {/* KPI 2: Broadcast Campaigns */}
-        <div className="glass-panel p-6 rounded-2xl flex items-center justify-between shadow-sm card-hover-premium duration-300 bg-white">
-          <div className="space-y-3 flex-1 min-w-0">
-            <span className="text-[10px] font-extrabold text-stone-400 uppercase tracking-widest">Broadcast Campaigns</span>
-            <h3 className="text-3xl font-extrabold text-stone-900 tracking-tight">{totalCampaigns}</h3>
-            <span className="text-[10px] text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-100 font-bold inline-block">
-              {activeCampaigns} processing
-            </span>
-          </div>
-          <div className="w-12 h-12 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center shadow-sm shrink-0">
-            <Send className="w-5 h-5 text-emerald-600" />
-          </div>
-        </div>
+            <div className="py-6 space-y-6">
+              {/* Stat 1: Contacts */}
+              <div className="flex items-start justify-between gap-4 border-b border-stone-50 pb-5">
+                <div className="space-y-1">
+                  <span className="text-[10px] tracking-wider text-stone-400 uppercase font-bold block">
+                    TOTAL CRM AUDIENCE LEADS
+                  </span>
+                  <span className="text-2xl text-stone-900">{totalContacts}</span>
+                  <p className="text-[10px] text-stone-500 uppercase">
+                    Synchronized Shopify & Webhook Sources
+                  </p>
+                </div>
+                <button 
+                  onClick={() => setIsCSVModalOpen(true)}
+                  className="bg-stone-950 text-white text-[9px] tracking-wider uppercase py-1.5 px-3 border border-stone-950 hover:bg-white hover:text-stone-950 transition-all duration-300 font-bold shrink-0 flex items-center gap-1 cursor-pointer rounded-none"
+                >
+                  <UploadCloud className="w-3 h-3" />
+                  Import CSV
+                </button>
+              </div>
 
-        {/* KPI 3: Verified Templates */}
-        <div className="glass-panel p-6 rounded-2xl flex items-center justify-between shadow-sm card-hover-premium duration-300 bg-white">
-          <div className="space-y-3 flex-1 min-w-0">
-            <span className="text-[10px] font-extrabold text-stone-400 uppercase tracking-widest">Verified Templates</span>
-            <h3 className="text-3xl font-extrabold text-stone-900 tracking-tight">{templates.length}</h3>
-            <span className="text-[10px] text-stone-400 font-semibold block">Pre-approved by Meta API</span>
+              {/* Stat 2: Broadcasts */}
+              <div className="flex items-start justify-between gap-4 border-b border-stone-50 pb-5">
+                <div className="space-y-1">
+                  <span className="text-[10px] tracking-wider text-stone-400 uppercase font-bold block">
+                    BROADCAST CAMPAIGNS
+                  </span>
+                  <span className="text-2xl text-stone-900">{totalCampaigns}</span>
+                  <div className="flex items-center gap-1.5 mt-1">
+                    <span className="w-1.5 h-1.5 bg-stone-900 rounded-full animate-pulse-soft" />
+                    <span className="text-[9px] text-stone-500 uppercase font-bold">
+                      {activeCampaigns} campaigns processing
+                    </span>
+                  </div>
+                </div>
+                {onNavigate && (
+                  <button 
+                    onClick={() => onNavigate("campaigns")}
+                    className="bg-white text-stone-950 border border-stone-200 hover:border-stone-950 text-[9px] tracking-wider uppercase py-1.5 px-3 transition-all duration-300 font-bold shrink-0 flex items-center gap-1 cursor-pointer rounded-none"
+                  >
+                    <Send className="w-3 h-3" />
+                    Broadcasts
+                  </button>
+                )}
+              </div>
+
+              {/* Stat 3: Meta Templates */}
+              <div className="flex items-start justify-between gap-4">
+                <div className="space-y-1">
+                  <span className="text-[10px] tracking-wider text-stone-400 uppercase font-bold block">
+                    VERIFIED MESSAGE TEMPLATES
+                  </span>
+                  <span className="text-2xl text-stone-900">{templates.length}</span>
+                  <p className="text-[10px] text-stone-500 uppercase">
+                    Meta approved messaging payloads
+                  </p>
+                </div>
+                {onNavigate && (
+                  <button 
+                    onClick={() => onNavigate("templates")}
+                    className="bg-white text-stone-950 border border-stone-200 hover:border-stone-950 text-[9px] tracking-wider uppercase py-1.5 px-3 transition-all duration-300 font-bold shrink-0 flex items-center gap-1 cursor-pointer rounded-none"
+                  >
+                    <FileCode2 className="w-3.5 h-3.5" />
+                    Templates
+                  </button>
+                )}
+              </div>
+            </div>
           </div>
-          <div className="w-12 h-12 rounded-2xl bg-teal-50 border border-teal-200 text-teal-600 flex items-center justify-center shadow-sm shrink-0">
-            <FileCode2 className="w-5 h-5" />
-          </div>
+
         </div>
       </div>
 
-      {/* Live System Logs terminal */}
-      <LiveLogsTerminal
-        systemLogs={systemLogs}
-        clearSystemLogs={clearSystemLogs}
-      />
-
-      {/* Leads CSV Importer Modal */}
+      {/* 4. Leads CSV Importer Modal */}
       {organization && (
         <CSVImporterModal 
           orgId={organization.id} 
@@ -165,7 +176,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ onNavigate }) => {
         />
       )}
 
-      {/* Secure Credits Top-Up Modal */}
+      {/* 5. Secure Credits Top-Up Modal */}
       {organization && (
         <WalletTopupModal
           isOpen={isTopupOpen}

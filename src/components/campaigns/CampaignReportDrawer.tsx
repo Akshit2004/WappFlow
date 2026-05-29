@@ -66,11 +66,11 @@ export const CampaignReportDrawer: React.FC<CampaignReportDrawerProps> = ({
   const getStatusColor = (status: string) => {
     switch (status) {
       case "Completed":
-        return "text-emerald-650 bg-emerald-50 border-emerald-500/20";
+        return "text-stone-900 bg-stone-100 border-stone-300";
       case "Sending":
-        return "text-teal-650 bg-teal-50 border-teal-500/20 animate-pulse";
+        return "text-white bg-stone-950 border-stone-950";
       case "Scheduled":
-        return "text-blue-600 bg-blue-50 border-blue-500/20";
+        return "text-stone-600 bg-stone-50 border-stone-200";
       default:
         return "text-stone-500 bg-stone-50 border-stone-200";
     }
@@ -82,18 +82,18 @@ export const CampaignReportDrawer: React.FC<CampaignReportDrawerProps> = ({
       <div className="absolute inset-0 cursor-default" onClick={onClose} />
 
       {/* Slide-over Content Drawer */}
-      <div className="relative w-full max-w-2xl bg-white h-full shadow-2xl flex flex-col z-10 animate-slide-left border-l border-slate-100 overflow-hidden">
+      <div className="relative w-full max-w-2xl bg-white h-full shadow-xl flex flex-col z-10 animate-slide-left border-l border-stone-200 overflow-hidden">
         
         {/* Header Section */}
-        <div className="p-6 border-b border-slate-100 flex items-center justify-between shrink-0 bg-gradient-to-r from-emerald-50/10 via-white to-white">
+        <div className="p-6 border-b border-stone-200 flex items-center justify-between shrink-0 bg-stone-50">
           <div className="space-y-1">
             <span className="text-[10px] uppercase font-bold tracking-widest text-stone-400">Broadcast Detailed Audit</span>
             <h3 className="text-lg font-bold text-stone-900 leading-snug">{campaign.name}</h3>
             <div className="flex flex-wrap items-center gap-2 mt-1">
-              <span className={`text-[10px] font-bold uppercase px-2.5 py-0.5 rounded-full border ${getStatusColor(campaign.status)}`}>
+              <span className={`text-[10px] font-bold uppercase px-2.5 py-0.5 rounded-none border ${getStatusColor(campaign.status)}`}>
                 {campaign.status}
               </span>
-              <span className="text-[10px] text-stone-500 font-mono">Template: {campaign.templateName}</span>
+              <span className="text-[10px] text-stone-505">Template: {campaign.templateName}</span>
               <span className="text-[10px] text-stone-500 flex items-center gap-1">
                 <Clock className="w-3 h-3" />
                 {campaign.date}
@@ -102,50 +102,50 @@ export const CampaignReportDrawer: React.FC<CampaignReportDrawerProps> = ({
           </div>
           <button 
             onClick={onClose}
-            className="p-1.5 rounded-xl hover:bg-slate-50 text-stone-500 transition-colors shrink-0"
+            className="p-1.5 rounded-none hover:bg-stone-200 text-stone-500 transition-colors shrink-0 border border-transparent"
           >
             <X className="w-5.5 h-5.5" />
           </button>
         </div>
 
         {/* Drawer Scrollable Body */}
-        <div className="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-8 bg-zinc-50/40">
+        <div className="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-8 bg-[#fafaf9]">
           
           {/* Metrics Grid Cards */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm relative overflow-hidden">
+            <div className="bg-white p-4 rounded-none border border-stone-200 shadow-none relative overflow-hidden">
               <span className="text-[9px] uppercase tracking-wider font-bold text-stone-400 block">Total Target</span>
               <span className="text-xl font-extrabold text-stone-900 mt-1 block">{sent}</span>
               <span className="text-[10px] text-stone-500 mt-1 block">Leads Segmented</span>
               <div className="absolute right-3 bottom-3 text-stone-100"><Users className="w-8 h-8" /></div>
             </div>
 
-            <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm relative overflow-hidden">
+            <div className="bg-white p-4 rounded-none border border-stone-200 shadow-none relative overflow-hidden">
               <span className="text-[9px] uppercase tracking-wider font-bold text-stone-400 block">Delivered</span>
               <span className="text-xl font-extrabold text-stone-900 mt-1 block">{delivered}</span>
-              <span className="text-[10px] text-emerald-600 font-bold mt-1 block">{delRate}% Delivery Rate</span>
+              <span className="text-[10px] text-stone-800 font-bold mt-1 block">{delRate}% Delivery Rate</span>
               <div className="absolute right-3 bottom-3 text-stone-100"><CheckCircle className="w-8 h-8" /></div>
             </div>
 
-            <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm relative overflow-hidden">
+            <div className="bg-white p-4 rounded-none border border-stone-200 shadow-none relative overflow-hidden">
               <span className="text-[9px] uppercase tracking-wider font-bold text-stone-400 block">Reads</span>
               <span className="text-xl font-extrabold text-stone-900 mt-1 block">{read}</span>
-              <span className="text-[10px] text-teal-650 font-bold mt-1 block">{readRate}% Open Rate</span>
+              <span className="text-[10px] text-stone-850 font-bold mt-1 block">{readRate}% Open Rate</span>
               <div className="absolute right-3 bottom-3 text-stone-100"><Activity className="w-8 h-8" /></div>
             </div>
 
-            <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm relative overflow-hidden">
+            <div className="bg-white p-4 rounded-none border border-stone-200 shadow-none relative overflow-hidden">
               <span className="text-[9px] uppercase tracking-wider font-bold text-stone-400 block">Clicks</span>
               <span className="text-xl font-extrabold text-stone-900 mt-1 block">{clicked}</span>
-              <span className="text-[10px] text-pink-600 font-bold mt-1 block">{clickRate}% Click-to-Read</span>
+              <span className="text-[10px] text-stone-900 font-bold mt-1 block">{clickRate}% Click-to-Read</span>
               <div className="absolute right-3 bottom-3 text-stone-100"><TrendingUp className="w-8 h-8" /></div>
             </div>
           </div>
 
           {/* SVG Conversion Funnel Section */}
-          <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm space-y-4">
-            <h4 className="font-bold text-xs uppercase tracking-wider text-stone-500 flex items-center gap-1.5 border-b border-slate-100/50 pb-2">
-              <Layers className="w-4 h-4 text-emerald-500" />
+          <div className="bg-white p-6 rounded-none border border-stone-200 shadow-none space-y-4">
+            <h4 className="font-bold text-xs uppercase tracking-wider text-stone-900 flex items-center gap-1.5 border-b border-stone-200 pb-2">
+              <Layers className="w-4 h-4 text-stone-900" />
               Conversion Funnel Visualization
             </h4>
 
@@ -153,11 +153,11 @@ export const CampaignReportDrawer: React.FC<CampaignReportDrawerProps> = ({
               
               {/* SVG Graphic */}
               <div className="relative select-none shrink-0 w-80 h-60 flex items-center justify-center">
-                <svg width="320" height="240" viewBox="0 0 320 240" className="drop-shadow-md">
+                <svg width="320" height="240" viewBox="0 0 320 240">
                   <defs>
                     <linearGradient id="funnelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="#059669" stopOpacity="0.85" />
-                      <stop offset="100%" stopColor="#2dd4bf" stopOpacity="0.85" />
+                      <stop offset="0%" stopColor="#1c1917" stopOpacity="0.95" />
+                      <stop offset="100%" stopColor="#57534e" stopOpacity="0.95" />
                     </linearGradient>
                   </defs>
 
@@ -215,11 +215,11 @@ export const CampaignReportDrawer: React.FC<CampaignReportDrawerProps> = ({
                     y="190" 
                     width={funnelWidths[3]} 
                     height="35" 
-                    rx="8" 
+                    rx="0" 
                     fill="url(#funnelGrad)" 
                     opacity="0.45"
                   />
-                  <text x="160" y="211" textAnchor="middle" fill="#115e59" fontSize="9" fontWeight="extrabold">
+                  <text x="160" y="211" textAnchor="middle" fill="#1c1917" fontSize="9" fontWeight="extrabold">
                     TOTAL OUTCOME: {clicked} LEADS ({totalCtr}% CTR)
                   </text>
                 </svg>
@@ -230,35 +230,35 @@ export const CampaignReportDrawer: React.FC<CampaignReportDrawerProps> = ({
                 <div className="space-y-1">
                   <div className="flex justify-between items-center text-xs font-semibold">
                     <span className="text-stone-500">Delivery Success</span>
-                    <span className="text-emerald-600 font-bold">{delRate}%</span>
+                    <span className="text-stone-900 font-bold">{delRate}%</span>
                   </div>
-                  <div className="h-1.5 w-full bg-stone-100 rounded-full overflow-hidden">
-                    <div className="h-full bg-emerald-500" style={{ width: `${delRate}%` }} />
+                  <div className="h-1.5 w-full bg-stone-100 rounded-none overflow-hidden">
+                    <div className="h-full bg-stone-900" style={{ width: `${delRate}%` }} />
                   </div>
                 </div>
 
                 <div className="space-y-1">
                   <div className="flex justify-between items-center text-xs font-semibold">
                     <span className="text-stone-500">Recipients Open Rate</span>
-                    <span className="text-teal-605 font-bold text-teal-650">{readRate}%</span>
+                    <span className="text-stone-900 font-bold">{readRate}%</span>
                   </div>
-                  <div className="h-1.5 w-full bg-stone-100 rounded-full overflow-hidden">
-                    <div className="h-full bg-teal-600 animate-pulse-soft" style={{ width: `${readRate}%` }} />
+                  <div className="h-1.5 w-full bg-stone-100 rounded-none overflow-hidden">
+                    <div className="h-full bg-stone-700" style={{ width: `${readRate}%` }} />
                   </div>
                 </div>
 
                 <div className="space-y-1">
                   <div className="flex justify-between items-center text-xs font-semibold">
                     <span className="text-stone-500">CTR (of Opened)</span>
-                    <span className="text-pink-500 font-bold">{clickRate}%</span>
+                    <span className="text-stone-900 font-bold">{clickRate}%</span>
                   </div>
-                  <div className="h-1.5 w-full bg-stone-100 rounded-full overflow-hidden">
-                    <div className="h-full bg-pink-500" style={{ width: `${clickRate}%` }} />
+                  <div className="h-1.5 w-full bg-stone-100 rounded-none overflow-hidden">
+                    <div className="h-full bg-stone-500" style={{ width: `${clickRate}%` }} />
                   </div>
                 </div>
 
-                <div className="bg-emerald-50/20 p-2.5 rounded-xl border border-emerald-100 text-[10px] text-stone-500 leading-relaxed">
-                  <HelpCircle className="w-3.5 h-3.5 text-emerald-600 inline mr-1.5 shrink-0" />
+                <div className="bg-stone-50 p-2.5 rounded-none border border-stone-200 text-[10px] text-stone-600 leading-relaxed">
+                  <HelpCircle className="w-3.5 h-3.5 text-stone-900 inline mr-1.5 shrink-0" />
                   <strong>Tip:</strong> Re-engage leads that fall off the funnel using follow-up campaign broadcasts.
                 </div>
               </div>
@@ -267,26 +267,26 @@ export const CampaignReportDrawer: React.FC<CampaignReportDrawerProps> = ({
           </div>
 
           {/* Tabbed CRM Recipients Listing & Action logs */}
-          <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden flex flex-col">
+          <div className="bg-white rounded-none border border-stone-200 shadow-none overflow-hidden flex flex-col">
             
             {/* Tabs Selector Header */}
-            <div className="flex border-b border-slate-100 bg-slate-50 shrink-0">
+            <div className="flex border-b border-stone-200 bg-stone-50 shrink-0">
               <button
                 onClick={() => setActiveSubTab("recipients")}
-                className={`flex-1 py-3 text-xs font-bold text-center border-r border-slate-100/50 transition-colors ${
+                className={`flex-1 py-3 text-xs font-bold text-center border-r border-stone-200 transition-colors uppercase ${
                   activeSubTab === "recipients" 
-                    ? "bg-white text-emerald-600 border-b-2 border-b-emerald-600" 
-                    : "text-stone-500 hover:bg-slate-50/20"
+                    ? "bg-white text-stone-900 border-b-2 border-b-stone-950 font-bold" 
+                    : "text-stone-500 hover:bg-stone-100"
                 }`}
               >
                 Audience Segment ({campaignContacts.length})
               </button>
               <button
                 onClick={() => setActiveSubTab("logs")}
-                className={`flex-1 py-3 text-xs font-bold text-center transition-colors ${
+                className={`flex-1 py-3 text-xs font-bold text-center transition-colors uppercase ${
                   activeSubTab === "logs" 
-                    ? "bg-white text-emerald-600 border-b-2 border-b-emerald-600" 
-                    : "text-stone-500 hover:bg-slate-50/20"
+                    ? "bg-white text-stone-900 border-b-2 border-b-stone-950 font-bold" 
+                    : "text-stone-500 hover:bg-stone-100"
                 }`}
               >
                 Broadcast Logs ({campaignLogs.length})
@@ -294,7 +294,7 @@ export const CampaignReportDrawer: React.FC<CampaignReportDrawerProps> = ({
             </div>
 
             {/* Sub Tab Contents */}
-            <div className="max-h-72 overflow-y-auto custom-scrollbar p-4">
+            <div className="max-h-72 overflow-y-auto custom-scrollbar p-4 bg-white">
               
               {/* Recipients list */}
               {activeSubTab === "recipients" && (
@@ -305,27 +305,27 @@ export const CampaignReportDrawer: React.FC<CampaignReportDrawerProps> = ({
                 ) : (
                   <div className="space-y-3">
                     {campaignContacts.map((contact) => (
-                      <div key={contact.id} className="flex items-center justify-between p-3 bg-zinc-50 border border-zinc-200/60 rounded-xl text-xs hover:border-zinc-300 transition-all select-none">
+                      <div key={contact.id} className="flex items-center justify-between p-3 bg-white border border-stone-200 rounded-none text-xs hover:bg-stone-50 transition-all select-none">
                         <div className="space-y-0.5">
-                          <div className="font-bold text-stone-800">{contact.name}</div>
-                          <div className="text-[10px] text-stone-400 font-mono">{contact.phone} | {contact.email}</div>
+                          <div className="font-bold text-stone-900">{contact.name}</div>
+                          <div className="text-[10px] text-stone-500">{contact.phone} | {contact.email}</div>
                         </div>
 
                         {/* Status Label — accurate from campaign metrics */}
                         <div className="flex items-center gap-1.5">
                           {campaign.status === "Completed" ? (
                             <>
-                              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                              <span className="text-[10px] font-bold text-stone-500 uppercase">Sent</span>
+                              <span className="h-1.5 w-1.5 bg-stone-900" />
+                              <span className="text-[10px] font-bold text-stone-900 uppercase">Sent</span>
                             </>
                           ) : campaign.status === "Sending" || campaign.status === "Scheduled" ? (
                             <>
-                              <span className="h-1.5 w-1.5 rounded-full bg-teal-500 animate-pulse-soft" />
-                              <span className="text-[10px] font-bold text-teal-650 uppercase">Pending</span>
+                              <span className="h-1.5 w-1.5 bg-stone-400" />
+                              <span className="text-[10px] font-bold text-stone-500 uppercase">Pending</span>
                             </>
                           ) : (
                             <>
-                              <span className="h-1.5 w-1.5 rounded-full bg-stone-400" />
+                              <span className="h-1.5 w-1.5 bg-stone-300" />
                               <span className="text-[10px] font-bold text-stone-400 uppercase">Unknown</span>
                             </>
                           )}
@@ -345,8 +345,8 @@ export const CampaignReportDrawer: React.FC<CampaignReportDrawerProps> = ({
                 ) : (
                   <div className="space-y-2">
                     {campaignLogs.map((log) => (
-                      <div key={log.id} className="p-3 bg-zinc-50 border border-zinc-200/60 rounded-xl text-xs font-mono select-text flex items-start gap-2.5">
-                        <span className="text-[10px] text-stone-450 font-bold bg-white px-2 py-0.5 rounded border border-slate-200 shrink-0">
+                      <div key={log.id} className="p-3 bg-white border border-stone-200 rounded-none text-xs select-text flex items-start gap-2.5">
+                        <span className="text-[10px] text-stone-500 font-bold bg-stone-50 px-2 py-0.5 border border-stone-200 shrink-0">
                           {log.timestamp}
                         </span>
                         <div className="text-stone-700 leading-relaxed flex-1">
@@ -364,12 +364,12 @@ export const CampaignReportDrawer: React.FC<CampaignReportDrawerProps> = ({
         </div>
 
         {/* Drawer footer actions */}
-        <div className="p-4 border-t border-slate-100 bg-slate-50/50 flex justify-end shrink-0 select-none">
+        <div className="p-4 border-t border-stone-200 bg-stone-50 flex justify-end shrink-0 select-none">
           <button
             onClick={onClose}
-            className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl shadow-md shadow-emerald-600/10 cursor-pointer hover:scale-102 transition-all active:scale-98"
+            className="px-5 py-2.5 bg-stone-950 hover:bg-stone-900 text-white font-bold text-xs rounded-none border border-stone-950 cursor-pointer transition-all"
           >
-            Close Audit
+            CLOSE AUDIT
           </button>
         </div>
 

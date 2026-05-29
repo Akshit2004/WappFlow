@@ -167,45 +167,45 @@ export const MarketplaceTab: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="flex-1 flex items-center justify-center bg-slate-50">
-        <RefreshCw className="w-6 h-6 text-emerald-600 animate-spin" />
+      <div className="flex-1 flex items-center justify-center bg-[#fafaf9]">
+        <RefreshCw className="w-6 h-6 text-stone-900 animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 sm:p-8 custom-scrollbar space-y-6 sm:space-y-8 animate-slide-up">
-      <div className="flex items-center justify-between">
+    <div className="flex-1 overflow-y-auto p-4 sm:p-8 custom-scrollbar space-y-6 sm:space-y-8 animate-slide-up bg-[#fafaf9]">
+      <div className="flex items-center justify-between border-b border-stone-200 pb-6">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-emerald-600 flex items-center justify-center shadow-lg shadow-emerald-600/20">
+          <div className="w-10 h-10 rounded-none bg-stone-950 flex items-center justify-center border border-stone-950">
             <ShoppingBag className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h1 className="text-xl font-bold text-stone-900">Marketplace</h1>
+            <h1 className="text-xl font-bold text-stone-900 uppercase">Marketplace</h1>
             <p className="text-xs text-stone-500">Manage products and orders</p>
           </div>
         </div>
         <div className="flex gap-2">
           <button
             onClick={() => setActiveSection("overview")}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-              activeSection === "overview" ? "bg-emerald-600 text-white shadow-md" : "bg-white text-stone-600 hover:bg-emerald-50/50"
+            className={`px-4 py-2 rounded-none text-xs font-bold border transition-all cursor-pointer ${
+              activeSection === "overview" ? "bg-stone-950 text-white border-stone-950" : "bg-white text-stone-600 border-stone-200 hover:bg-stone-50"
             }`}
           >
             Overview
           </button>
           <button
             onClick={() => setActiveSection("products")}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-              activeSection === "products" ? "bg-emerald-600 text-white shadow-md" : "bg-white text-stone-600 hover:bg-emerald-50/50"
+            className={`px-4 py-2 rounded-none text-xs font-bold border transition-all cursor-pointer ${
+              activeSection === "products" ? "bg-stone-950 text-white border-stone-950" : "bg-white text-stone-600 border-stone-200 hover:bg-stone-50"
             }`}
           >
             Products
           </button>
           <button
             onClick={() => setActiveSection("orders")}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-              activeSection === "orders" ? "bg-emerald-600 text-white shadow-md" : "bg-white text-stone-600 hover:bg-emerald-50/50"
+            className={`px-4 py-2 rounded-none text-xs font-bold border transition-all cursor-pointer ${
+              activeSection === "orders" ? "bg-stone-950 text-white border-stone-950" : "bg-white text-stone-600 border-stone-200 hover:bg-stone-50"
             }`}
           >
             Orders
@@ -215,10 +215,10 @@ export const MarketplaceTab: React.FC = () => {
 
       {activeSection === "overview" && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <StatCard icon={Package} label="Total Products" value={stats.totalProducts} color="blue" />
-          <StatCard icon={ShoppingBag} label="Active Products" value={stats.activeProducts} color="emerald" />
-          <StatCard icon={Package} label="Pending Orders" value={stats.pendingOrders} color="red" />
-          <StatCard icon={ExternalLink} label="Revenue (paid)" value={`₹${(stats.revenue / 100).toFixed(2)}`} color="green" />
+          <StatCard icon={Package} label="Total Products" value={stats.totalProducts} color="stone" />
+          <StatCard icon={ShoppingBag} label="Active Products" value={stats.activeProducts} color="stone" />
+          <StatCard icon={Package} label="Pending Orders" value={stats.pendingOrders} color="stone" />
+          <StatCard icon={ExternalLink} label="Revenue (paid)" value={`₹${(stats.revenue / 100).toFixed(2)}`} color="stone" />
         </div>
       )}
 
@@ -232,22 +232,22 @@ export const MarketplaceTab: React.FC = () => {
                 placeholder="Search products..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-9 pr-4 py-2.5 rounded-xl bg-white border border-stone-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400"
+                className="w-full pl-9 pr-4 py-2.5 rounded-none bg-white border border-stone-200 text-sm focus:outline-none focus:border-stone-900"
               />
             </div>
             <button
               onClick={() => { resetForm(); setShowAddProduct(true); }}
-              className="flex items-center gap-2 px-4 py-2.5 bg-emerald-600 text-white rounded-xl text-xs font-bold hover:bg-emerald-500 transition-all cursor-pointer shadow-md shadow-emerald-600/10"
+              className="flex items-center gap-2 px-4 py-2.5 bg-stone-950 text-white rounded-none border border-stone-950 text-xs font-bold hover:bg-stone-900 transition-all cursor-pointer"
             >
-              <Plus className="w-4 h-4" /> Add Product
+              <Plus className="w-4 h-4" /> ADD PRODUCT
             </button>
           </div>
 
           {showAddProduct && (
-            <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-6 border border-stone-200 space-y-4 animate-fade-in">
-              <div className="flex items-center justify-between">
-                <h3 className="font-bold text-stone-900">{editProduct ? "Edit Product" : "Add Product"}</h3>
-                <button type="button" onClick={resetForm} className="p-1 hover:bg-stone-100 rounded-lg cursor-pointer">
+            <form onSubmit={handleSubmit} className="bg-white rounded-none p-6 border border-stone-200 space-y-4 animate-fade-in">
+              <div className="flex items-center justify-between border-b border-stone-200 pb-3">
+                <h3 className="font-bold text-stone-900 uppercase text-xs">{editProduct ? "Edit Product" : "Add Product"}</h3>
+                <button type="button" onClick={resetForm} className="p-1 hover:bg-stone-100 rounded-none cursor-pointer border border-transparent">
                   <X className="w-4 h-4" />
                 </button>
               </div>
@@ -258,28 +258,28 @@ export const MarketplaceTab: React.FC = () => {
                 <InputField label="Stock" type="number" value={form.stock} onChange={(v) => setForm({ ...form, stock: v })} />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-stone-600 mb-1">Description</label>
+                <label className="block text-xs font-bold text-stone-600 mb-1">Description</label>
                 <textarea
                   value={form.description}
                   onChange={(e) => setForm({ ...form, description: e.target.value })}
-                  className="w-full px-3 py-2 rounded-xl border border-stone-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 resize-none"
+                  className="w-full px-3 py-2 rounded-none border border-stone-200 text-sm focus:outline-none focus:border-stone-900 resize-none"
                   rows={3}
                 />
               </div>
               <button
                 type="submit"
-                className="w-full py-2.5 bg-emerald-600 text-white rounded-xl text-xs font-bold hover:bg-emerald-500 transition-all cursor-pointer shadow-md shadow-emerald-600/10"
+                className="w-full py-2.5 bg-stone-950 text-white rounded-none border border-stone-950 text-xs font-bold hover:bg-stone-900 transition-all cursor-pointer uppercase"
               >
                 {editProduct ? "Update Product" : "Create Product"}
               </button>
             </form>
           )}
 
-          <div className="bg-white rounded-2xl border border-stone-200 overflow-hidden">
+          <div className="bg-white rounded-none border border-stone-200 overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="bg-stone-50 text-stone-600 text-xs font-semibold uppercase tracking-wider">
+                  <tr className="bg-stone-50 text-stone-600 text-xs font-semibold uppercase tracking-wider border-b border-stone-200">
                     <th className="text-left px-4 py-3">Product</th>
                     <th className="text-left px-4 py-3">Category</th>
                     <th className="text-right px-4 py-3">Price</th>
@@ -290,28 +290,28 @@ export const MarketplaceTab: React.FC = () => {
                 </thead>
                 <tbody>
                   {filteredProducts.map((product) => (
-                    <tr key={product.id} className="border-t border-stone-100 hover:bg-stone-50/50">
-                      <td className="px-4 py-3 font-medium text-stone-900">{product.name}</td>
+                    <tr key={product.id} className="border-t border-stone-200 hover:bg-stone-50/50">
+                      <td className="px-4 py-3 font-bold text-stone-900">{product.name}</td>
                       <td className="px-4 py-3 text-stone-500">{product.category}</td>
-                      <td className="px-4 py-3 text-right font-mono">₹{(product.price / 100).toFixed(2)}</td>
+                      <td className="px-4 py-3 text-right">₹{(product.price / 100).toFixed(2)}</td>
                       <td className="px-4 py-3 text-right">{product.stock}</td>
                       <td className="px-4 py-3 text-center">
                         {product.isActive ? (
-                          <span className="inline-flex items-center gap-1 text-xs font-semibold text-green-600 bg-green-50 px-2 py-0.5 rounded-full">
+                          <span className="inline-flex items-center gap-1 text-[10px] font-bold text-stone-900 bg-stone-100 px-2 py-0.5 border border-stone-300 rounded-none uppercase">
                             <CheckCircle2 className="w-3 h-3" /> Active
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1 text-xs font-semibold text-stone-500 bg-stone-100 px-2 py-0.5 rounded-full">
+                          <span className="inline-flex items-center gap-1 text-[10px] font-bold text-stone-400 bg-stone-50 px-2 py-0.5 border border-stone-200 rounded-none uppercase">
                             Inactive
                           </span>
                         )}
                       </td>
                       <td className="px-4 py-3 text-right">
                         <div className="flex items-center justify-end gap-1">
-                          <button onClick={() => startEdit(product)} className="p-1.5 hover:bg-emerald-50 rounded-lg text-stone-500 hover:text-emerald-600 cursor-pointer">
+                          <button onClick={() => startEdit(product)} className="p-1.5 hover:bg-stone-100 rounded-none text-stone-500 hover:text-stone-900 border border-transparent cursor-pointer">
                             <Edit3 className="w-4 h-4" />
                           </button>
-                          <button onClick={() => deleteProduct(product.id)} className="p-1.5 hover:bg-red-50 rounded-lg text-stone-500 hover:text-red-500 cursor-pointer">
+                          <button onClick={() => deleteProduct(product.id)} className="p-1.5 hover:bg-stone-100 rounded-none text-stone-500 hover:text-stone-900 border border-transparent cursor-pointer">
                             <Trash2 className="w-4 h-4" />
                           </button>
                         </div>
@@ -320,7 +320,7 @@ export const MarketplaceTab: React.FC = () => {
                   ))}
                   {filteredProducts.length === 0 && (
                     <tr>
-                      <td colSpan={6} className="text-center py-8 text-stone-400 text-xs">No products found</td>
+                      <td colSpan={6} className="text-center py-8 text-stone-450 text-xs uppercase">No products found</td>
                     </tr>
                   )}
                 </tbody>
@@ -331,11 +331,11 @@ export const MarketplaceTab: React.FC = () => {
       )}
 
       {activeSection === "orders" && (
-        <div className="bg-white rounded-2xl border border-stone-200 overflow-hidden">
+        <div className="bg-white rounded-none border border-stone-200 overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="bg-stone-50 text-stone-600 text-xs font-semibold uppercase tracking-wider">
+                <tr className="bg-stone-50 text-stone-600 text-xs font-semibold uppercase tracking-wider border-b border-stone-200">
                   <th className="text-left px-4 py-3">Order ID</th>
                   <th className="text-left px-4 py-3">Items</th>
                   <th className="text-right px-4 py-3">Total</th>
@@ -347,12 +347,12 @@ export const MarketplaceTab: React.FC = () => {
               </thead>
               <tbody>
                 {orders.map((order) => (
-                  <tr key={order.id} className="border-t border-stone-100 hover:bg-stone-50/50">
-                    <td className="px-4 py-3 font-mono text-xs font-bold text-stone-900">{order.orderId}</td>
+                  <tr key={order.id} className="border-t border-stone-200 hover:bg-stone-50/50">
+                    <td className="px-4 py-3 text-xs font-bold text-stone-900">{order.orderId}</td>
                     <td className="px-4 py-3 text-stone-500">
                       {order.items?.map((i) => `${i.name} x${i.quantity}`).join(", ") || "—"}
                     </td>
-                    <td className="px-4 py-3 text-right font-mono">₹{(order.total / 100).toFixed(2)}</td>
+                    <td className="px-4 py-3 text-right">₹{(order.total / 100).toFixed(2)}</td>
                     <td className="px-4 py-3 text-center">
                       <StatusBadge status={order.status} />
                     </td>
@@ -365,7 +365,7 @@ export const MarketplaceTab: React.FC = () => {
                 ))}
                 {orders.length === 0 && (
                   <tr>
-                    <td colSpan={7} className="text-center py-8 text-stone-400 text-xs">No orders yet</td>
+                    <td colSpan={7} className="text-center py-8 text-stone-450 text-xs uppercase">No orders yet</td>
                   </tr>
                 )}
               </tbody>
@@ -377,21 +377,15 @@ export const MarketplaceTab: React.FC = () => {
   );
 };
 
-function StatCard({ icon: Icon, label, value, color }: { icon: React.ElementType; label: string; value: string | number; color: string }) {
-  const colors: Record<string, string> = {
-    blue: "bg-blue-50 text-blue-600 border-blue-100",
-    emerald: "bg-emerald-50 text-emerald-600 border-emerald-100",
-    red: "bg-red-50 text-red-600 border-red-100",
-    green: "bg-green-50 text-green-600 border-green-100",
-  };
+function StatCard({ icon: Icon, label, value }: { icon: React.ElementType; label: string; value: string | number; color: string }) {
   return (
-    <div className="bg-white rounded-2xl p-5 border border-stone-200 flex items-center gap-4">
-      <div className={`w-12 h-12 rounded-2xl flex items-center justify-center border ${colors[color] || colors.blue}`}>
+    <div className="bg-white rounded-none p-5 border border-stone-200 flex items-center gap-4 shadow-none">
+      <div className="w-12 h-12 rounded-none flex items-center justify-center border bg-stone-100 text-stone-900 border-stone-300">
         <Icon className="w-6 h-6" />
       </div>
       <div>
-        <p className="text-xs text-stone-500 font-medium">{label}</p>
-        <p className="text-2xl font-bold text-stone-900">{value}</p>
+        <p className="text-xs text-stone-500 font-bold uppercase">{label}</p>
+        <p className="text-xl font-extrabold text-stone-900 mt-0.5">{value}</p>
       </div>
     </div>
   );
@@ -400,44 +394,33 @@ function StatCard({ icon: Icon, label, value, color }: { icon: React.ElementType
 function InputField({ label, value, onChange, type = "text", required }: { label: string; value: string; onChange: (v: string) => void; type?: string; required?: boolean }) {
   return (
     <div>
-      <label className="block text-xs font-semibold text-stone-600 mb-1">{label}</label>
+      <label className="block text-xs font-bold text-stone-600 mb-1">{label}</label>
       <input
         type={type}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         required={required}
-        className="w-full px-3 py-2 rounded-xl border border-stone-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 transition-all"
+        className="w-full px-3 py-2 rounded-none border border-stone-200 text-sm focus:outline-none focus:border-stone-900 transition-all"
       />
     </div>
   );
 }
 
 function StatusBadge({ status }: { status: string }) {
-  const colors: Record<string, string> = {
-    pending: "bg-yellow-50 text-yellow-700",
-    confirmed: "bg-blue-50 text-blue-700",
-    processing: "bg-purple-50 text-purple-700",
-    shipped: "bg-sky-50 text-sky-700",
-    delivered: "bg-green-50 text-green-700",
-    cancelled: "bg-red-50 text-red-700",
-  };
   return (
-    <span className={`inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full ${colors[status] || "bg-stone-50 text-stone-600"}`}>
-      {status.charAt(0).toUpperCase() + status.slice(1)}
+    <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-none border border-stone-300 bg-stone-50 text-stone-700 uppercase">
+      {status}
     </span>
   );
 }
 
 function PaymentBadge({ status }: { status: string }) {
-  const colors: Record<string, string> = {
-    pending: "bg-yellow-50 text-yellow-700",
-    paid: "bg-green-50 text-green-700",
-    failed: "bg-red-50 text-red-700",
-    refunded: "bg-stone-50 text-stone-700",
-  };
+  const isPaid = status.toLowerCase() === "paid";
   return (
-    <span className={`inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full ${colors[status] || "bg-stone-50 text-stone-600"}`}>
-      {status.charAt(0).toUpperCase() + status.slice(1)}
+    <span className={`inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-none border uppercase ${
+      isPaid ? "bg-stone-900 text-white border-stone-950" : "bg-stone-100 text-stone-900 border-stone-300"
+    }`}>
+      {status}
     </span>
   );
 }

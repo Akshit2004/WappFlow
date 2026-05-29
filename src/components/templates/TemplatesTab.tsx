@@ -172,11 +172,11 @@ export const TemplatesTab: React.FC = () => {
   const getCategoryBadge = (category: string) => {
     switch (category) {
       case "Marketing":
-        return <span className="bg-pink-500/10 text-pink-600 border border-pink-500/20 text-[10px] font-bold uppercase px-2.5 py-0.5 rounded-full">Marketing</span>;
+        return <span className="bg-stone-100 text-stone-900 border border-stone-300 text-[10px] font-bold uppercase px-2.5 py-0.5 rounded-none">Marketing</span>;
       case "Utility":
-        return <span className="bg-blue-500/10 text-blue-600 border border-blue-500/20 text-[10px] font-bold uppercase px-2.5 py-0.5 rounded-full">Utility</span>;
+        return <span className="bg-stone-100 text-stone-800 border border-stone-300 text-[10px] font-bold uppercase px-2.5 py-0.5 rounded-none">Utility</span>;
       default:
-        return <span className="bg-emerald-500/10 text-emerald-600 border border-emerald-500/20 text-[10px] font-bold uppercase px-2.5 py-0.5 rounded-full">Authentication</span>;
+        return <span className="bg-stone-950 text-white border border-stone-950 text-[10px] font-bold uppercase px-2.5 py-0.5 rounded-none">Authentication</span>;
     }
   };
 
@@ -206,20 +206,20 @@ export const TemplatesTab: React.FC = () => {
     switch (status) {
       case "approved":
         return (
-          <span className="bg-emerald-500/10 text-emerald-600 border border-emerald-500/20 text-[10px] font-bold uppercase px-2.5 py-0.5 rounded-full flex items-center gap-1">
+          <span className="bg-stone-900 text-white border border-stone-950 text-[10px] font-bold uppercase px-2.5 py-0.5 rounded-none flex items-center gap-1">
             <Check className="w-3 h-3" />
             Meta Approved
           </span>
         );
       case "rejected":
         return (
-          <span className="bg-red-500/10 text-red-600 border border-red-500/20 text-[10px] font-bold uppercase px-2.5 py-0.5 rounded-full">
+          <span className="bg-stone-100 text-stone-500 border border-stone-300 text-[10px] font-bold uppercase px-2.5 py-0.5 rounded-none">
             Rejected by Meta
           </span>
         );
       default:
         return (
-          <span className="bg-teal-500/10 text-teal-600 border border-teal-500/20 text-[10px] font-bold uppercase px-2.5 py-0.5 rounded-full flex items-center gap-1">
+          <span className="bg-stone-50 text-stone-600 border border-stone-200 text-[10px] font-bold uppercase px-2.5 py-0.5 rounded-none flex items-center gap-1">
             <Loader className="w-3 h-3 animate-spin" />
             Pending Meta Approval
           </span>
@@ -233,7 +233,7 @@ export const TemplatesTab: React.FC = () => {
     if (mediaType === "image") Icon = Image;
     if (mediaType === "video") Icon = Video;
     return (
-      <span className="text-[10px] bg-emerald-50/50 text-stone-500 border border-emerald-100/50 px-2 py-0.5 rounded-md font-semibold flex items-center gap-1">
+      <span className="text-[10px] bg-stone-50 text-stone-500 border border-stone-200 px-2 py-0.5 rounded-none font-semibold flex items-center gap-1 uppercase">
         <Icon className="w-3 h-3 text-stone-500" />
         {mediaType}
       </span>
@@ -248,7 +248,7 @@ export const TemplatesTab: React.FC = () => {
         return (
           <span
             key={idx}
-            className="bg-emerald-500/10 text-emerald-600 font-mono font-bold px-1 rounded"
+            className="bg-stone-100 text-stone-900 border border-stone-300 font-bold px-1 rounded-none"
           >
             {part}
           </span>
@@ -259,27 +259,27 @@ export const TemplatesTab: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 sm:p-8 custom-scrollbar space-y-6 sm:space-y-8 animate-slide-up bg-slate-50">
+    <div className="flex-1 overflow-y-auto p-4 sm:p-8 custom-scrollbar space-y-6 sm:space-y-8 animate-slide-up bg-[#fafaf9]">
       
       {/* Tab Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-stone-200 pb-6">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight">Meta Approved Templates</h2>
-          <p className="text-zinc-500 text-sm mt-1">Manage WhatsApp-compliant template layouts, media variables, and quick action headers.</p>
+          <h2 className="text-xl font-bold tracking-tight text-stone-900 uppercase">Meta Approved Templates</h2>
+          <p className="text-stone-500 text-xs mt-1">Manage WhatsApp-compliant template layouts, media variables, and quick action headers.</p>
         </div>
         <div className="flex items-center gap-2">
           <button
             onClick={() => setIsModalOpen(true)}
-            className="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs px-4 py-2.5 rounded-xl flex items-center gap-2 cursor-pointer shadow-md shadow-emerald-600/10 hover:scale-102 active:scale-98 transition-all"
+            className="bg-stone-950 hover:bg-stone-900 text-white font-bold text-xs px-4 py-2.5 rounded-none flex items-center gap-2 cursor-pointer border border-stone-950 transition-all"
           >
             <Plus className="w-4 h-4" />
-            Create Template
+            CREATE TEMPLATE
           </button>
         </div>
       </div>
 
       {/* Filter and Search controls */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 pb-3">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-stone-200 pb-3">
         <div className="flex flex-wrap items-center gap-1.5">
           {["all", "Marketing", "Utility", "Authentication"].map((cat) => (
             <button
@@ -287,10 +287,10 @@ export const TemplatesTab: React.FC = () => {
               onClick={() => {
                 setActiveCategory(cat);
               }}
-              className={`text-xs font-semibold px-4 py-1.5 rounded-lg transition-all cursor-pointer ${
+              className={`text-xs font-semibold px-4 py-1.5 rounded-none border transition-all cursor-pointer ${
                 activeCategory === cat
-                  ? "bg-emerald-600 text-white shadow-sm"
-                  : "text-stone-500 hover:bg-emerald-50/50"
+                  ? "bg-stone-950 text-white border-stone-950"
+                  : "text-stone-500 border-transparent hover:bg-stone-100"
               }`}
             >
               {cat === "all" ? "All Templates" : cat}
@@ -305,13 +305,13 @@ export const TemplatesTab: React.FC = () => {
             placeholder="Search templates by name or content..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full text-xs pl-8 pr-8 py-2 rounded-xl border border-slate-150 bg-white text-stone-700 placeholder-stone-400 focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 transition-all shadow-sm"
+            className="w-full text-xs pl-8 pr-8 py-2 rounded-none border border-stone-200 bg-white text-stone-700 placeholder-stone-400 focus:outline-none focus:border-stone-900 transition-all"
           />
           <Search className="w-3.5 h-3.5 text-stone-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
           {searchTerm && (
             <button
               onClick={() => setSearchTerm("")}
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600 focus:outline-none"
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-stone-450 hover:text-stone-900 focus:outline-none"
             >
               <X className="w-3.5 h-3.5" />
             </button>
@@ -324,12 +324,12 @@ export const TemplatesTab: React.FC = () => {
         {filteredTemplates.map((t) => (
           <div
             key={t.id}
-            className="glass-panel rounded-2xl flex flex-col justify-between shadow-sm border border-slate-100 hover:-translate-y-1 hover:shadow-md transition-all duration-300 overflow-hidden bg-white"
+            className="rounded-none flex flex-col justify-between border border-stone-200 transition-all duration-300 overflow-hidden bg-white"
           >
             {/* Template Card Content */}
             <div className="p-6 space-y-4">
               <div className="flex items-center justify-between gap-4">
-                <span className="text-[10px] text-stone-400 font-mono font-bold select-none">{t.id.slice(0, 13)}</span>
+                <span className="text-[10px] text-stone-400 font-bold select-none">{t.id.slice(0, 13)}</span>
                 <div className="flex items-center gap-2">
                   {getCategoryBadge(t.category)}
                   <button
@@ -338,7 +338,7 @@ export const TemplatesTab: React.FC = () => {
                         await deleteTemplate(t.id);
                       }
                     }}
-                    className="p-1 rounded-lg text-stone-400 hover:text-red-500 hover:bg-red-50 transition-colors cursor-pointer"
+                    className="p-1 rounded-none text-stone-400 hover:text-stone-900 hover:bg-stone-100 transition-colors cursor-pointer border border-transparent"
                     title="Delete Template"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
@@ -355,15 +355,15 @@ export const TemplatesTab: React.FC = () => {
               </div>
 
               {/* Message body box with highlights */}
-              <div className="bg-slate-50 border border-slate-100 p-4 rounded-xl text-xs leading-relaxed text-stone-700 max-h-40 overflow-y-auto custom-scrollbar select-text whitespace-pre-wrap">
+              <div className="bg-stone-50 border border-stone-200 p-4 rounded-none text-xs leading-relaxed text-stone-700 max-h-40 overflow-y-auto custom-scrollbar select-text whitespace-pre-wrap">
                 {formatBodyWithHighlights(t.body)}
               </div>
             </div>
 
             {/* Quick reply buttons footer */}
             {t.buttons && t.buttons.length > 0 ? (
-              <div className="bg-emerald-50/20 border-t border-slate-100 p-3.5 space-y-2 select-none shrink-0">
-                <div className="text-[9px] uppercase tracking-wider font-bold text-stone-500 flex items-center gap-1">
+              <div className="bg-stone-50 border-t border-stone-200 p-3.5 space-y-2 select-none shrink-0 rounded-none">
+                <div className="text-[9px] uppercase tracking-wider font-bold text-stone-505 flex items-center gap-1">
                   <MousePointerClick className="w-3 h-3 text-stone-500" />
                   Interactive Buttons
                 </div>
@@ -371,7 +371,7 @@ export const TemplatesTab: React.FC = () => {
                   {t.buttons.map((btn, bIdx) => (
                     <span
                       key={bIdx}
-                      className="text-[10px] font-bold border border-emerald-100 bg-white px-2.5 py-1 text-emerald-600 rounded-lg flex items-center gap-1 shadow-sm leading-none"
+                      className="text-[10px] font-bold border border-stone-300 bg-white px-2.5 py-1 text-stone-800 rounded-none flex items-center gap-1 leading-none animate-pulse-soft"
                     >
                       {btn}
                     </span>
@@ -379,14 +379,14 @@ export const TemplatesTab: React.FC = () => {
                 </div>
               </div>
             ) : (
-              <div className="bg-[#f4f6f5]/40 border-t border-slate-100 py-3.5 px-6 shrink-0 flex justify-between items-center">
+              <div className="bg-stone-50 border-t border-stone-200 py-3.5 px-6 shrink-0 flex justify-between items-center rounded-none">
                 <span className="text-[10px] italic text-stone-500">No CTA buttons defined.</span>
                 
                 {/* One-Click Shortcut Campaign Trigger Link if Approved */}
                 {t.metaStatus === "approved" && (
-                  <div className="text-[10px] text-emerald-600 font-bold flex items-center gap-1 select-none animate-pulse-soft">
+                  <div className="text-[10px] text-stone-900 font-bold flex items-center gap-1 select-none">
                     Ready to Broadcast
-                    <ArrowRight className="w-3.5 h-3.5" />
+                    <ArrowRight className="w-3.5 h-3.5 text-stone-905" />
                   </div>
                 )}
               </div>
@@ -397,18 +397,18 @@ export const TemplatesTab: React.FC = () => {
 
       {/* Template Creator Modal Wizard */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black/60 backdrop-filter backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="glass-panel w-full max-w-2xl rounded-2xl shadow-xl flex flex-col overflow-hidden animate-slide-up bg-white">
+        <div className="fixed inset-0 bg-black/40 backdrop-filter backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="w-full max-w-2xl rounded-none flex flex-col overflow-hidden animate-slide-up bg-white border border-stone-300">
             
             {/* Header */}
-            <div className="p-6 border-b border-slate-100 flex items-center justify-between shrink-0">
-              <h3 className="font-bold text-base text-stone-900 flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-emerald-600" />
+            <div className="p-6 border-b border-stone-200 flex items-center justify-between shrink-0 bg-stone-50">
+              <h3 className="font-bold text-xs uppercase tracking-wider text-stone-900 flex items-center gap-2">
+                <Sparkles className="w-5 h-5 text-stone-900" />
                 Create WhatsApp compliant template
               </h3>
               <button 
                 onClick={() => setIsModalOpen(false)}
-                className="p-1 rounded-lg hover:bg-slate-50 text-stone-500 transition-colors"
+                className="p-1 rounded-none hover:bg-stone-200 text-stone-500 transition-colors border border-transparent"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -420,25 +420,25 @@ export const TemplatesTab: React.FC = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {/* Template Name */}
                 <div className="space-y-1.5">
-                  <label className="text-[11px] font-bold uppercase tracking-wider text-stone-500">Template Name</label>
+                  <label className="text-[10px] font-bold uppercase tracking-wider text-stone-505">Template Name</label>
                   <input
                     type="text"
                     required
                     placeholder="e.g. black_friday_discount"
                     value={templateName}
                     onChange={(e) => setTemplateName(e.target.value.toLowerCase().replace(/\s+/g, "_"))}
-                    className="w-full bg-slate-50 border border-slate-100 rounded-xl py-2.5 px-4 text-xs focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                    className="w-full bg-white border border-stone-200 rounded-none py-2.5 px-4 text-xs focus:outline-none focus:border-stone-900"
                   />
-                  <span className="text-[9px] text-stone-400 block font-mono">Forces lowercase snake_case (e.g. coupon_100)</span>
+                  <span className="text-[9px] text-stone-400 block font-semibold">Forces lowercase snake_case (e.g. coupon_100)</span>
                 </div>
 
                 {/* Category Selection */}
                 <div className="space-y-1.5">
-                  <label className="text-[11px] font-bold uppercase tracking-wider text-stone-500">Compliance Category</label>
+                  <label className="text-[10px] font-bold uppercase tracking-wider text-stone-505">Compliance Category</label>
                   <select
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-100 rounded-xl py-2.5 px-4 text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                    className="w-full bg-white border border-stone-200 rounded-none py-2.5 px-4 text-xs font-semibold focus:outline-none focus:border-stone-900"
                   >
                     <option value="Marketing">Marketing (Offers, updates)</option>
                     <option value="Utility">Utility (Transactions, budgets)</option>
@@ -449,17 +449,17 @@ export const TemplatesTab: React.FC = () => {
 
               {/* Media Header Selector */}
               <div className="space-y-1.5">
-                <label className="text-[11px] font-bold uppercase tracking-wider text-stone-500">Optional Media Header</label>
+                <label className="text-[10px] font-bold uppercase tracking-wider text-stone-505">Optional Media Header</label>
                 <div className="flex gap-2">
                   {["none", "image", "video", "document"].map((type) => (
                     <button
                       key={type}
                       type="button"
                       onClick={() => setMediaType(type)}
-                      className={`flex-1 py-2 text-center text-xs font-bold rounded-xl border capitalize cursor-pointer transition-all ${
+                      className={`flex-1 py-2 text-center text-xs font-bold rounded-none border capitalize cursor-pointer transition-all ${
                         mediaType === type 
-                          ? "bg-emerald-600 text-white border-emerald-600 shadow-sm" 
-                          : "bg-slate-50 border-slate-100 text-stone-500 hover:bg-slate-100"
+                          ? "bg-stone-950 text-white border-stone-950" 
+                          : "bg-white border-stone-200 text-stone-505 hover:bg-stone-100"
                       }`}
                     >
                       {type}
@@ -470,9 +470,9 @@ export const TemplatesTab: React.FC = () => {
 
               {/* Template Body Copy Textarea */}
               <div className="space-y-1.5">
-                <label className="text-[11px] font-bold uppercase tracking-wider text-stone-500 flex justify-between">
+                <label className="text-[10px] font-bold uppercase tracking-wider text-stone-505 flex justify-between">
                   <span>Template Text body</span>
-                  <span className="font-mono text-[9px] text-stone-400">{bodyText.length} / 1024 characters</span>
+                  <span className="text-[9px] text-stone-400">{bodyText.length} / 1024 characters</span>
                 </label>
                 <textarea
                   required
@@ -480,25 +480,25 @@ export const TemplatesTab: React.FC = () => {
                   placeholder="Type your WhatsApp message copy. You can add dynamic variables like: 'Hey {{1}}, here is your code {{2}}' to map CRM details dynamically."
                   value={bodyText}
                   onChange={(e) => setBodyText(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-100 rounded-xl py-2.5 px-4 text-xs focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                  className="w-full bg-white border border-stone-200 rounded-none py-2.5 px-4 text-xs focus:outline-none focus:border-stone-900"
                 />
               </div>
 
               {/* Buttons Builder */}
               <div className="space-y-2">
-                <label className="text-[11px] font-bold uppercase tracking-wider text-stone-500">Meta Call-To-Action Quick Replies</label>
+                <label className="text-[10px] font-bold uppercase tracking-wider text-stone-505">Meta Call-To-Action Quick Replies</label>
                 
                 <div className="flex flex-wrap gap-1.5">
                   {buttonsList.map((btn, index) => (
                     <span 
                       key={index} 
-                      className="text-[10px] font-bold bg-emerald-500/10 text-emerald-600 pl-3 pr-1 py-1 rounded-lg border border-emerald-100 flex items-center gap-1.5"
+                      className="text-[10px] font-bold bg-stone-100 text-stone-850 pl-3 pr-1 py-1 rounded-none border border-stone-300 flex items-center gap-1.5"
                     >
                       <span>{btn}</span>
                       <button 
                         type="button"
                         onClick={() => setButtonsList(prev => prev.filter((_, idx) => idx !== index))}
-                        className="hover:bg-emerald-200 p-0.5 rounded-full text-emerald-650"
+                        className="hover:bg-stone-200 p-0.5 rounded-none text-stone-700"
                       >
                         <X className="w-3 h-3" />
                       </button>
@@ -513,7 +513,7 @@ export const TemplatesTab: React.FC = () => {
                       placeholder="Add quick reply button text..."
                       value={newButtonText}
                       onChange={(e) => setNewButtonText(e.target.value)}
-                      className="flex-1 bg-slate-50 border border-slate-100 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                      className="flex-1 bg-white border border-stone-200 rounded-none px-3 py-1.5 text-xs focus:outline-none focus:border-stone-900"
                     />
                     <button
                       type="button"
@@ -522,7 +522,7 @@ export const TemplatesTab: React.FC = () => {
                         setButtonsList(prev => [...prev, newButtonText.trim()]);
                         setNewButtonText("");
                       }}
-                      className="bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg px-3 py-1.5 text-xs font-bold cursor-pointer"
+                      className="bg-stone-950 hover:bg-stone-900 text-white rounded-none border border-stone-950 px-3 py-1.5 text-xs font-bold cursor-pointer"
                     >
                       Add Button
                     </button>
@@ -533,19 +533,19 @@ export const TemplatesTab: React.FC = () => {
               </div>
 
               {/* Compliance Scanning Card Panel */}
-              <div className="border border-slate-150 rounded-xl p-4 bg-slate-50/50 space-y-4">
-                <div className="flex items-center justify-between border-b border-slate-100/40 pb-2">
-                  <h5 className="text-[10px] font-bold uppercase tracking-wider text-stone-500 flex items-center gap-1.5">
-                    <Sparkles className="w-4 h-4 text-emerald-600" />
+              <div className="border border-stone-200 rounded-none p-4 bg-stone-50 space-y-4">
+                <div className="flex items-center justify-between border-b border-stone-200 pb-2">
+                  <h5 className="text-[10px] font-bold uppercase tracking-wider text-stone-900 flex items-center gap-1.5">
+                    <Sparkles className="w-4 h-4 text-stone-900" />
                     AI Template Approval Compliance Auditor
                   </h5>
                   
                   {/* Real-time score indicator */}
                   {complianceScore !== null && (
-                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
+                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-none border ${
                       complianceScore > 85 
-                        ? "bg-emerald-50 text-emerald-600 border-emerald-500/20" 
-                        : "bg-red-50 text-red-600 border-red-500/20 animate-pulse"
+                        ? "bg-stone-900 text-white border-stone-950" 
+                        : "bg-white text-stone-500 border-stone-300"
                     }`}>
                       Meta Approval Probability: {complianceScore}%
                     </span>
@@ -556,8 +556,8 @@ export const TemplatesTab: React.FC = () => {
                 {clientWarnings.length > 0 && (
                   <div className="space-y-1.5">
                     {clientWarnings.map((w, idx) => (
-                      <div key={idx} className="text-[10px] text-red-500 font-semibold flex items-start gap-1.5 bg-red-500/5 p-2 rounded-lg border border-red-500/10">
-                        <AlertCircle className="w-3.5 h-3.5 mt-0.5 shrink-0" />
+                      <div key={idx} className="text-[10px] text-stone-905 font-semibold flex items-start gap-1.5 bg-white p-2 rounded-none border border-stone-300">
+                        <AlertCircle className="w-3.5 h-3.5 mt-0.5 shrink-0 text-stone-900" />
                         <span>{w}</span>
                       </div>
                     ))}
@@ -566,15 +566,15 @@ export const TemplatesTab: React.FC = () => {
 
                 {/* Category Suggestion Banner */}
                 {suggestedCategory && suggestedCategory !== category && !categoryApplied && (
-                  <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-3 space-y-2">
-                    <div className="flex items-center gap-1.5 text-emerald-700 font-bold text-[10px]">
+                  <div className="bg-white border border-stone-300 rounded-none p-3 space-y-2">
+                    <div className="flex items-center gap-1.5 text-stone-900 font-bold text-[10px] uppercase">
                       <Sparkles className="w-3.5 h-3.5" />
-                      AI Suggests: <span className="uppercase">{suggestedCategory}</span>
+                      AI Suggests: <span className="underline">{suggestedCategory}</span>
                     </div>
                     {categoryReasoning && (
-                      <p className="text-[9px] text-emerald-600 leading-relaxed">{categoryReasoning}</p>
+                      <p className="text-[10px] text-stone-600 leading-relaxed">{categoryReasoning}</p>
                     )}
-                    <div className="text-[9px] text-emerald-600 font-semibold">
+                    <div className="text-[9px] text-stone-500 font-semibold uppercase">
                       Utility templates get approved 2-3x faster than Marketing.
                     </div>
                     <button
@@ -583,7 +583,7 @@ export const TemplatesTab: React.FC = () => {
                         setCategory(suggestedCategory);
                         setCategoryApplied(true);
                       }}
-                      className="text-[10px] font-bold bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded-lg transition-all cursor-pointer"
+                      className="text-[10px] font-bold bg-stone-950 hover:bg-stone-900 text-white px-3 py-1.5 rounded-none border border-stone-950 transition-all cursor-pointer uppercase"
                     >
                       Apply &quot;{suggestedCategory}&quot; Category
                     </button>
@@ -592,14 +592,14 @@ export const TemplatesTab: React.FC = () => {
 
                 {/* Copilot feedback logs */}
                 {complianceFeedback.length > 0 && (
-                  <div className="space-y-1.5 bg-white p-3 rounded-lg border border-slate-100 text-[10px] text-stone-600 leading-relaxed max-h-36 overflow-y-auto custom-scrollbar">
-                    <div className="font-bold text-stone-700 flex items-center gap-1 mb-1">
-                      <CheckCircle className="w-3.5 h-3.5 text-emerald-500" />
+                  <div className="space-y-1.5 bg-white p-3 rounded-none border border-stone-200 text-[10px] text-stone-600 leading-relaxed max-h-36 overflow-y-auto custom-scrollbar">
+                    <div className="font-bold text-stone-800 flex items-center gap-1 mb-1">
+                      <CheckCircle className="w-3.5 h-3.5 text-stone-900" />
                       AI Optimization feedback logs:
                     </div>
                     {complianceFeedback.map((fb, idx) => (
                       <div key={idx} className="flex items-start gap-1.5 pl-1.5">
-                        <span className="text-emerald-500 font-bold shrink-0">•</span>
+                        <span className="text-stone-900 font-bold shrink-0">•</span>
                         <span>{fb}</span>
                       </div>
                     ))}
@@ -608,8 +608,8 @@ export const TemplatesTab: React.FC = () => {
 
                 {/* Actions AI Optimizer */}
                 <div className="flex items-center justify-between gap-4 pt-1.5">
-                  <div className="text-[9.5px] text-stone-500 flex items-center gap-1 leading-none select-none">
-                    <HelpCircle className="w-3.5 h-3.5 text-stone-400" />
+                  <div className="text-[9px] text-stone-500 flex items-center gap-1 leading-none select-none">
+                    <HelpCircle className="w-3.5 h-3.5 text-stone-405" />
                     Our AI compiler verifies copy structures to promise zero meta reject rates.
                   </div>
 
@@ -617,7 +617,7 @@ export const TemplatesTab: React.FC = () => {
                     type="button"
                     disabled={!bodyText.trim() || aiOptimizing}
                     onClick={handleAIOptimize}
-                    className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-40 text-white text-xs font-bold rounded-lg flex items-center gap-1.5 transition-all shadow-sm cursor-pointer select-none shrink-0"
+                    className="px-4 py-2 bg-stone-950 hover:bg-stone-900 disabled:opacity-40 text-white text-xs font-bold rounded-none border border-stone-950 flex items-center gap-1.5 transition-all cursor-pointer select-none shrink-0"
                   >
                     {aiOptimizing ? (
                       <>
@@ -635,18 +635,18 @@ export const TemplatesTab: React.FC = () => {
               </div>
 
               {/* Footer CTA */}
-              <div className="flex justify-end gap-2.5 pt-4 border-t border-slate-100">
+              <div className="flex justify-end gap-2.5 pt-4 border-t border-stone-200">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-stone-600 font-semibold text-xs rounded-xl cursor-pointer"
+                  className="px-4 py-2 bg-stone-100 hover:bg-stone-200 text-stone-600 font-semibold text-xs rounded-none cursor-pointer border border-stone-300"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={clientWarnings.length > 0 || !templateName.trim() || !bodyText.trim()}
-                  className="px-5 py-2 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-40 text-white font-semibold text-xs rounded-xl cursor-pointer flex items-center gap-1.5 transition-all shadow-md shadow-emerald-600/10"
+                  className="px-5 py-2 bg-stone-950 hover:bg-stone-900 disabled:opacity-40 text-white font-semibold text-xs rounded-none border border-stone-950 cursor-pointer flex items-center gap-1.5 transition-all"
                 >
                   <ThumbsUp className="w-3.5 h-3.5" />
                   Submit Meta Approval

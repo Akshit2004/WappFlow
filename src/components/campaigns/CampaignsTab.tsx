@@ -185,30 +185,30 @@ export const CampaignsTab: React.FC = () => {
     switch (status) {
       case "Completed":
         return (
-          <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 border border-emerald-500/20 px-2.5 py-1 rounded-full flex items-center gap-1.5 self-start">
-            <CheckCircle className="w-3.5 h-3.5" />
+          <span className="text-[10px] font-bold text-stone-900 bg-stone-100 border border-stone-300 px-2.5 py-1 rounded-none flex items-center gap-1.5 self-start uppercase">
+            <CheckCircle className="w-3.5 h-3.5 text-stone-900" />
             Completed
           </span>
         );
       case "Sending":
       case "Active":
         return (
-          <span className="text-[10px] font-bold text-teal-650 bg-teal-50 border border-teal-500/20 px-2.5 py-1 rounded-full flex items-center gap-1.5 self-start animate-pulse-soft">
-            <PlayCircle className="w-3.5 h-3.5 text-teal-500" />
+          <span className="text-[10px] font-bold text-white bg-stone-950 border border-stone-950 px-2.5 py-1 rounded-none flex items-center gap-1.5 self-start uppercase">
+            <PlayCircle className="w-3.5 h-3.5 text-white" />
             Sending
           </span>
         );
       case "Scheduled":
         return (
-          <span className="text-[10px] font-bold text-blue-600 bg-blue-50 border border-blue-500/20 px-2.5 py-1 rounded-full flex items-center gap-1.5 self-start">
-            <Calendar className="w-3.5 h-3.5" />
+          <span className="text-[10px] font-bold text-stone-600 bg-stone-50 border border-stone-200 px-2.5 py-1 rounded-none flex items-center gap-1.5 self-start uppercase">
+            <Calendar className="w-3.5 h-3.5 text-stone-500" />
             Scheduled
           </span>
         );
       default:
         return (
-          <span className="text-[10px] font-bold text-stone-500 bg-slate-50 px-2.5 py-1 rounded-full border border-slate-100 flex items-center gap-1.5 self-start">
-            <Clock className="w-3.5 h-3.5" />
+          <span className="text-[10px] font-bold text-stone-500 bg-stone-50 px-2.5 py-1 rounded-none border border-stone-200 flex items-center gap-1.5 self-start uppercase">
+            <Clock className="w-3.5 h-3.5 text-stone-400" />
             {status}
           </span>
         );
@@ -228,27 +228,27 @@ export const CampaignsTab: React.FC = () => {
   });
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 sm:p-8 custom-scrollbar space-y-6 sm:space-y-8 animate-slide-up bg-slate-50">
+    <div className="flex-1 overflow-y-auto p-4 sm:p-8 custom-scrollbar space-y-6 sm:space-y-8 animate-slide-up bg-[#fafaf9]">
       
       {/* Tab Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-stone-200 pb-6">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight">Campaigns & Broadcasts</h2>
-          <p className="text-stone-500 text-sm mt-1">Broadcast WhatsApp bulk templates, track dynamic click metrics, and filter target leads.</p>
+          <h2 className="text-xl font-bold tracking-tight text-stone-900 uppercase">Campaigns & Broadcasts</h2>
+          <p className="text-stone-500 text-xs mt-1">Broadcast WhatsApp bulk templates, track dynamic click metrics, and filter target leads.</p>
         </div>
         <button
           onClick={() => setIsModalOpen(true)}
-          className="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs px-4 py-2.5 rounded-xl flex items-center gap-2 cursor-pointer shadow-md shadow-emerald-600/10 hover:scale-102 active:scale-98 transition-all"
+          className="bg-stone-950 hover:bg-stone-900 text-white font-bold text-xs px-4 py-2.5 rounded-none flex items-center gap-2 cursor-pointer border border-stone-950 transition-all"
         >
           <Megaphone className="w-4 h-4" />
-          Launch Broadcast
+          LAUNCH BROADCAST
         </button>
       </div>
 
       {/* Filter and Overview Controls */}
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 pb-3">
+      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-stone-205 pb-3">
         <div className="flex flex-wrap items-center gap-1.5">
-          <span className="text-stone-500 text-[11px] font-bold uppercase tracking-wider mr-2 flex items-center gap-1">
+          <span className="text-stone-500 text-[10px] font-bold uppercase tracking-wider mr-2 flex items-center gap-1">
             <Filter className="w-3.5 h-3.5 text-stone-400" />
             Filter Status:
           </span>
@@ -256,10 +256,10 @@ export const CampaignsTab: React.FC = () => {
             <button
               key={status}
               onClick={() => setStatusFilter(status)}
-              className={`text-xs font-semibold px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
+              className={`text-xs font-semibold px-3 py-1.5 rounded-none border transition-all cursor-pointer ${
                 statusFilter === status
-                  ? "bg-emerald-600 text-white shadow-sm"
-                  : "text-stone-500 hover:bg-emerald-50/50"
+                  ? "bg-stone-950 text-white border-stone-950"
+                  : "text-stone-500 border-transparent hover:bg-stone-100"
               }`}
             >
               {status === "all" ? "All Broadcasts" : status}
@@ -270,12 +270,12 @@ export const CampaignsTab: React.FC = () => {
 
       {/* Campaigns Listing Grid */}
       <div className="space-y-6">
-        <h3 className="font-bold text-base text-stone-850">Recent Broadcast Activity</h3>
+        <h3 className="font-bold text-xs uppercase tracking-wider text-stone-900">Recent Broadcast Activity</h3>
         
         {filteredCampaigns.length === 0 ? (
-          <div className="glass-panel p-12 text-center rounded-2xl space-y-3 bg-white border border-slate-100">
-            <Send className="w-10 h-10 text-stone-500 mx-auto" />
-            <h4 className="font-bold text-stone-700">No campaigns match this filter</h4>
+          <div className="p-12 text-center rounded-none space-y-3 bg-white border border-stone-200">
+            <Send className="w-10 h-10 text-stone-400 mx-auto" />
+            <h4 className="font-bold text-stone-700 uppercase text-xs">No campaigns match this filter</h4>
             <p className="text-xs text-stone-500 max-w-sm mx-auto">Create a template and fire your first marketing broadcast to observe live metric counters and system webhook outputs!</p>
           </div>
         ) : (
@@ -287,18 +287,18 @@ export const CampaignsTab: React.FC = () => {
               const clickRate = camp.read > 0 ? Math.round((camp.clicked / camp.read) * 100) : 0;
 
               return (
-                <div key={camp.id} className="glass-panel p-6 rounded-2xl flex flex-col justify-between space-y-6 shadow-sm hover:shadow-md hover:border-emerald-300 transition-all duration-300 relative overflow-hidden bg-white border border-slate-100">
+                <div key={camp.id} className="p-6 rounded-none flex flex-col justify-between space-y-6 bg-white border border-stone-200 relative overflow-hidden">
                   
                   {/* Status Indicator Bar at Top */}
                   {(camp.status === "Sending" || camp.status === "Active") && (
-                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-500 animate-pulse-soft" />
+                    <div className="absolute top-0 left-0 right-0 h-1 bg-stone-950" />
                   )}
 
                   {/* Header Row */}
                   <div className="flex items-start justify-between gap-4">
                     <div className="space-y-1 flex-1">
                       <h4 className="font-bold text-sm text-stone-900 leading-none">{camp.name}</h4>
-                      <span className="text-[10px] text-stone-500 font-mono block mt-1">Template: {camp.templateName}</span>
+                      <span className="text-[10px] text-stone-500 block mt-1">Template: {camp.templateName}</span>
                     </div>
                     <div className="flex items-center gap-1.5 shrink-0">
                       {getStatusBadge(camp.status)}
@@ -308,7 +308,7 @@ export const CampaignsTab: React.FC = () => {
                             await deleteCampaign(camp.id);
                           }
                         }}
-                        className="p-1.5 rounded-lg text-stone-400 hover:text-red-500 hover:bg-red-50 transition-colors cursor-pointer"
+                        className="p-1.5 rounded-none text-stone-400 hover:text-stone-900 hover:bg-stone-100 transition-colors cursor-pointer border border-transparent"
                         title="Delete Campaign"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
@@ -317,7 +317,7 @@ export const CampaignsTab: React.FC = () => {
                   </div>
 
                   {/* Audience Meta */}
-                  <div className="grid grid-cols-2 gap-4 bg-emerald-50/20 p-3 rounded-xl border border-emerald-100/30 text-[11px] text-stone-500 font-medium">
+                  <div className="grid grid-cols-2 gap-4 bg-stone-50 p-3 rounded-none border border-stone-200 text-[11px] text-stone-500 font-medium">
                     <div className="flex items-center gap-1.5">
                       <Users className="w-3.5 h-3.5 text-stone-400" />
                       <span>Target Tag: <strong className="text-stone-800">{camp.targetTag}</strong></span>
@@ -334,26 +334,26 @@ export const CampaignsTab: React.FC = () => {
                       <span className="text-stone-500">Delivery Status ({delRate}%)</span>
                       <span className="font-bold text-stone-800">{camp.delivered} / {camp.sent}</span>
                     </div>
-                    <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
-                      <div className="h-full bg-emerald-500 transition-all duration-500" style={{ width: `${delRate}%` }} />
+                    <div className="h-1.5 w-full bg-stone-100 rounded-none overflow-hidden">
+                      <div className="h-full bg-stone-900 transition-all duration-500" style={{ width: `${delRate}%` }} />
                     </div>
 
                     {/* Lower Funnel row cards */}
                     <div className="grid grid-cols-2 gap-3 pt-1">
-                      <div className="bg-emerald-50/10 p-2.5 rounded-lg border border-emerald-100/30">
+                      <div className="bg-stone-50 p-2.5 rounded-none border border-stone-200">
                         <div className="text-[10px] text-stone-500 font-semibold uppercase">Read rate</div>
-                        <div className="text-xs font-bold text-stone-800 mt-0.5">{readRate}% <span className="text-[10px] text-stone-400 font-normal font-mono">({camp.read} read)</span></div>
+                        <div className="text-xs font-bold text-stone-800 mt-0.5">{readRate}% <span className="text-[10px] text-stone-400 font-normal">({camp.read} read)</span></div>
                       </div>
-                      <div className="bg-emerald-50/10 p-2.5 rounded-lg border border-emerald-100/30">
+                      <div className="bg-stone-50 p-2.5 rounded-none border border-stone-200">
                         <div className="text-[10px] text-stone-500 font-semibold uppercase">CTR rate</div>
-                        <div className="text-xs font-bold text-stone-800 mt-0.5">{clickRate}% <span className="text-[10px] text-stone-400 font-normal font-mono">({camp.clicked} clicked)</span></div>
+                        <div className="text-xs font-bold text-stone-800 mt-0.5">{clickRate}% <span className="text-[10px] text-stone-400 font-normal">({camp.clicked} clicked)</span></div>
                       </div>
                     </div>
                   </div>
 
                   {/* Detailed Analytics Button Footer */}
-                  <div className="border-t border-slate-100 pt-4 flex justify-between items-center">
-                    <span className="text-[10px] text-stone-400 flex items-center gap-1 font-mono">
+                  <div className="border-t border-stone-200 pt-4 flex justify-between items-center">
+                    <span className="text-[10px] text-stone-400 flex items-center gap-1">
                       <Calendar className="w-3 h-3" />
                       {camp.date}
                     </span>
@@ -362,11 +362,11 @@ export const CampaignsTab: React.FC = () => {
                         setSelectedCampaignId(camp.id);
                         setReportDrawerOpen(true);
                       }}
-                      className="text-[10px] font-bold text-emerald-650 bg-emerald-50 border border-emerald-200/50 hover:bg-emerald-100 px-3 py-1.5 rounded-lg flex items-center gap-1 transition-all cursor-pointer"
+                      className="text-[10px] font-bold text-stone-905 bg-stone-100 border border-stone-300 hover:bg-stone-200 px-3 py-1.5 rounded-none flex items-center gap-1 transition-all cursor-pointer"
                     >
                       <BarChart4 className="w-3.5 h-3.5" />
                       View Analytics
-                      <Maximize2 className="w-3 h-3 text-emerald-450" />
+                      <Maximize2 className="w-3 h-3 text-stone-500" />
                     </button>
                   </div>
 
@@ -379,18 +379,18 @@ export const CampaignsTab: React.FC = () => {
 
       {/* Launch Campaign Wizard Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black/60 backdrop-filter backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="glass-panel w-full max-w-xl rounded-2xl shadow-xl flex flex-col overflow-hidden animate-slide-up bg-white">
+        <div className="fixed inset-0 bg-black/40 backdrop-filter backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="w-full max-w-xl rounded-none flex flex-col overflow-hidden animate-slide-up bg-white border border-stone-300">
             
             {/* Header */}
-            <div className="p-6 border-b border-slate-100 flex items-center justify-between shrink-0">
-              <h3 className="font-bold text-base text-stone-900 flex items-center gap-2">
-                <Megaphone className="w-5 h-5 text-emerald-600" />
+            <div className="p-6 border-b border-stone-200 flex items-center justify-between shrink-0 bg-stone-50">
+              <h3 className="font-bold text-xs uppercase tracking-wider text-stone-900 flex items-center gap-2">
+                <Megaphone className="w-5 h-5 text-stone-900" />
                 Launch New WhatsApp Broadcast
               </h3>
               <button 
                 onClick={() => setIsModalOpen(false)}
-                className="p-1 rounded-lg hover:bg-slate-50 text-stone-500 transition-colors"
+                className="p-1 rounded-none hover:bg-stone-200 text-stone-500 transition-colors border border-transparent"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -401,26 +401,26 @@ export const CampaignsTab: React.FC = () => {
               
               {/* Campaign Name */}
               <div className="space-y-1.5">
-                <label className="text-[11px] font-bold uppercase tracking-wider text-stone-500">Campaign Name</label>
+                <label className="text-[10px] font-bold uppercase tracking-wider text-stone-500">Campaign Name</label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. Black Friday discount drop"
                   value={campaignName}
                   onChange={(e) => setCampaignName(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-100 rounded-xl py-2.5 px-4 text-xs focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                  className="w-full bg-white border border-stone-200 rounded-none py-2.5 px-4 text-xs focus:outline-none focus:border-stone-900"
                 />
               </div>
 
               {/* Broadcast Mode Toggle */}
               <div className="space-y-1.5">
-                <label className="text-[11px] font-bold uppercase tracking-wider text-stone-500">Broadcast Mode</label>
-                <div className="flex gap-2 bg-slate-50 p-1 rounded-xl border border-slate-100">
+                <label className="text-[10px] font-bold uppercase tracking-wider text-stone-500">Broadcast Mode</label>
+                <div className="flex gap-2 bg-stone-50 p-1 rounded-none border border-stone-200">
                   <button
                     type="button"
                     onClick={() => setBroadcastMode("template")}
-                    className={`flex-1 py-2 text-center text-[10px] font-bold rounded-lg cursor-pointer transition-all ${
-                      broadcastMode === "template" ? "bg-white text-emerald-650 shadow-sm" : "text-stone-500"
+                    className={`flex-1 py-2 text-center text-[10px] font-bold rounded-none cursor-pointer transition-all ${
+                      broadcastMode === "template" ? "bg-stone-950 text-white" : "text-stone-500 hover:text-stone-900"
                     }`}
                   >
                     Template Broadcast
@@ -428,15 +428,15 @@ export const CampaignsTab: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setBroadcastMode("session")}
-                    className={`flex-1 py-2 text-center text-[10px] font-bold rounded-lg cursor-pointer transition-all ${
-                      broadcastMode === "session" ? "bg-white text-emerald-650 shadow-sm" : "text-stone-500"
+                    className={`flex-1 py-2 text-center text-[10px] font-bold rounded-none cursor-pointer transition-all ${
+                      broadcastMode === "session" ? "bg-stone-950 text-white" : "text-stone-500 hover:text-stone-900"
                     }`}
                   >
                     Free-Form Session (24h window)
                   </button>
                 </div>
                 {broadcastMode === "session" && (
-                  <div className="flex items-center gap-1.5 mt-1 text-[10px] text-emerald-600 font-semibold bg-emerald-50 px-2.5 py-1.5 rounded-lg border border-emerald-200">
+                  <div className="flex items-center gap-1.5 mt-1 text-[10px] text-stone-700 font-semibold bg-stone-50 px-2.5 py-1.5 rounded-none border border-stone-200">
                     <span>No template needed — sends within 24h customer-initiated window.</span>
                   </div>
                 )}
@@ -444,14 +444,14 @@ export const CampaignsTab: React.FC = () => {
 
               {/* Tag Targeting */}
               <div className="space-y-1.5">
-                <label className="text-[11px] font-bold uppercase tracking-wider text-stone-500 flex justify-between">
+                <label className="text-[10px] font-bold uppercase tracking-wider text-stone-505 flex justify-between">
                   <span>Target Audience segment</span>
-                  <span className="text-[10px] text-stone-500 font-normal font-mono normal-case">Match: {targetAudienceSize} leads</span>
+                  <span className="text-[10px] text-stone-500 font-normal normal-case">Match: {targetAudienceSize} leads</span>
                 </label>
                 <select
                   value={targetTag}
                   onChange={(e) => setTargetTag(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-100 rounded-xl py-2.5 px-4 text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                  className="w-full bg-white border border-stone-200 rounded-none py-2.5 px-4 text-xs font-semibold focus:outline-none focus:border-stone-900"
                 >
                   <option value="all">All Contacts</option>
                   {allUniqueTags.map((tag) => (
@@ -459,8 +459,8 @@ export const CampaignsTab: React.FC = () => {
                   ))}
                 </select>
                 {targetAudienceSize === 0 && (
-                  <div className="text-[10px] text-red-500 font-semibold flex items-center gap-1.5 mt-1 bg-red-500/5 px-2.5 py-1.5 rounded-lg border border-red-500/10">
-                    <AlertCircle className="w-3.5 h-3.5" />
+                  <div className="text-[10px] text-stone-900 font-semibold flex items-center gap-1.5 mt-1 bg-stone-50 px-2.5 py-1.5 rounded-none border border-stone-300">
+                    <AlertCircle className="w-3.5 h-3.5 text-stone-900" />
                     No active CRM contacts match this segment tag. Fired broadcasts will sent to 0 users.
                   </div>
                 )}
@@ -468,13 +468,13 @@ export const CampaignsTab: React.FC = () => {
 
               {/* Exclude Tag Targeting */}
               <div className="space-y-1.5">
-                <label className="text-[11px] font-bold uppercase tracking-wider text-stone-500 flex justify-between">
+                <label className="text-[10px] font-bold uppercase tracking-wider text-stone-500 flex justify-between">
                   <span>Exclude Audience segment</span>
                 </label>
                 <select
                   value={excludeTag}
                   onChange={(e) => setExcludeTag(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-100 rounded-xl py-2.5 px-4 text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                  className="w-full bg-white border border-stone-200 rounded-none py-2.5 px-4 text-xs font-semibold focus:outline-none focus:border-stone-900"
                 >
                   <option value="None">-- No Exclusion --</option>
                   {allUniqueTags.map((tag) => (
@@ -487,11 +487,11 @@ export const CampaignsTab: React.FC = () => {
                 <>
                   {/* Approved Templates list */}
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold uppercase tracking-wider text-stone-500">Pre-approved message template</label>
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-stone-500">Pre-approved message template</label>
                     <select
                       value={templateName}
                       onChange={(e) => setTemplateName(e.target.value)}
-                      className="w-full bg-slate-50 border border-slate-100 rounded-xl py-2.5 px-4 text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                      className="w-full bg-white border border-stone-200 rounded-none py-2.5 px-4 text-xs font-semibold focus:outline-none focus:border-stone-900"
                     >
                       {templates.map((t) => (
                         <option key={t.id} value={t.name}>{t.name} ({t.category})</option>
@@ -502,7 +502,7 @@ export const CampaignsTab: React.FC = () => {
                   {/* Dynamic Media Input */}
                   {activeTemplate && activeTemplate.mediaType && activeTemplate.mediaType !== "none" && (
                     <div className="space-y-1.5">
-                      <label className="text-[11px] font-bold uppercase tracking-wider text-stone-500">
+                      <label className="text-[10px] font-bold uppercase tracking-wider text-stone-500">
                         {activeTemplate.mediaType} Media URL
                       </label>
                       <input
@@ -510,16 +510,16 @@ export const CampaignsTab: React.FC = () => {
                         placeholder={`https://example.com/media.${activeTemplate.mediaType === 'image' ? 'jpg' : 'mp4'}`}
                         value={mediaUrl}
                         onChange={(e) => setMediaUrl(e.target.value)}
-                        className="w-full bg-slate-50 border border-slate-100 rounded-xl py-2.5 px-4 text-xs focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                        className="w-full bg-white border border-stone-200 rounded-none py-2.5 px-4 text-xs focus:outline-none focus:border-stone-900"
                       />
                     </div>
                   )}
 
                   {/* Dynamic Variables Mapping Form */}
                   {activeTemplate && Object.keys(variablesMapping).length > 0 && (
-                    <div className="bg-[#f4f6f5] p-4 rounded-xl border border-slate-150 space-y-4">
-                      <h5 className="text-[10px] font-bold uppercase tracking-wider text-stone-500 flex items-center gap-1.5">
-                        <Settings2 className="w-4 h-4 text-emerald-600" />
+                    <div className="bg-stone-50 p-4 rounded-none border border-stone-200 space-y-4">
+                      <h5 className="text-[10px] font-bold uppercase tracking-wider text-stone-900 flex items-center gap-1.5">
+                        <Settings2 className="w-4 h-4 text-stone-900" />
                         Template Parameter Mappings
                       </h5>
                       
@@ -528,9 +528,9 @@ export const CampaignsTab: React.FC = () => {
                           const current = variablesMapping[variable];
 
                           return (
-                            <div key={variable} className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-center bg-white p-3 rounded-lg border border-slate-100">
+                            <div key={variable} className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-center bg-white p-3 rounded-none border border-stone-200">
                               <div className="text-xs font-bold text-stone-600 flex items-center gap-1.5">
-                                <span className="bg-emerald-500/10 text-emerald-600 font-mono text-[10px] px-1.5 py-0.5 rounded">
+                                <span className="bg-stone-100 text-stone-800 text-[10px] px-1.5 py-0.5 rounded-none border border-stone-300">
                                   {variable}
                                 </span>
                                 Parameter
@@ -549,7 +549,7 @@ export const CampaignsTab: React.FC = () => {
                                       }
                                     }));
                                   }}
-                                  className="w-full bg-slate-50 border border-slate-100 rounded-lg p-1.5 text-[11px] focus:outline-none"
+                                  className="w-full bg-white border border-stone-200 rounded-none p-1.5 text-[11px] focus:outline-none"
                                 >
                                   <option value="contact_field">CRM Contact Field</option>
                                   <option value="static">Static Custom Text</option>
@@ -566,7 +566,7 @@ export const CampaignsTab: React.FC = () => {
                                         [variable]: { type: "contact_field", value: e.target.value }
                                       }));
                                     }}
-                                    className="w-full bg-slate-50 border border-slate-100 rounded-lg p-1.5 text-[11px] focus:outline-none"
+                                    className="w-full bg-white border border-stone-200 rounded-none p-1.5 text-[11px] focus:outline-none"
                                   >
                                     <option value="name">Contact Name (name)</option>
                                     <option value="email">Contact Email (email)</option>
@@ -584,7 +584,7 @@ export const CampaignsTab: React.FC = () => {
                                         [variable]: { type: "static", value: e.target.value }
                                       }));
                                     }}
-                                    className="w-full bg-slate-50 border border-slate-100 rounded-lg p-1.5 text-[11px] focus:outline-none"
+                                    className="w-full bg-white border border-stone-200 rounded-none p-1.5 text-[11px] focus:outline-none"
                                   />
                                 )}
                               </div>
@@ -597,14 +597,14 @@ export const CampaignsTab: React.FC = () => {
 
                   {/* Template Body Live Preview with variables compiled */}
                   {activeTemplate && (
-                    <div className="bg-[#f4f6f5]/50 p-4 rounded-xl border border-slate-100 space-y-3">
+                    <div className="bg-stone-50 p-4 rounded-none border border-stone-200 space-y-3">
                       <h5 className="text-[10px] font-bold uppercase tracking-wider text-stone-500 flex items-center gap-1.5">
                         <Eye className="w-3.5 h-3.5 text-stone-500" />
                         Interactive Mapped Preview
                       </h5>
-                      <div className="bg-white border border-slate-100 rounded-xl p-3.5 text-xs text-stone-700 leading-relaxed shadow-sm max-w-[95%]">
+                      <div className="bg-white border border-stone-200 rounded-none p-3.5 text-xs text-stone-700 leading-relaxed max-w-[95%]">
                         {activeTemplate.mediaType && activeTemplate.mediaType !== "none" && (
-                          <div className="mb-2 px-2.5 py-1 rounded bg-[#f4f6f5] text-[10px] text-stone-505 font-bold uppercase inline-flex items-center gap-1.5 select-none leading-none">
+                          <div className="mb-2 px-2.5 py-1 rounded-none bg-stone-150 text-[10px] text-stone-800 font-bold uppercase inline-flex items-center gap-1.5 select-none leading-none border border-stone-300">
                             <span>{activeTemplate.mediaType} Media Header</span>
                           </div>
                         )}
@@ -612,9 +612,9 @@ export const CampaignsTab: React.FC = () => {
                           {compileLivePreview()}
                         </p>
                         {activeTemplate.buttons && activeTemplate.buttons.length > 0 && (
-                          <div className="mt-3.5 border-t border-slate-100 pt-2.5 space-y-1 text-center font-bold text-emerald-600">
+                          <div className="mt-3.5 border-t border-stone-200 pt-2.5 space-y-1 text-center font-bold text-stone-900">
                             {activeTemplate.buttons.map((btn, idx) => (
-                              <div key={idx} className="py-1 bg-emerald-50/20 rounded-md border border-emerald-100/30 text-[11px] mb-1">
+                              <div key={idx} className="py-1 bg-stone-50 rounded-none border border-stone-300 text-[11px] mb-1">
                                 {btn}
                               </div>
                             ))}
@@ -628,16 +628,16 @@ export const CampaignsTab: React.FC = () => {
                 <>
                   {/* Session Broadcast Text */}
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold uppercase tracking-wider text-stone-500">Free-Form Message</label>
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-stone-500">Free-Form Message</label>
                     <textarea
                       required
                       rows={5}
                       placeholder="Write your message here — no template needed. Only contacts active in the last 24 hours will receive it."
                       value={sessionText}
                       onChange={(e) => setSessionText(e.target.value)}
-                      className="w-full bg-slate-50 border border-slate-100 rounded-xl py-2.5 px-4 text-xs focus:outline-none focus:ring-1 focus:ring-emerald-500 resize-none"
+                      className="w-full bg-white border border-stone-200 rounded-none py-2.5 px-4 text-xs focus:outline-none focus:border-stone-900 resize-none"
                     />
-                    <div className="flex items-start gap-2 bg-blue-50/80 border border-blue-200/40 rounded-xl p-3 text-[10px] text-blue-800 leading-relaxed font-semibold">
+                    <div className="flex items-start gap-2 bg-stone-50 border border-stone-250 rounded-none p-3 text-[10px] text-stone-700 leading-relaxed font-semibold">
                       <span>📱 Only contacts who messaged in the last 24h will receive this. No Meta template approval needed.</span>
                     </div>
                   </div>
@@ -645,9 +645,9 @@ export const CampaignsTab: React.FC = () => {
               )}
 
               {/* Scheduling and Delays Advanced Parameters Drawer */}
-              <div className="border border-slate-150 rounded-xl p-4 bg-slate-50/40 space-y-4">
-                <h5 className="text-[10px] font-bold uppercase tracking-wider text-stone-500 flex items-center gap-1.5 border-b border-slate-100/40 pb-2">
-                  <Sliders className="w-4 h-4 text-emerald-600" />
+              <div className="border border-stone-200 rounded-none p-4 bg-stone-50 space-y-4">
+                <h5 className="text-[10px] font-bold uppercase tracking-wider text-stone-900 flex items-center gap-1.5 border-b border-stone-200 pb-2">
+                  <Sliders className="w-4 h-4 text-stone-900" />
                   Advanced Delivery Controls
                 </h5>
 
@@ -655,12 +655,12 @@ export const CampaignsTab: React.FC = () => {
                   {/* Immediate vs Scheduled Run Mode */}
                   <div className="space-y-1.5">
                     <label className="text-[10px] font-bold uppercase text-stone-400">Launch Timeline</label>
-                    <div className="flex gap-2 bg-slate-50 p-1 rounded-xl border border-slate-100">
+                    <div className="flex gap-2 bg-white p-1 rounded-none border border-stone-200">
                       <button
                         type="button"
                         onClick={() => setRunMode("immediate")}
-                        className={`flex-1 py-1.5 text-center text-[10px] font-bold rounded-lg cursor-pointer transition-all ${
-                          runMode === "immediate" ? "bg-white text-emerald-650 shadow-sm" : "text-stone-500"
+                        className={`flex-1 py-1.5 text-center text-[10px] font-bold rounded-none cursor-pointer transition-all ${
+                          runMode === "immediate" ? "bg-stone-950 text-white" : "text-stone-500 hover:text-stone-900"
                         }`}
                       >
                         Send Now
@@ -668,8 +668,8 @@ export const CampaignsTab: React.FC = () => {
                       <button
                         type="button"
                         onClick={() => setRunMode("scheduled")}
-                        className={`flex-1 py-1.5 text-center text-[10px] font-bold rounded-lg cursor-pointer transition-all ${
-                          runMode === "scheduled" ? "bg-white text-emerald-650 shadow-sm" : "text-stone-500"
+                        className={`flex-1 py-1.5 text-center text-[10px] font-bold rounded-none cursor-pointer transition-all ${
+                          runMode === "scheduled" ? "bg-stone-950 text-white" : "text-stone-500 hover:text-stone-900"
                         }`}
                       >
                         Schedule Later
@@ -681,7 +681,7 @@ export const CampaignsTab: React.FC = () => {
                   <div className="space-y-1.5">
                     <label className="text-[10px] font-bold uppercase text-stone-400 flex justify-between">
                       <span>Anti-Spam Spacing Delay</span>
-                      <span className="font-mono text-emerald-600 font-bold">{sendDelay}s / msg</span>
+                      <span className="text-stone-900 font-bold">{sendDelay}s / msg</span>
                     </label>
                     <input
                       type="range"
@@ -690,7 +690,7 @@ export const CampaignsTab: React.FC = () => {
                       step="0.5"
                       value={sendDelay}
                       onChange={(e) => setSendDelay(parseFloat(e.target.value))}
-                      className="w-full h-1.5 bg-emerald-100 rounded-lg appearance-none cursor-pointer accent-emerald-650"
+                      className="w-full h-1.5 bg-stone-200 rounded-none appearance-none cursor-pointer accent-stone-950"
                     />
                   </div>
                 </div>
@@ -705,7 +705,7 @@ export const CampaignsTab: React.FC = () => {
                         required
                         value={scheduledDate}
                         onChange={(e) => setScheduledDate(e.target.value)}
-                        className="w-full bg-white border border-slate-100 rounded-lg p-2 text-xs focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                        className="w-full bg-white border border-stone-200 rounded-none p-2 text-xs focus:outline-none focus:border-stone-900"
                       />
                     </div>
                     <div className="space-y-1">
@@ -715,7 +715,7 @@ export const CampaignsTab: React.FC = () => {
                         required
                         value={scheduledTime}
                         onChange={(e) => setScheduledTime(e.target.value)}
-                        className="w-full bg-white border border-slate-100 rounded-lg p-2 text-xs focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                        className="w-full bg-white border border-stone-200 rounded-none p-2 text-xs focus:outline-none focus:border-stone-900"
                       />
                     </div>
                   </div>
@@ -723,21 +723,21 @@ export const CampaignsTab: React.FC = () => {
               </div>
 
               {/* Footer CTA */}
-              <div className="flex justify-end gap-2.5 pt-4 border-t border-slate-100">
+              <div className="flex justify-end gap-2.5 pt-4 border-t border-stone-200">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-stone-600 font-semibold text-xs rounded-xl cursor-pointer"
+                  className="px-4 py-2 bg-stone-100 hover:bg-stone-200 text-stone-600 font-semibold text-xs rounded-none cursor-pointer border border-stone-300"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={targetAudienceSize === 0 || !campaignName.trim()}
-                  className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-40 disabled:hover:bg-emerald-600 text-white font-semibold text-xs rounded-xl cursor-pointer flex items-center gap-1.5 transition-all shadow-md shadow-emerald-600/10"
+                  className="px-4 py-2 bg-stone-950 hover:bg-stone-900 border border-stone-950 disabled:opacity-40 disabled:hover:bg-stone-950 text-white font-bold text-xs rounded-none cursor-pointer flex items-center gap-1.5 transition-all"
                 >
                   <Send className="w-3.5 h-3.5" />
-                  {runMode === "scheduled" ? "Schedule Broadcast Trigger" : "Launch Live Broadcast"}
+                  {runMode === "scheduled" ? "SCHEDULE BROADCAST TRIGGER" : "LAUNCH LIVE BROADCAST"}
                 </button>
               </div>
             </form>

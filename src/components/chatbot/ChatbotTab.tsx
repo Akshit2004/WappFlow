@@ -597,23 +597,23 @@ export const ChatbotTab: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 flex flex-col h-full overflow-hidden relative select-none">
+    <div className="flex-1 flex flex-col h-full overflow-hidden relative select-none bg-[#fafaf9]">
       {/* AI Generating Loading Overlay */}
       {isAiLoading && (
-        <div className="absolute inset-0 bg-white/70 backdrop-blur-md z-50 flex items-center justify-center">
-          <div className="bg-white border border-slate-100 rounded-3xl p-8 max-w-sm shadow-2xl flex flex-col items-center text-center space-y-5 animate-pulse-soft">
-            <div className="w-16 h-16 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 flex items-center justify-center animate-spin">
+        <div className="absolute inset-0 bg-white/70 backdrop-blur-sm z-50 flex items-center justify-center">
+          <div className="bg-white border border-stone-300 rounded-none p-8 max-w-sm shadow-xl flex flex-col items-center text-center space-y-5 animate-pulse-soft">
+            <div className="w-16 h-16 rounded-none bg-stone-100 border border-stone-300 text-stone-900 flex items-center justify-center">
               <Sparkles className="w-8 h-8" />
             </div>
             <div className="space-y-1.5">
-              <h3 className="font-extrabold text-slate-800 text-sm tracking-wide">Flow Architect compiling...</h3>
-              <p className="text-[11px] text-emerald-605 font-bold text-emerald-650 font-mono tracking-wider uppercase min-h-[16px]">
+              <h3 className="font-extrabold text-stone-900 text-sm tracking-wide uppercase">Flow Architect compiling...</h3>
+              <p className="text-[10px] text-stone-800 font-bold tracking-wider uppercase min-h-[16px]">
                 {loadingMessages[loadingMessageIdx]}
               </p>
             </div>
-            <div className="w-full bg-slate-100 rounded-full h-1">
+            <div className="w-full bg-stone-100 rounded-none h-1">
               <div
-                className="bg-emerald-500 h-1 rounded-full transition-all duration-1000 ease-out"
+                className="bg-stone-950 h-1 rounded-none transition-all duration-1000 ease-out"
                 style={{ width: `${((loadingMessageIdx + 1) / loadingMessages.length) * 100}%` }}
               />
             </div>
@@ -622,14 +622,14 @@ export const ChatbotTab: React.FC = () => {
       )}
 
       {/* Top Header Tab Panel Actions */}
-      <header className="h-16 border-b border-slate-100 bg-white px-6 flex items-center justify-between shrink-0 select-none">
+      <header className="h-16 border-b border-stone-200 bg-[#fafaf9] px-6 flex items-center justify-between shrink-0 select-none">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center shadow-md shadow-emerald-600/10">
+          <div className="w-10 h-10 bg-stone-950 rounded-none flex items-center justify-center border border-stone-950">
             <Cpu className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h1 className="font-extrabold text-sm tracking-tight text-slate-800">Visual Bot Builder</h1>
-            <p className="text-[10px] text-slate-400">Architect conversational routing with visual nodes and Groq LLMs</p>
+            <h1 className="font-bold text-sm tracking-tight text-stone-900 uppercase">Visual Bot Builder</h1>
+            <p className="text-[10px] text-stone-500">Architect conversational routing with visual nodes and Groq LLMs</p>
           </div>
         </div>
 
@@ -637,7 +637,7 @@ export const ChatbotTab: React.FC = () => {
         <div className="flex items-center gap-3">
           <button
             onClick={() => handleAutoLayout()}
-            className="flex items-center gap-1.5 border border-slate-200 hover:border-slate-300 text-slate-600 bg-white px-3 py-1.5 rounded-xl text-xs font-semibold cursor-pointer transition-all shadow-sm"
+            className="flex items-center gap-1.5 border border-stone-200 hover:border-stone-400 text-stone-700 bg-white px-3 py-1.5 rounded-none text-xs font-semibold cursor-pointer transition-all shadow-none"
             title="Clean canvas alignment"
           >
             <RefreshCw className="w-3.5 h-3.5" />
@@ -647,10 +647,10 @@ export const ChatbotTab: React.FC = () => {
           <button
             onClick={handleSaveAllFlow}
             disabled={isSaving}
-            className={`flex items-center gap-1.5 text-xs font-extrabold px-4 py-1.5 rounded-xl transition-all cursor-pointer shadow-md select-none ${
+            className={`flex items-center gap-1.5 text-xs font-bold px-4 py-1.5 rounded-none transition-all cursor-pointer border select-none ${
               saveSuccess
-                ? "bg-emerald-600 hover:bg-emerald-500 text-white shadow-emerald-600/10"
-                : "bg-emerald-600 hover:bg-emerald-500 text-white shadow-emerald-650/10 active:scale-95"
+                ? "bg-stone-900 border-stone-900 text-white"
+                : "bg-stone-950 hover:bg-stone-900 border-stone-950 text-white active:scale-95"
             }`}
           >
             {isSaving ? (
@@ -660,7 +660,7 @@ export const ChatbotTab: React.FC = () => {
             ) : (
               <Save className="w-3.5 h-3.5" />
             )}
-            <span>{isSaving ? "Saving..." : saveSuccess ? "Saved Flow!" : "Save & Publish"}</span>
+            <span>{isSaving ? "Saving..." : saveSuccess ? "Saved Flow!" : "SAVE & PUBLISH"}</span>
           </button>
         </div>
       </header>
@@ -669,7 +669,7 @@ export const ChatbotTab: React.FC = () => {
       <div className="flex-1 flex overflow-hidden">
         {/* LEFT CANVAS WORKSPACE */}
         <div
-          className="flex-1 overflow-hidden bg-slate-50 relative border-r border-slate-100"
+          className="flex-1 overflow-hidden bg-[#fafaf9] relative border-r border-stone-200"
           onMouseDown={handleCanvasMouseDown}
           onMouseMove={handleCanvasMouseMove}
           onMouseUp={handleCanvasMouseUp}
@@ -679,13 +679,13 @@ export const ChatbotTab: React.FC = () => {
           <div className="absolute top-4 left-4 z-10 flex flex-col gap-2">
             <button
               onClick={() => setZoom((prev) => Math.min(1.5, prev + 0.1))}
-              className="w-9 h-9 border border-slate-200 hover:border-slate-300 bg-white rounded-xl shadow-sm text-slate-600 hover:bg-slate-50 flex items-center justify-center cursor-pointer transition-all"
+              className="w-9 h-9 border border-stone-200 hover:border-stone-400 bg-white rounded-none shadow-none text-stone-700 hover:bg-stone-50 flex items-center justify-center cursor-pointer transition-all"
             >
               <ZoomIn className="w-4 h-4" />
             </button>
             <button
               onClick={() => setZoom((prev) => Math.max(0.6, prev - 0.1))}
-              className="w-9 h-9 border border-slate-200 hover:border-slate-300 bg-white rounded-xl shadow-sm text-slate-600 hover:bg-slate-50 flex items-center justify-center cursor-pointer transition-all"
+              className="w-9 h-9 border border-stone-200 hover:border-stone-400 bg-white rounded-none shadow-none text-stone-700 hover:bg-stone-50 flex items-center justify-center cursor-pointer transition-all"
             >
               <ZoomOut className="w-4 h-4" />
             </button>
@@ -695,7 +695,7 @@ export const ChatbotTab: React.FC = () => {
                 setPan({ x: 0, y: 0 });
                 handleAutoLayout();
               }}
-              className="w-9 h-9 border border-slate-200 hover:border-slate-300 bg-white rounded-xl shadow-sm text-slate-600 hover:bg-slate-50 flex items-center justify-center cursor-pointer transition-all"
+              className="w-9 h-9 border border-stone-200 hover:border-stone-400 bg-white rounded-none shadow-none text-stone-700 hover:bg-stone-50 flex items-center justify-center cursor-pointer transition-all"
               title="Reset Zoom & Pan"
             >
               <Maximize2 className="w-4 h-4" />
@@ -703,8 +703,8 @@ export const ChatbotTab: React.FC = () => {
           </div>
 
           {/* Friendly Traversal Tips Helper */}
-          <div className="absolute bottom-4 left-4 z-10 hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-white/80 border border-slate-200 rounded-xl text-[9px] font-bold text-slate-500 shadow-sm backdrop-blur-sm pointer-events-none select-none">
-            <span className="bg-slate-100 border border-slate-300 px-1 py-0.5 rounded text-[8px] font-mono text-slate-700">SPACE + DRAG</span>
+          <div className="absolute bottom-4 left-4 z-10 hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-white border border-stone-200 rounded-none text-[9px] font-bold text-stone-500 shadow-none pointer-events-none select-none">
+            <span className="bg-stone-100 border border-stone-300 px-1 py-0.5 rounded-none text-[8px] text-stone-700">SPACE + DRAG</span>
             <span>to traverse canvas pan</span>
           </div>
 
@@ -712,30 +712,30 @@ export const ChatbotTab: React.FC = () => {
           <div className="absolute top-4 right-4 z-10 flex gap-2">
             <button
               onClick={() => handleAddNode("message")}
-              className="flex items-center gap-1 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 px-3 py-1.5 rounded-xl text-xs font-semibold shadow-sm cursor-pointer transition-all"
+              className="flex items-center gap-1 bg-white hover:bg-stone-50 border border-stone-200 text-stone-900 px-3 py-1.5 rounded-none text-xs font-semibold shadow-none cursor-pointer transition-all"
             >
-              <Plus className="w-3.5 h-3.5 text-blue-500" />
+              <Plus className="w-3.5 h-3.5 text-stone-900" />
               <span>Add Message</span>
             </button>
             <button
               onClick={() => handleAddNode("question")}
-              className="flex items-center gap-1 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 px-3 py-1.5 rounded-xl text-xs font-semibold shadow-sm cursor-pointer transition-all"
+              className="flex items-center gap-1 bg-white hover:bg-stone-50 border border-stone-200 text-stone-900 px-3 py-1.5 rounded-none text-xs font-semibold shadow-none cursor-pointer transition-all"
             >
-              <Plus className="w-3.5 h-3.5 text-pink-500" />
+              <Plus className="w-3.5 h-3.5 text-stone-900" />
               <span>Add Question</span>
             </button>
             <button
               onClick={() => handleAddNode("delay")}
-              className="flex items-center gap-1 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 px-3 py-1.5 rounded-xl text-xs font-semibold shadow-sm cursor-pointer transition-all"
+              className="flex items-center gap-1 bg-white hover:bg-stone-50 border border-stone-200 text-stone-900 px-3 py-1.5 rounded-none text-xs font-semibold shadow-none cursor-pointer transition-all"
             >
-              <Plus className="w-3.5 h-3.5 text-teal-605 text-teal-500" />
+              <Plus className="w-3.5 h-3.5 text-stone-900" />
               <span>Add Delay</span>
             </button>
           </div>
 
           {/* Canvas Blueprint Grid */}
           <div
-            className="w-[2000px] h-[2000px] bg-[#f8fafc] canvas-dot-grid absolute"
+            className="w-[2000px] h-[2000px] bg-[#fafaf9] canvas-dot-grid absolute"
             style={{
               transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
               transformOrigin: "0 0"
@@ -823,7 +823,7 @@ export const ChatbotTab: React.FC = () => {
                           <path
                             d={drawBezierCurve(x1, y1, x2, y2)}
                             fill="none"
-                            stroke="#ec4899"
+                            stroke="#57534e"
                             strokeWidth="2.5"
                             strokeDasharray="5 5"
                             className="animate-dash"
@@ -850,17 +850,17 @@ export const ChatbotTab: React.FC = () => {
               const isSelected = selectedNodeId === node.id;
 
               // Choose color & icon styles
-              let badgeColor = "bg-blue-50 text-blue-700 border-blue-200/50";
+              let badgeColor = "bg-stone-50 text-stone-700 border-stone-200";
               let NodeIcon = MessageSquare;
 
               if (node.type === "trigger") {
-                badgeColor = "bg-emerald-50/50 text-emerald-700 border-emerald-250/20";
+                badgeColor = "bg-stone-900 text-white border-stone-950";
                 NodeIcon = Play;
               } else if (node.type === "question") {
-                badgeColor = "bg-pink-50 text-pink-700 border-pink-200/50";
+                badgeColor = "bg-stone-100 text-stone-900 border-stone-300";
                 NodeIcon = HelpCircle;
               } else if (node.type === "delay") {
-                badgeColor = "bg-teal-50 text-teal-700 border-teal-200/50";
+                badgeColor = "bg-stone-50 text-stone-600 border-stone-200";
                 NodeIcon = Clock;
               }
 
@@ -876,38 +876,38 @@ export const ChatbotTab: React.FC = () => {
                     height: 160,
                     zIndex: isSelected ? 30 : 10
                   }}
-                  className={`backdrop-blur-md rounded-2xl p-4 cursor-grab active:cursor-grabbing border-2 flex flex-col justify-between transition-all select-none shadow-sm ${
+                  className={`backdrop-blur-sm rounded-none p-4 cursor-grab active:cursor-grabbing border flex flex-col justify-between transition-all select-none shadow-none ${
                     isSelected
-                      ? "border-emerald-500 bg-white ring-4 ring-emerald-500/10 shadow-lg shadow-emerald-500/5 scale-[1.02]"
-                      : "border-slate-200/80 bg-white/90 hover:border-slate-300 hover:shadow-md"
+                      ? "border-stone-950 bg-white ring-2 ring-stone-950/20 scale-[1.02]"
+                      : "border-stone-200 bg-white hover:border-stone-400"
                   }`}
                 >
                   {/* Top Input Connection Port */}
-                  <div className="absolute -top-1.5 left-[125px] w-3.5 h-3.5 bg-slate-100 rounded-full border border-slate-300 shadow-inner flex items-center justify-center">
-                    <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
+                  <div className="absolute -top-1.5 left-[125px] w-3 h-3 bg-stone-100 rounded-none border border-stone-300 flex items-center justify-center">
+                    <span className="w-1 h-1 bg-stone-400" />
                   </div>
 
                   {/* Header Badge */}
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-1.5">
-                      <div className={`p-1 rounded-lg border ${badgeColor}`}>
+                      <div className={`p-1 rounded-none border ${badgeColor}`}>
                         <NodeIcon className="w-3.5 h-3.5" />
                       </div>
-                      <span className="text-[11px] font-extrabold uppercase tracking-wide font-mono text-slate-500">
+                      <span className="text-[10px] font-bold uppercase tracking-wide text-stone-500">
                         {node.id}
                       </span>
                     </div>
-                    <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full uppercase border ${badgeColor}`}>
+                    <span className={`text-[9px] font-bold px-2 py-0.5 rounded-none uppercase border ${badgeColor}`}>
                       {node.type}
                     </span>
                   </div>
 
                   {/* Card Main Body */}
                   <div className="flex-1 flex flex-col justify-center my-2 text-left">
-                    <h4 className="font-extrabold text-[12px] text-slate-800 line-clamp-1 mb-0.5">
+                    <h4 className="font-bold text-[12px] text-stone-900 line-clamp-1 mb-0.5">
                       {node.title}
                     </h4>
-                    <p className="text-[10px] text-slate-400 line-clamp-2 leading-relaxed">
+                    <p className="text-[10px] text-stone-500 line-clamp-2 leading-relaxed">
                       {node.type === "delay" ? `Delay: ${node.delayTime}s` : node.content}
                     </p>
                   </div>
@@ -918,13 +918,13 @@ export const ChatbotTab: React.FC = () => {
                       {node.options.slice(0, 3).map((opt) => (
                         <span
                           key={opt}
-                          className="text-[8px] font-extrabold bg-slate-50 text-slate-500 border border-slate-200/60 px-1.5 py-0.5 rounded-md truncate max-w-[70px]"
+                          className="text-[8px] font-bold bg-stone-50 text-stone-600 border border-stone-200 px-1.5 py-0.5 rounded-none truncate max-w-[70px]"
                         >
                           {opt}
                         </span>
                       ))}
                       {node.options.length > 3 && (
-                        <span className="text-[8px] font-bold bg-pink-50 text-pink-600 px-1 py-0.5 rounded-md">
+                        <span className="text-[8px] font-bold bg-stone-900 text-white px-1 py-0.5 rounded-none border border-stone-950">
                           +{node.options.length - 3}
                         </span>
                       )}
@@ -938,15 +938,15 @@ export const ChatbotTab: React.FC = () => {
                         {node.options.map((_, oIdx) => (
                           <div
                             key={oIdx}
-                            className="w-3 h-3 bg-pink-100 rounded-full border border-pink-300 shadow-inner flex items-center justify-center"
+                            className="w-3 h-3 bg-stone-100 rounded-none border border-stone-300 flex items-center justify-center"
                           >
-                            <span className="w-1 h-1 rounded-full bg-pink-500" />
+                            <span className="w-1.5 h-1.5 bg-stone-500" />
                           </div>
                         ))}
                       </div>
                     ) : (
-                      <div className="w-3 h-3 bg-slate-100 rounded-full border border-slate-300 shadow-inner flex items-center justify-center">
-                        <span className="w-1 h-1 rounded-full bg-slate-400" />
+                      <div className="w-3 h-3 bg-stone-100 rounded-none border border-stone-300 flex items-center justify-center">
+                        <span className="w-1.5 h-1.5 bg-stone-400" />
                       </div>
                     )}
                   </div>
@@ -957,27 +957,27 @@ export const ChatbotTab: React.FC = () => {
         </div>
 
         {/* RIGHT PANEL INSPECTOR & AI CONVERSATIONAL FLOW ARCHITECT */}
-        <aside className="w-[380px] shrink-0 border-l border-slate-100 bg-white flex flex-col justify-between select-text overflow-hidden h-full">
+        <aside className="w-[380px] shrink-0 border-l border-stone-200 bg-white flex flex-col justify-between select-text overflow-hidden h-full">
           {/* Top Form Edit Inspector Area */}
           <div className="flex-1 overflow-y-auto p-5 space-y-5">
             {selectedNodeId ? (
               <div className="space-y-4">
-                <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+                <div className="flex items-center justify-between pb-3 border-b border-stone-200">
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-extrabold font-mono text-slate-400 bg-slate-50 border border-slate-200 px-2 py-0.5 rounded-md">
+                    <span className="text-xs font-bold text-stone-900 bg-stone-100 border border-stone-300 px-2 py-0.5 rounded-none">
                       {selectedNodeId}
                     </span>
-                    <h3 className="font-extrabold text-xs text-slate-800 uppercase tracking-wide">
+                    <h3 className="font-bold text-xs text-stone-900 uppercase tracking-wide">
                       Edit Step Attributes
                     </h3>
                   </div>
                   <button
                     onClick={() => handleDeleteNode(selectedNodeId)}
                     disabled={selectedNodeId === "n1"}
-                    className={`p-1.5 rounded-lg border text-red-500 transition-all cursor-pointer ${
+                    className={`p-1.5 rounded-none border text-stone-900 transition-all cursor-pointer ${
                       selectedNodeId === "n1"
-                        ? "opacity-30 cursor-not-allowed border-slate-100 bg-slate-50 text-slate-300"
-                        : "border-red-100 hover:border-red-200 hover:bg-red-50"
+                        ? "opacity-30 cursor-not-allowed border-stone-100 bg-stone-50 text-stone-400"
+                        : "border-stone-200 hover:border-stone-400 hover:bg-stone-100"
                     }`}
                     title="Delete step"
                   >
@@ -987,20 +987,20 @@ export const ChatbotTab: React.FC = () => {
 
                 {/* Node Title input */}
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-extrabold uppercase tracking-wide text-slate-400">
+                  <label className="text-[10px] font-bold uppercase tracking-wide text-stone-500">
                     Step Title
                   </label>
                   <input
                     type="text"
                     value={formTitle}
                     onChange={(e) => handleTitleChange(e.target.value)}
-                    className="w-full border border-slate-200 rounded-xl px-4 py-2 bg-slate-50/50 hover:bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-sm font-semibold text-slate-700"
+                    className="w-full border border-stone-200 rounded-none px-4 py-2 bg-white focus:outline-none focus:border-stone-900 transition-all text-sm font-semibold text-stone-800"
                   />
                 </div>
 
                 {/* Node Content body textarea */}
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-extrabold uppercase tracking-wide text-slate-400">
+                  <label className="text-[10px] font-bold uppercase tracking-wide text-stone-500">
                     {selectedNodeId === "n1" ? "Trigger Hook Phrase" : "Message Body"}
                   </label>
                   <textarea
@@ -1008,14 +1008,14 @@ export const ChatbotTab: React.FC = () => {
                     value={formContent}
                     onChange={(e) => handleContentChange(e.target.value)}
                     placeholder={selectedNodeId === "n1" ? "e.g., inbound 'Hi' or 'Start'" : "Write message content here..."}
-                    className="w-full border border-slate-200 rounded-xl px-4 py-2 bg-slate-50/50 hover:bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-xs font-semibold text-slate-600 leading-relaxed resize-none"
+                    className="w-full border border-stone-200 rounded-none px-4 py-2 bg-white focus:outline-none focus:border-stone-900 transition-all text-xs font-semibold text-stone-700 leading-relaxed resize-none"
                   />
                 </div>
 
                 {/* Specific field for Delay Node */}
                 {localNodes.find((n) => n.id === selectedNodeId)?.type === "delay" && (
                   <div className="space-y-1.5">
-                    <label className="text-[10px] font-extrabold uppercase tracking-wide text-slate-400">
+                    <label className="text-[10px] font-bold uppercase tracking-wide text-stone-500">
                       Wait Time (Seconds)
                     </label>
                     <input
@@ -1024,7 +1024,7 @@ export const ChatbotTab: React.FC = () => {
                       max={900}
                       value={formDelayTime}
                       onChange={(e) => handleDelayTimeChange(Number(e.target.value))}
-                      className="w-full border border-slate-200 rounded-xl px-4 py-2 bg-slate-50/50 hover:bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-sm font-semibold text-slate-700 font-mono"
+                      className="w-full border border-stone-200 rounded-none px-4 py-2 bg-white focus:outline-none focus:border-stone-900 transition-all text-sm font-semibold text-stone-800"
                     />
                   </div>
                 )}
@@ -1033,12 +1033,12 @@ export const ChatbotTab: React.FC = () => {
                 {localNodes.find((n) => n.id === selectedNodeId)?.type === "question" && (
                   <div className="space-y-3 pt-2">
                     <div className="flex justify-between items-center">
-                      <label className="text-[10px] font-extrabold uppercase tracking-wide text-slate-400">
+                      <label className="text-[10px] font-bold uppercase tracking-wide text-stone-500">
                         Quick Reply Options & Routes
                       </label>
                       <button
                         onClick={handleAddOption}
-                        className="flex items-center gap-1 text-[10px] font-bold text-pink-650 hover:text-pink-700 bg-pink-50 border border-pink-100 hover:border-pink-200 px-2 py-0.5 rounded-lg cursor-pointer transition-all"
+                        className="flex items-center gap-1 text-[10px] font-bold text-stone-900 bg-stone-100 border border-stone-300 hover:border-stone-400 px-2 py-0.5 rounded-none cursor-pointer transition-all uppercase"
                       >
                         <Plus className="w-3 h-3" />
                         <span>Add Option</span>
@@ -1049,32 +1049,32 @@ export const ChatbotTab: React.FC = () => {
                       {formOptions.map((opt, oIdx) => (
                         <div
                           key={oIdx}
-                          className="bg-slate-50/50 border border-slate-200/80 rounded-2xl p-3 space-y-2"
+                          className="bg-stone-50 border border-stone-200 rounded-none p-3 space-y-2"
                         >
                           <div className="flex gap-2">
                             <input
                               type="text"
                               value={opt}
                               onChange={(e) => handleUpdateOptionText(oIdx, e.target.value)}
-                              className="flex-1 border border-slate-200 rounded-xl px-3 py-1 bg-white focus:outline-none focus:ring-2 focus:ring-pink-500/20 text-xs font-semibold text-slate-600"
+                              className="flex-1 border border-stone-200 rounded-none px-3 py-1 bg-white focus:outline-none focus:border-stone-900 text-xs font-semibold text-stone-700"
                             />
                             <button
                               onClick={() => handleRemoveOption(oIdx)}
-                              className="p-1.5 border border-red-100 hover:border-red-200 text-red-500 rounded-xl hover:bg-red-50 cursor-pointer transition-all shrink-0"
+                              className="p-1.5 border border-stone-200 hover:border-stone-400 text-stone-500 rounded-none hover:bg-stone-100 cursor-pointer transition-all shrink-0 bg-white"
                             >
                               <Trash2 className="w-3.5 h-3.5" />
                             </button>
                           </div>
 
-                          <div className="flex items-center gap-1.5 text-slate-500">
-                            <CornerDownRight className="w-3.5 h-3.5 text-slate-400" />
-                            <span className="text-[9px] font-extrabold uppercase tracking-wider text-slate-400 shrink-0">
+                          <div className="flex items-center gap-1.5 text-stone-500">
+                            <CornerDownRight className="w-3.5 h-3.5 text-stone-400" />
+                            <span className="text-[9px] font-bold uppercase tracking-wider text-stone-400 shrink-0">
                               Route Target:
                             </span>
                             <select
                               value={formRoutes[opt] || ""}
                               onChange={(e) => handleUpdateOptionTarget(opt, e.target.value)}
-                              className="flex-1 border border-slate-200 rounded-xl px-2 py-1 bg-white focus:outline-none focus:ring-2 focus:ring-pink-500/20 text-[10px] font-semibold text-slate-600"
+                              className="flex-1 border border-stone-200 rounded-none px-2 py-1 bg-white focus:outline-none focus:border-stone-900 text-[10px] font-semibold text-stone-700"
                             >
                               <option value="">-- Terminate Flow --</option>
                               {localNodes
@@ -1095,13 +1095,13 @@ export const ChatbotTab: React.FC = () => {
                 {/* Non-Question next destination routes */}
                 {localNodes.find((n) => n.id === selectedNodeId)?.type !== "question" && (
                   <div className="space-y-1.5">
-                    <label className="text-[10px] font-extrabold uppercase tracking-wide text-slate-400">
+                    <label className="text-[10px] font-bold uppercase tracking-wide text-stone-500">
                       Destination Step (nextId)
                     </label>
                     <select
                       value={formNextId}
                       onChange={(e) => handleNextIdChange(e.target.value)}
-                      className="w-full border border-slate-200 rounded-xl px-4 py-2 bg-slate-50/50 hover:bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-xs font-semibold text-slate-600"
+                      className="w-full border border-stone-200 rounded-none px-4 py-2 bg-white focus:outline-none focus:border-stone-900 transition-all text-xs font-semibold text-stone-600"
                     >
                       <option value="">-- Terminate Flow --</option>
                       {localNodes
@@ -1116,19 +1116,19 @@ export const ChatbotTab: React.FC = () => {
                 )}
 
                 {/* Friendly hint explaining the visual auto-apply flow */}
-                <div className="flex items-start gap-2 bg-emerald-50/20 border border-emerald-200/40 rounded-2xl p-3.5 text-[10px] text-emerald-800 leading-relaxed font-semibold">
-                  <Info className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                <div className="flex items-start gap-2 bg-stone-50 border border-stone-200 rounded-none p-3.5 text-[10px] text-stone-800 leading-relaxed font-semibold">
+                  <Info className="w-4 h-4 text-stone-900 shrink-0 mt-0.5" />
                   <span>💡 Edits apply to the visual canvas instantly. Click &quot;Save & Publish&quot; at the top header toolbar when you&apos;re ready to persist your full conversational tree to WappFlow&apos;s PostgreSQL sandbox.</span>
                 </div>
               </div>
             ) : (
-              <div className="h-full flex flex-col justify-center items-center text-center p-6 border-2 border-dashed border-slate-200 rounded-3xl space-y-4">
-                <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center border border-emerald-100">
-                  <Info className="w-6 h-6 animate-pulse-soft" />
+              <div className="h-full flex flex-col justify-center items-center text-center p-6 border border-stone-200 rounded-none space-y-4 bg-stone-50">
+                <div className="w-12 h-12 rounded-none bg-white text-stone-900 flex items-center justify-center border border-stone-300">
+                  <Info className="w-6 h-6 animate-pulse-soft text-stone-900" />
                 </div>
                 <div className="space-y-1">
-                  <h4 className="font-extrabold text-xs text-slate-700">No Step Selected</h4>
-                  <p className="text-[10px] text-slate-400 leading-relaxed max-w-[220px]">
+                  <h4 className="font-bold text-xs text-stone-800 uppercase">No Step Selected</h4>
+                  <p className="text-[10px] text-stone-500 leading-relaxed max-w-[220px]">
                     Click on any visual card in the blueprint canvas to inspect and configure its conversational routing properties.
                   </p>
                 </div>
@@ -1137,21 +1137,21 @@ export const ChatbotTab: React.FC = () => {
           </div>
 
           {/* Bottom Conversational AI Architect prompt box */}
-          <div className="p-5 bg-gradient-to-b from-emerald-50/10 to-teal-50/10 border-t border-slate-100 space-y-4 select-text">
+          <div className="p-5 bg-stone-50 border-t border-stone-200 space-y-4 select-text">
             <div className="flex items-center gap-2">
-              <div className="p-1.5 rounded-lg bg-emerald-50 border border-emerald-100/30 text-emerald-650">
+              <div className="p-1.5 rounded-none bg-white border border-stone-300 text-stone-900">
                 <Sparkles className="w-4 h-4" />
               </div>
               <div>
-                <h3 className="font-extrabold text-xs tracking-tight text-slate-800">AI Flow Architect</h3>
-                <p className="text-[9px] text-slate-400 font-mono">Powered by Groq & Llama 3.1</p>
+                <h3 className="font-bold text-xs tracking-tight text-stone-900 uppercase">AI Flow Architect</h3>
+                <p className="text-[9px] text-stone-500">Powered by Groq & Llama 3.1</p>
               </div>
             </div>
 
             {/* Error alerts */}
             {aiError && (
-              <div className="flex items-start gap-2 bg-red-50 border border-red-100 rounded-xl p-2.5 text-[10px] text-red-600 leading-relaxed">
-                <AlertTriangle className="w-3.5 h-3.5 text-red-500 shrink-0 mt-0.5" />
+              <div className="flex items-start gap-2 bg-white border border-stone-300 rounded-none p-2.5 text-[10px] text-red-600 leading-relaxed">
+                <AlertTriangle className="w-3.5 h-3.5 text-red-600 shrink-0 mt-0.5" />
                 <span>{aiError}</span>
               </div>
             )}
@@ -1162,7 +1162,7 @@ export const ChatbotTab: React.FC = () => {
                 value={aiPrompt}
                 onChange={(e) => setAiPrompt(e.target.value)}
                 placeholder="Describe your branching routing goals... e.g., 'Make an onboarding tree asking for their language, wait 5s...'"
-                className="w-full border border-slate-200 rounded-xl px-3 py-2 bg-slate-50/50 hover:bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-xs font-semibold text-slate-650 leading-relaxed resize-none"
+                className="w-full border border-stone-200 rounded-none px-3 py-2 bg-white focus:outline-none focus:border-stone-900 transition-all text-xs font-semibold text-stone-700 leading-relaxed resize-none"
               />
 
               {/* Quick Template Prompt chips */}
@@ -1175,7 +1175,7 @@ export const ChatbotTab: React.FC = () => {
                       setAiPrompt(item.prompt);
                       setAiError(null);
                     }}
-                    className="text-[8px] font-extrabold text-emerald-650 hover:text-emerald-700 bg-emerald-50/50 hover:bg-emerald-100/60 border border-emerald-100/40 hover:border-emerald-250 rounded-lg px-2 py-1 cursor-pointer transition-all"
+                    className="text-[8px] font-bold text-stone-900 bg-white hover:bg-stone-100 border border-stone-300 rounded-none px-2 py-1 cursor-pointer transition-all uppercase"
                   >
                     {item.title}
                   </button>
@@ -1186,10 +1186,10 @@ export const ChatbotTab: React.FC = () => {
                 type="button"
                 onClick={handleGenerateAiFlow}
                 disabled={!aiPrompt.trim()}
-                className={`w-full font-extrabold text-xs py-3 rounded-xl transition-all flex items-center justify-center gap-1.5 shadow-md cursor-pointer ${
+                className={`w-full font-bold text-xs py-3 rounded-none transition-all flex items-center justify-center gap-1.5 cursor-pointer uppercase ${
                   aiPrompt.trim()
-                    ? "bg-emerald-600 hover:bg-emerald-500 text-white shadow-md shadow-emerald-600/10 hover:shadow-lg hover:shadow-emerald-600/20 active:scale-95"
-                    : "bg-slate-100 text-slate-400 border border-slate-200/60 cursor-not-allowed shadow-none"
+                    ? "bg-stone-950 hover:bg-stone-900 text-white border border-stone-950"
+                    : "bg-stone-100 text-stone-400 border border-stone-200 cursor-not-allowed shadow-none"
                 }`}
               >
                 <Sparkles className="w-3.5 h-3.5" />

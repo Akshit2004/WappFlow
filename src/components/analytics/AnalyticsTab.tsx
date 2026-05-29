@@ -34,12 +34,9 @@ const RadialGauge: React.FC<{ value: number; label: string; color: string; icon:
   const offset = circumference - (clamp(value, 0, 100) / 100) * circumference;
 
   return (
-    <div className="glass-panel rounded-2xl p-5 flex flex-col items-center gap-4 card-hover-premium shadow-sm bg-white select-none">
+    <div className="bg-white border border-stone-200 p-6 flex flex-col items-center gap-4 hover:border-stone-400 transition-colors duration-300 select-none">
       <div className="relative w-24 h-24">
-        {/* Soft center glow halo */}
-        <div className="absolute inset-2 bg-slate-50/50 rounded-full blur-md opacity-20 pointer-events-none" />
-        
-        <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90 drop-shadow-[0_2px_8px_rgba(16,185,129,0.06)]">
+        <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90">
           <circle cx="50" cy="50" r={radius} fill="none" stroke="#f1f5f9" strokeWidth="7" />
           <circle
             cx="50"
@@ -48,17 +45,17 @@ const RadialGauge: React.FC<{ value: number; label: string; color: string; icon:
             fill="none"
             stroke={color}
             strokeWidth="8"
-            strokeLinecap="round"
+            strokeLinecap="square"
             strokeDasharray={circumference}
             strokeDashoffset={offset}
-            className="transition-all duration-1000 ease-out animate-glow-pulse"
+            className="transition-all duration-1000 ease-out"
           />
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="text-lg font-extrabold text-slate-800 tracking-tight">{value}%</span>
+          <span className="text-lg font-bold text-stone-905 tracking-tight">{value}%</span>
         </div>
       </div>
-      <div className="flex items-center gap-2 text-xs font-bold text-stone-500 uppercase tracking-wide">
+      <div className="flex items-center gap-2 text-[10px] font-bold text-stone-500 uppercase tracking-widest">
         <span className="text-stone-400">{icon}</span>
         {label}
       </div>
@@ -72,26 +69,27 @@ const StatCard: React.FC<{
   value: string;
   subtitle?: string;
   icon: React.ReactNode;
-  iconBg: string;
   trend?: number;
-}> = ({ title, value, subtitle, icon, iconBg, trend }) => (
-  <div className="glass-panel p-6 rounded-2xl flex items-center justify-between shadow-sm card-hover-premium bg-white select-none">
+}> = ({ title, value, subtitle, icon, trend }) => (
+  <div className="bg-white border border-stone-200 p-6 flex items-center justify-between hover:border-stone-400 transition-colors duration-300 select-none">
     <div className="space-y-2">
-      <span className="text-[10px] font-extrabold text-stone-400 uppercase tracking-widest">{title}</span>
-      <h3 className="text-2xl font-extrabold text-slate-800 tracking-tight">{value}</h3>
+      <span className="text-[10px] font-bold text-stone-400 uppercase tracking-widest">{title}</span>
+      <h3 className="text-2xl font-bold text-stone-950 tracking-tight">{value}</h3>
       {subtitle && (
-        <span className="text-[10px] text-stone-400 font-bold flex items-center gap-1">
+        <span className="text-[10px] text-stone-400 font-bold flex items-center gap-1 uppercase">
           {trend !== undefined &&
             (trend >= 0 ? (
-              <TrendingUp className="w-3.5 h-3.5 text-emerald-500" />
+              <TrendingUp className="w-3.5 h-3.5 text-stone-900" />
             ) : (
-              <TrendingDown className="w-3.5 h-3.5 text-red-500" />
+              <TrendingDown className="w-3.5 h-3.5 text-stone-450" />
             ))}
           {subtitle}
         </span>
       )}
     </div>
-    <div className={`w-12 h-12 rounded-2xl ${iconBg} flex items-center justify-center shadow-sm shrink-0 border border-slate-100`}>{icon}</div>
+    <div className="w-12 h-12 bg-stone-50 border border-stone-200 text-stone-900 flex items-center justify-center shrink-0">
+      {icon}
+    </div>
   </div>
 );
 
@@ -130,14 +128,14 @@ export const AnalyticsTab: React.FC = () => {
     };
   }, [filteredCampaigns]);
 
-  /* ─── Funnel Data (Professional Mint & Teal Gradient) ─── */
+  /* ─── Funnel Data (Elegant Monochromatic Gray Scales) ─── */
   const funnelStages = useMemo(() => {
     const { totalSent, totalDelivered, totalRead, totalClicked } = kpis;
     return [
-      { label: "Sent", value: totalSent, color: "#14b8a6", pct: 100 },
-      { label: "Delivered", value: totalDelivered, color: "#0d9488", pct: pct(totalDelivered, totalSent) },
-      { label: "Read", value: totalRead, color: "#0f766e", pct: pct(totalRead, totalSent) },
-      { label: "Clicked", value: totalClicked, color: "#115e59", pct: pct(totalClicked, totalSent) },
+      { label: "Sent", value: totalSent, color: "#1c1917", pct: 100 },
+      { label: "Delivered", value: totalDelivered, color: "#44403c", pct: pct(totalDelivered, totalSent) },
+      { label: "Read", value: totalRead, color: "#78716c", pct: pct(totalRead, totalSent) },
+      { label: "Clicked", value: totalClicked, color: "#a8a29e", pct: pct(totalClicked, totalSent) },
     ];
   }, [kpis]);
 
@@ -160,7 +158,7 @@ export const AnalyticsTab: React.FC = () => {
 
   const maxTimelineSent = Math.max(...timelineData.map((d) => d.sent), 1);
 
-  /* ─── Contact Source Distribution ─── */
+  /* ─── Contact Source Distribution (Refined Stone Colors) ─── */
   const sourceData = useMemo(() => {
     const map: Record<string, number> = {};
     contacts.forEach((c) => {
@@ -168,8 +166,7 @@ export const AnalyticsTab: React.FC = () => {
       map[src] = (map[src] || 0) + 1;
     });
     const total = contacts.length || 1;
-    // Harmonious shades of teal and emerald for pie charts
-    const colors = ["#128c7e", "#25d366", "#075e54", "#14b8a6", "#0f766e", "#34d399", "#2dd4bf", "#047857"];
+    const colors = ["#1c1917", "#44403c", "#78716c", "#a8a29e", "#d6d3d1", "#e7e5e4"];
     let entries = Object.entries(map)
       .sort(([, a], [, b]) => b - a)
       .map(([source, count], i) => ({
@@ -230,7 +227,7 @@ export const AnalyticsTab: React.FC = () => {
     });
   }, [templates, filteredCampaigns]);
 
-  /* ─── Message Activity Heatmap ─── */
+  /* ─── Message Activity Heatmap (Sleek Charcoal Heatmap) ─── */
   const heatmapData = useMemo(() => {
     const grid: number[][] = Array.from({ length: 7 }, () => Array(24).fill(0));
     Object.values(chatHistory).forEach((messages) => {
@@ -253,46 +250,46 @@ export const AnalyticsTab: React.FC = () => {
   /* ─── Status color helpers ─── */
   const statusColor = (s: string) => {
     switch (s) {
-      case "Completed": return "bg-emerald-500";
-      case "Active": case "Sending": return "bg-teal-500";
-      case "Scheduled": return "bg-blue-500";
-      case "Failed": return "bg-red-500";
-      default: return "bg-stone-400";
+      case "Completed": return "bg-stone-950";
+      case "Active": case "Sending": return "bg-stone-600";
+      case "Scheduled": return "bg-stone-300";
+      case "Failed": return "bg-stone-200";
+      default: return "bg-stone-100";
     }
   };
 
   const metaStatusBadge = (status?: string) => {
     switch (status) {
-      case "approved": return "bg-emerald-100 text-emerald-700 border-emerald-200";
-      case "rejected": return "bg-red-100 text-red-700 border-red-200";
-      default: return "bg-amber-100 text-amber-700 border-amber-200";
+      case "approved": return "bg-stone-100 text-stone-900 border-stone-300";
+      case "rejected": return "bg-stone-200 text-stone-500 border-stone-200";
+      default: return "bg-stone-50 text-stone-400 border-stone-200";
     }
   };
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 sm:p-8 custom-scrollbar space-y-6 sm:space-y-8 animate-slide-up">
+    <div className="flex-1 overflow-y-auto p-6 sm:p-8 custom-scrollbar space-y-8 bg-[#fafaf9] min-h-screen">
       {/* ─── Header ─── */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="flex flex-col md:flex-row md:items-baseline justify-between gap-4 pb-6 border-b border-stone-200 select-none">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight flex items-center gap-2.5">
-            <BarChart3 className="w-6 h-6 text-emerald-650" />
-            Analytics
+          <h2 className="text-2xl font-light tracking-tight text-stone-950 flex items-center gap-2">
+            <BarChart3 className="w-5.5 h-5.5 text-stone-950" />
+            Analytics Overview
           </h2>
-          <p className="text-stone-500 text-sm mt-1">
-            Campaign performance, contact insights, and engagement analytics.
+          <p className="text-stone-500 text-xs tracking-wider uppercase mt-1">
+            CAMPAIGN PERFORMANCE & CONTACT LEDGER INDEX
           </p>
         </div>
 
         {/* Time Range Filter */}
-        <div className="flex items-center gap-1.5 bg-stone-100 rounded-xl p-1 self-start">
+        <div className="flex items-center gap-2 bg-stone-100 p-1 rounded-none border border-stone-200">
           {(["7d", "30d", "all"] as const).map((range) => (
             <button
               key={range}
               onClick={() => setTimeRange(range)}
-              className={`text-xs font-semibold px-3.5 py-1.5 rounded-lg transition-all ${
+              className={`text-[10px] font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-none transition-all cursor-pointer ${
                 timeRange === range
-                  ? "bg-white text-emerald-650 shadow-sm"
-                  : "text-stone-500 hover:text-stone-700"
+                  ? "bg-stone-950 text-white"
+                  : "text-stone-500 hover:text-stone-900"
               }`}
             >
               {range === "7d" ? "7 Days" : range === "30d" ? "30 Days" : "All Time"}
@@ -302,98 +299,94 @@ export const AnalyticsTab: React.FC = () => {
       </div>
 
       {/* ─── Section 1: Top-Level KPI Cards ─── */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard
           title="Total Messages Sent"
           value={fmt(kpis.totalSent)}
-          subtitle={`${filteredCampaigns.length} campaigns`}
-          icon={<Send className="w-5 h-5 text-emerald-600" />}
-          iconBg="bg-emerald-500/10"
+          subtitle={`${filteredCampaigns.length} campaigns dispatch`}
+          icon={<Send className="w-5 h-5 text-stone-950" />}
         />
         <StatCard
           title="Messages Delivered"
           value={fmt(kpis.totalDelivered)}
           subtitle={`${kpis.deliveryRate}% delivery rate`}
-          icon={<CheckCheck className="w-5 h-5 text-blue-500" />}
-          iconBg="bg-blue-500/10"
+          icon={<CheckCheck className="w-5 h-5 text-stone-950" />}
           trend={kpis.deliveryRate > 90 ? 1 : -1}
         />
         <StatCard
           title="Messages Read"
           value={fmt(kpis.totalRead)}
           subtitle={`${kpis.readRate}% read rate`}
-          icon={<Eye className="w-5 h-5 text-purple-500" />}
-          iconBg="bg-purple-500/10"
+          icon={<Eye className="w-5 h-5 text-stone-950" />}
           trend={kpis.readRate > 50 ? 1 : -1}
         />
         <StatCard
           title="Link Clicks"
           value={fmt(kpis.totalClicked)}
           subtitle={`${kpis.clickRate}% click-through`}
-          icon={<MousePointerClick className="w-5 h-5 text-teal-650" />}
-          iconBg="bg-teal-500/10"
+          icon={<MousePointerClick className="w-5 h-5 text-stone-950" />}
           trend={kpis.clickRate > 5 ? 1 : -1}
         />
       </div>
 
       {/* ─── Section 2: Radial Gauges ─── */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
         <RadialGauge
           value={kpis.deliveryRate}
           label="Delivery Rate"
-          color="#3b82f6"
-          icon={<CheckCheck className="w-3.5 h-3.5 text-blue-500" />}
+          color="#1c1917"
+          icon={<CheckCheck className="w-3.5 h-3.5 text-stone-950" />}
         />
         <RadialGauge
           value={kpis.readRate}
           label="Read Rate"
-          color="#8b5cf6"
-          icon={<Eye className="w-3.5 h-3.5 text-purple-500" />}
+          color="#44403c"
+          icon={<Eye className="w-3.5 h-3.5 text-stone-900" />}
         />
         <RadialGauge
           value={kpis.clickRate}
           label="Click-Through Rate"
-          color="#10b981"
-          icon={<MousePointerClick className="w-3.5 h-3.5 text-emerald-550" />}
+          color="#78716c"
+          icon={<MousePointerClick className="w-3.5 h-3.5 text-stone-500" />}
         />
       </div>
 
       {/* ─── Section 3: Campaign Funnel ─── */}
-      <div className="glass-panel rounded-2xl p-6 shadow-sm">
-        <div className="flex items-center justify-between mb-5">
+      <div className="bg-white border border-stone-200 p-6 sm:p-8 hover:border-stone-400 transition-colors duration-300">
+        <div className="flex items-center justify-between mb-6 pb-4 border-b border-stone-100">
           <div>
-            <h3 className="text-base font-semibold flex items-center gap-2">
-              <Zap className="w-4 h-4 text-emerald-500" />
+            <h3 className="text-lg font-light text-stone-900 flex items-center gap-2">
+              <Zap className="w-4 h-4 text-stone-950" />
               Campaign Delivery Funnel
             </h3>
-            <p className="text-xs text-stone-500 mt-0.5">Message journey from send to click</p>
+            <p className="text-xs text-stone-500 tracking-wider uppercase mt-1">Message journey index from send to click</p>
           </div>
           <button
             onClick={() => setFunnelMode(funnelMode === "absolute" ? "percentage" : "absolute")}
-            className="text-[10px] font-bold text-stone-500 bg-stone-100 hover:bg-stone-200 px-3 py-1.5 rounded-lg transition-colors"
+            className="text-[9px] font-bold text-stone-900 bg-stone-100 hover:bg-stone-200 px-3 py-1.5 rounded-none border border-stone-250/20 uppercase tracking-widest transition-all cursor-pointer"
           >
             {funnelMode === "absolute" ? "Show %" : "Show #"}
           </button>
         </div>
-        <div className="space-y-3">
+        <div className="space-y-4">
           {funnelStages.map((stage, i) => (
             <div key={stage.label} className="flex items-center gap-4">
-              <span className="text-xs font-semibold text-stone-600 w-20 text-right">{stage.label}</span>
-              <div className="flex-1 h-9 bg-stone-100 rounded-lg overflow-hidden relative">
+              <span className="text-[10px] font-bold text-stone-400 w-20 text-right uppercase tracking-wider">{stage.label}</span>
+              <div className="flex-1 h-9 bg-stone-100 rounded-none overflow-hidden relative border border-stone-200/40">
                 <div
-                  className="h-full rounded-lg transition-all duration-1000 ease-out flex items-center justify-end pr-3"
+                  className="h-full rounded-none transition-all duration-1000 ease-out flex items-center justify-end pr-3"
                   style={{
                     width: `${Math.max(stage.pct, 2)}%`,
                     backgroundColor: stage.color,
                   }}
                 >
-                  <span className="text-[11px] font-bold text-white drop-shadow-sm">
+                  <span className="text-[10px] font-bold text-white tracking-widest uppercase">
                     {funnelMode === "absolute" ? fmt(stage.value) : `${stage.pct}%`}
                   </span>
                 </div>
               </div>
               {i < funnelStages.length - 1 && (
-                <span className="text-[10px] text-stone-400 font-mono w-12 text-center">
+                <span className="text-[10px] text-stone-400 font-bold w-12 text-center uppercase">
                   {pct(funnelStages[i + 1].value, stage.value || 1)}%
                 </span>
               )}
@@ -403,15 +396,15 @@ export const AnalyticsTab: React.FC = () => {
       </div>
 
       {/* ─── Section 4: Campaign Timeline ─── */}
-      <div className="glass-panel rounded-2xl p-6 shadow-sm">
-        <h3 className="text-base font-semibold flex items-center gap-2 mb-1">
-          <Clock className="w-4 h-4 text-emerald-650" />
+      <div className="bg-white border border-stone-200 p-6 sm:p-8 hover:border-stone-400 transition-colors duration-300">
+        <h3 className="text-lg font-light text-stone-950 flex items-center gap-2 mb-1">
+          <Clock className="w-4 h-4 text-stone-950" />
           Campaign Activity Timeline
         </h3>
-        <p className="text-xs text-stone-500 mb-5">Messages sent per campaign day</p>
+        <p className="text-xs text-stone-500 tracking-wider uppercase mt-1 mb-6">Messages dispatched per campaign day ledger</p>
         {timelineData.length === 0 ? (
-          <div className="h-48 flex items-center justify-center text-stone-400 text-sm">
-            No campaign data in this time range.
+          <div className="h-48 flex items-center justify-center text-stone-450 text-xs font-bold uppercase tracking-widest">
+            NO ACTIVE CAMPAIGN RECORDS DISCOVERED IN THIS PERIOD
           </div>
         ) : (
           <div className="flex items-end gap-1.5 h-48 overflow-x-auto custom-scrollbar pb-1">
@@ -419,17 +412,14 @@ export const AnalyticsTab: React.FC = () => {
               const heightPct = (d.sent / maxTimelineSent) * 100;
               return (
                 <div key={d.date} className="flex flex-col items-center gap-1.5 min-w-[36px] group flex-1">
-                  {/* Tooltip */}
-                  <div className="opacity-0 group-hover:opacity-100 transition-opacity text-[10px] font-bold text-stone-700 bg-white shadow-lg border border-stone-200 rounded-lg px-2 py-1 whitespace-nowrap pointer-events-none">
+                  <div className="opacity-0 group-hover:opacity-100 transition-opacity text-[9px] font-bold text-stone-900 bg-white border border-stone-250 px-2 py-1 uppercase whitespace-nowrap pointer-events-none tracking-widest">
                     {fmt(d.sent)} sent
                   </div>
-                  {/* Bar */}
                   <div
-                    className={`w-full rounded-t-md transition-all duration-500 ${statusColor(d.status)} group-hover:opacity-80`}
+                    className={`w-full rounded-none transition-all duration-500 ${statusColor(d.status)}`}
                     style={{ height: `${Math.max(heightPct, 4)}%` }}
                   />
-                  {/* Label */}
-                  <span className="text-[9px] text-stone-400 font-mono whitespace-nowrap">
+                  <span className="text-[9px] text-stone-405 font-bold uppercase whitespace-nowrap tracking-wider">
                     {d.date.slice(5)}
                   </span>
                 </div>
@@ -437,47 +427,44 @@ export const AnalyticsTab: React.FC = () => {
             })}
           </div>
         )}
-        {/* Legend */}
-        <div className="flex items-center gap-4 mt-4 text-[10px] text-stone-500">
-          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-emerald-500" /> Completed</span>
-          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-teal-500" /> Active</span>
-          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-blue-500" /> Scheduled</span>
-          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-red-500" /> Failed</span>
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-6 pt-4 border-t border-stone-100 text-[9px] text-stone-450 font-bold uppercase tracking-widest">
+          <span className="flex items-center gap-1.5"><span className="w-2 h-2 bg-stone-950" /> Completed</span>
+          <span className="flex items-center gap-1.5"><span className="w-2 h-2 bg-stone-600" /> Active</span>
+          <span className="flex items-center gap-1.5"><span className="w-2 h-2 bg-stone-300" /> Scheduled</span>
+          <span className="flex items-center gap-1.5"><span className="w-2 h-2 bg-stone-200" /> Failed</span>
         </div>
       </div>
 
       {/* ─── Section 5 + 6: Contact Source & Tag Cloud ─── */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Contact Source Donut */}
-        <div className="glass-panel rounded-2xl p-6 shadow-sm">
-          <h3 className="text-base font-semibold flex items-center gap-2 mb-1">
-            <Users className="w-4 h-4 text-emerald-650" />
+        <div className="bg-white border border-stone-200 p-6 sm:p-8 hover:border-stone-400 transition-colors duration-300">
+          <h3 className="text-lg font-light text-stone-950 flex items-center gap-2 mb-1">
+            <Users className="w-4 h-4 text-stone-950" />
             Contact Source Distribution
           </h3>
-          <p className="text-xs text-stone-500 mb-5">Where your contacts come from</p>
-          <div className="flex items-center gap-8">
-            {/* Donut */}
+          <p className="text-xs text-stone-500 tracking-wider uppercase mt-1 mb-6">CRM entry node index</p>
+          <div className="flex flex-col sm:flex-row items-center gap-8">
             <div className="relative w-36 h-36 shrink-0">
               <div
-                className="w-full h-full rounded-full"
+                className="w-full h-full rounded-full border border-stone-200/50"
                 style={{ background: conicGradient }}
               />
-              <div className="absolute inset-3 bg-white rounded-full flex flex-col items-center justify-center shadow-inner">
-                <span className="text-lg font-bold">{contacts.length}</span>
-                <span className="text-[9px] text-stone-500">Total</span>
+              <div className="absolute inset-3 bg-white rounded-full flex flex-col items-center justify-center border border-stone-200">
+                <span className="text-lg font-bold text-stone-950">{contacts.length}</span>
+                <span className="text-[8px] text-stone-450 font-bold uppercase tracking-widest">Total CRM</span>
               </div>
             </div>
-            {/* Legend */}
-            <div className="flex-1 space-y-2 max-h-36 overflow-y-auto custom-scrollbar">
+            <div className="flex-1 space-y-2.5 max-h-36 overflow-y-auto w-full custom-scrollbar">
               {sourceData.map((s) => (
-                <div key={s.source} className="flex items-center justify-between">
+                <div key={s.source} className="flex items-center justify-between text-xs text-stone-705 border-b border-stone-50 pb-1">
                   <div className="flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: s.color }} />
-                    <span className="text-xs text-stone-700 font-medium truncate max-w-[120px]">{s.source}</span>
+                    <span className="w-2.5 h-2.5 shrink-0" style={{ backgroundColor: s.color }} />
+                    <span className="font-semibold text-stone-800 uppercase text-[10px] tracking-wider truncate max-w-[120px]">{s.source}</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-bold text-stone-800">{s.count}</span>
-                    <span className="text-[10px] text-stone-400">{s.pct}%</span>
+                  <div className="flex items-center gap-2 text-[10px] font-bold">
+                    <span className="text-stone-800">{s.count}</span>
+                    <span className="text-stone-400">{s.pct}%</span>
                   </div>
                 </div>
               ))}
@@ -486,31 +473,30 @@ export const AnalyticsTab: React.FC = () => {
         </div>
 
         {/* Tag Cloud */}
-        <div className="glass-panel rounded-2xl p-6 shadow-sm">
-          <h3 className="text-base font-semibold flex items-center gap-2 mb-1">
-            <Tag className="w-4 h-4 text-teal-600" />
-            Contact Tag Distribution
+        <div className="bg-white border border-stone-200 p-6 sm:p-8 hover:border-stone-400 transition-colors duration-300">
+          <h3 className="text-lg font-light text-stone-900 flex items-center gap-2 mb-1">
+            <Tag className="w-4 h-4 text-stone-950" />
+            Audience Tag Distribution
           </h3>
-          <p className="text-xs text-stone-500 mb-5">Most used audience segments</p>
+          <p className="text-xs text-stone-500 tracking-wider uppercase mt-1 mb-6">Active crm taxonomy segments</p>
           {tagCloud.length === 0 ? (
-            <div className="h-32 flex items-center justify-center text-stone-400 text-sm">
-              No tags assigned yet.
+            <div className="h-32 flex items-center justify-center text-stone-455 text-xs font-bold uppercase tracking-widest">
+              NO CRM TAXONOMY TAGS SPECIFIED YET
             </div>
           ) : (
             <div className="flex flex-wrap gap-2">
               {tagCloud.map((t) => {
                 const intensity = t.count / maxTagCount;
-                const size = 11 + intensity * 5; // 11px to 16px
-                const opacity = 0.5 + intensity * 0.5;
+                const opacity = 0.6 + intensity * 0.4;
                 return (
                   <span
                     key={t.tag}
-                    className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-gradient-to-r from-emerald-50/50 to-teal-50/30 border border-emerald-250/20 text-emerald-700 font-semibold transition-all hover:scale-105 hover:shadow-sm cursor-default"
-                    style={{ fontSize: `${size}px`, opacity }}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-stone-50 hover:bg-stone-100 border border-stone-200 text-stone-900 text-[10px] font-bold uppercase tracking-wider transition-all"
+                    style={{ opacity }}
                   >
-                    <Tag className="w-2.5 h-2.5" />
+                    <Tag className="w-3 h-3 text-stone-450" />
                     {t.tag}
-                    <span className="text-[9px] text-emerald-450 font-mono ml-0.5 font-bold">×{t.count}</span>
+                    <span className="text-stone-400 ml-0.5">×{t.count}</span>
                   </span>
                 );
               })}
@@ -520,68 +506,68 @@ export const AnalyticsTab: React.FC = () => {
       </div>
 
       {/* ─── Section 7: Template Performance Matrix ─── */}
-      <div className="glass-panel rounded-2xl p-6 shadow-sm">
-        <h3 className="text-base font-semibold flex items-center gap-2 mb-1">
-          <FileText className="w-4 h-4 text-emerald-650" />
+      <div className="bg-white border border-stone-200 p-6 sm:p-8 hover:border-stone-400 transition-colors duration-300">
+        <h3 className="text-lg font-light text-stone-950 flex items-center gap-2 mb-1">
+          <FileText className="w-4 h-4 text-stone-950" />
           Template Performance Matrix
         </h3>
-        <p className="text-xs text-stone-500 mb-5">How each template performs across campaigns</p>
+        <p className="text-xs text-stone-500 tracking-wider uppercase mt-1 mb-6">Waba payload delivery rate analysis index</p>
         {templatePerf.length === 0 ? (
-          <div className="h-32 flex items-center justify-center text-stone-400 text-sm">
-            No templates available.
+          <div className="h-32 flex items-center justify-center text-stone-450 text-xs font-bold uppercase tracking-widest">
+            NO META APPROVED MESSAGE PAYLOADS CURRENTLY ON RECORD
           </div>
         ) : (
           <div className="overflow-x-auto custom-scrollbar">
             <table className="w-full text-left">
               <thead>
-                <tr className="border-b border-slate-200">
-                  <th className="text-[10px] font-bold text-stone-500 uppercase tracking-wider pb-3 pr-4">Template</th>
-                  <th className="text-[10px] font-bold text-stone-500 uppercase tracking-wider pb-3 pr-4 text-center">Status</th>
-                  <th className="text-[10px] font-bold text-stone-500 uppercase tracking-wider pb-3 pr-4 text-center">Campaigns</th>
-                  <th className="text-[10px] font-bold text-stone-500 uppercase tracking-wider pb-3 pr-4 text-center">Sent</th>
-                  <th className="text-[10px] font-bold text-stone-500 uppercase tracking-wider pb-3 pr-4 text-center">Delivery %</th>
-                  <th className="text-[10px] font-bold text-stone-500 uppercase tracking-wider pb-3 pr-4 text-center">Read %</th>
-                  <th className="text-[10px] font-bold text-stone-500 uppercase tracking-wider pb-3 text-center">Click %</th>
+                <tr className="border-b border-stone-200">
+                  <th className="text-[10px] font-bold text-stone-400 uppercase tracking-widest pb-3 pr-4">Template</th>
+                  <th className="text-[10px] font-bold text-stone-400 uppercase tracking-widest pb-3 pr-4 text-center">Status</th>
+                  <th className="text-[10px] font-bold text-stone-400 uppercase tracking-widest pb-3 pr-4 text-center">Campaigns</th>
+                  <th className="text-[10px] font-bold text-stone-400 uppercase tracking-widest pb-3 pr-4 text-center">Sent</th>
+                  <th className="text-[10px] font-bold text-stone-400 uppercase tracking-widest pb-3 pr-4 text-center">Delivery %</th>
+                  <th className="text-[10px] font-bold text-stone-400 uppercase tracking-widest pb-3 pr-4 text-center">Read %</th>
+                  <th className="text-[10px] font-bold text-stone-400 uppercase tracking-widest pb-3 text-center">Click %</th>
                 </tr>
               </thead>
               <tbody>
                 {templatePerf.map((t) => (
-                  <tr key={t.id} className="border-b border-slate-100 hover:bg-slate-50/50 transition-colors">
+                  <tr key={t.id} className="border-b border-stone-100 hover:bg-[#fafaf9]/80 transition-colors">
                     <td className="py-3 pr-4">
                       <div className="flex flex-col">
-                        <span className="text-sm font-semibold text-stone-800">{t.name}</span>
-                        <span className="text-[10px] text-stone-400 capitalize">{t.category}</span>
+                        <span className="text-xs font-bold text-stone-800 uppercase tracking-wider">{t.name}</span>
+                        <span className="text-[9px] text-stone-400 uppercase tracking-wider mt-0.5">{t.category}</span>
                       </div>
                     </td>
                     <td className="py-3 pr-4 text-center">
-                      <span className={`text-[9px] font-bold uppercase px-2 py-0.5 rounded-full border ${metaStatusBadge(t.metaStatus)}`}>
+                      <span className={`text-[8.5px] font-bold uppercase px-2 py-0.5 rounded-none border ${metaStatusBadge(t.metaStatus)}`}>
                         {t.metaStatus || "pending"}
                       </span>
                     </td>
-                    <td className="py-3 pr-4 text-center text-sm font-semibold">{t.usedInCampaigns}</td>
-                    <td className="py-3 pr-4 text-center text-sm font-semibold">{fmt(t.sent)}</td>
+                    <td className="py-3 pr-4 text-center text-xs font-bold">{t.usedInCampaigns}</td>
+                    <td className="py-3 pr-4 text-center text-xs font-bold">{fmt(t.sent)}</td>
                     <td className="py-3 pr-4 text-center">
-                      <div className="flex items-center justify-center gap-1.5">
-                        <div className="w-14 h-1.5 bg-stone-100 rounded-full overflow-hidden">
-                          <div className="h-full bg-blue-500 rounded-full" style={{ width: `${t.deliveryRate}%` }} />
+                      <div className="flex items-center justify-center gap-2">
+                        <div className="w-14 h-1 bg-stone-100 border border-stone-200/50 rounded-none overflow-hidden shrink-0">
+                          <div className="h-full bg-stone-900 rounded-none" style={{ width: `${t.deliveryRate}%` }} />
                         </div>
-                        <span className="text-[11px] font-mono text-stone-600">{t.deliveryRate}%</span>
+                        <span className="text-[10px] font-bold text-stone-600">{t.deliveryRate}%</span>
                       </div>
                     </td>
                     <td className="py-3 pr-4 text-center">
-                      <div className="flex items-center justify-center gap-1.5">
-                        <div className="w-14 h-1.5 bg-stone-100 rounded-full overflow-hidden">
-                          <div className="h-full bg-purple-500 rounded-full" style={{ width: `${t.readRate}%` }} />
+                      <div className="flex items-center justify-center gap-2">
+                        <div className="w-14 h-1 bg-stone-100 border border-stone-200/50 rounded-none overflow-hidden shrink-0">
+                          <div className="h-full bg-stone-600 rounded-none" style={{ width: `${t.readRate}%` }} />
                         </div>
-                        <span className="text-[11px] font-mono text-stone-600">{t.readRate}%</span>
+                        <span className="text-[10px] font-bold text-stone-600">{t.readRate}%</span>
                       </div>
                     </td>
                     <td className="py-3 text-center">
-                      <div className="flex items-center justify-center gap-1.5">
-                        <div className="w-14 h-1.5 bg-stone-100 rounded-full overflow-hidden">
-                          <div className="h-full bg-emerald-500 rounded-full" style={{ width: `${t.clickRate}%` }} />
+                      <div className="flex items-center justify-center gap-2">
+                        <div className="w-14 h-1 bg-stone-100 border border-stone-200/50 rounded-none overflow-hidden shrink-0">
+                          <div className="h-full bg-stone-300 rounded-none" style={{ width: `${t.clickRate}%` }} />
                         </div>
-                        <span className="text-[11px] font-mono text-stone-600">{t.clickRate}%</span>
+                        <span className="text-[10px] font-bold text-stone-600">{t.clickRate}%</span>
                       </div>
                     </td>
                   </tr>
@@ -593,19 +579,18 @@ export const AnalyticsTab: React.FC = () => {
       </div>
 
       {/* ─── Section 8: Message Activity Heatmap ─── */}
-      <div className="glass-panel rounded-2xl p-6 shadow-sm">
-        <h3 className="text-base font-semibold flex items-center gap-2 mb-1">
-          <BarChart3 className="w-4 h-4 text-emerald-650" />
+      <div className="bg-white border border-stone-200 p-6 sm:p-8 hover:border-stone-400 transition-colors duration-300">
+        <h3 className="text-lg font-light text-stone-950 flex items-center gap-2 mb-1">
+          <BarChart3 className="w-4 h-4 text-stone-950" />
           Message Activity Heatmap
         </h3>
-        <p className="text-xs text-stone-500 mb-5">Hourly chat message volume by day of week</p>
+        <p className="text-xs text-stone-500 tracking-wider uppercase mt-1 mb-6">Hourly webhook chat transmission volume metrics by week day</p>
         <div className="overflow-x-auto custom-scrollbar">
-          {/* Hour labels row */}
-          <div className="flex items-center mb-1">
+          <div className="flex items-center mb-2">
             <div className="w-10 shrink-0" />
             {hourLabels.map((h, i) => (
               i % 2 === 0 ? (
-                <span key={i} className="text-[8px] text-stone-400 font-mono" style={{ width: "calc(100% / 24)", minWidth: "20px", textAlign: "center" }}>
+                <span key={i} className="text-[8.5px] text-stone-400 font-bold uppercase" style={{ width: "calc(100% / 24)", minWidth: "20px", textAlign: "center" }}>
                   {h}
                 </span>
               ) : (
@@ -613,10 +598,9 @@ export const AnalyticsTab: React.FC = () => {
               )
             ))}
           </div>
-          {/* Heatmap rows */}
           {heatmapData.map((row, dayIdx) => (
-            <div key={dayIdx} className="flex items-center gap-0">
-              <span className="text-[10px] text-stone-500 font-semibold w-10 shrink-0 text-right pr-2">
+            <div key={dayIdx} className="flex items-center gap-0 mb-1">
+              <span className="text-[10px] text-stone-500 font-bold w-10 shrink-0 text-right pr-3 uppercase">
                 {dayLabels[dayIdx]}
               </span>
               <div className="flex-1 flex gap-[2px]">
@@ -625,13 +609,13 @@ export const AnalyticsTab: React.FC = () => {
                   return (
                     <div
                       key={hourIdx}
-                      className="aspect-square rounded-[3px] transition-all hover:scale-125 hover:z-10 group relative cursor-default"
+                      className="aspect-square rounded-none transition-all hover:scale-125 hover:z-10 group relative border border-stone-200/10 cursor-default"
                       style={{
                         flex: 1,
                         minWidth: "14px",
                         backgroundColor: val === 0
-                          ? "#f5f5f4"
-                          : `rgba(18, 140, 126, ${0.15 + intensity * 0.85})`, // Slick WhatsApp teal heatmap intensity
+                          ? "#fafaf9"
+                          : `rgba(28, 25, 23, ${0.12 + intensity * 0.88})`,
                       }}
                       title={`${dayLabels[dayIdx]} ${hourLabels[hourIdx]}: ${val} messages`}
                     />
@@ -640,19 +624,18 @@ export const AnalyticsTab: React.FC = () => {
               </div>
             </div>
           ))}
-          {/* Heatmap legend */}
-          <div className="flex items-center justify-end gap-1 mt-3">
-            <span className="text-[9px] text-stone-400">Less</span>
+          <div className="flex items-center justify-end gap-1 mt-4 text-[9px] font-bold text-stone-400 uppercase tracking-widest">
+            <span className="mr-1">Less Activity</span>
             {[0, 0.25, 0.5, 0.75, 1].map((i) => (
               <div
                 key={i}
-                className="w-3.5 h-3.5 rounded-[2px]"
+                className="w-3.5 h-3.5 rounded-none border border-stone-200/50"
                 style={{
-                  backgroundColor: i === 0 ? "#f5f5f4" : `rgba(18, 140, 126, ${0.15 + i * 0.85})`,
+                  backgroundColor: i === 0 ? "#fafaf9" : `rgba(28, 25, 23, ${0.12 + i * 0.88})`,
                 }}
               />
             ))}
-            <span className="text-[9px] text-stone-400">More</span>
+            <span className="ml-1">More Activity</span>
           </div>
         </div>
       </div>

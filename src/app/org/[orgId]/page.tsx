@@ -96,13 +96,13 @@ export default function TenantDashboard() {
   // Render authenticating screen
   if (status === "loading" || (loading && !errorMsg)) {
     return (
-      <div className="flex h-screen w-screen items-center justify-center bg-[#f4f6f5] text-emerald-600 font-sans relative overflow-hidden">
+      <div className="flex h-screen w-screen items-center justify-center bg-[#f4f6f5] text-wa-green font-sans relative overflow-hidden">
         {/* Decorative blur rings */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-emerald-100 rounded-full blur-3xl opacity-30 animate-pulse-soft" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-teal-100 rounded-full blur-3xl opacity-30 animate-pulse-soft" />
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-wa-green/10 rounded-full blur-3xl opacity-30 animate-pulse-soft" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-wa-green-dark/10 rounded-full blur-3xl opacity-30 animate-pulse-soft" />
         
         <div className="flex flex-col items-center gap-4 animate-slide-up relative z-10">
-          <div className="w-16 h-16 rounded-3xl bg-emerald-600 flex items-center justify-center shadow-xl shadow-emerald-600/30 animate-glow-pulse relative">
+          <div className="w-16 h-16 rounded-3xl bg-wa-green flex items-center justify-center shadow-xl shadow-wa-green/30 animate-glow-pulse relative">
             <Loader className="w-7 h-7 animate-spin text-white" />
             <span className="absolute -inset-1 rounded-3xl border-2 border-emerald-400 opacity-20 animate-ping" />
           </div>
@@ -132,7 +132,7 @@ export default function TenantDashboard() {
           </div>
           <button
             onClick={() => router.push("/login")}
-            className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs py-3.5 rounded-xl transition-all duration-300 hover:shadow-md hover:shadow-emerald-600/15 cursor-pointer"
+            className="w-full bg-wa-green hover:bg-wa-green-dark text-white font-bold text-xs py-3.5 rounded-xl transition-all duration-300 hover:shadow-md hover:shadow-wa-green/15 cursor-pointer"
           >
             Return to Login Portal
           </button>
@@ -158,20 +158,20 @@ export default function TenantDashboard() {
           <div className="flex items-center gap-3">
             <button
               onClick={() => setIsSidebarOpen(true)}
-              className="p-1.5 rounded-xl hover:bg-emerald-50/80 text-stone-700 cursor-pointer transition-colors"
+              className="p-1.5 rounded-xl hover:bg-wa-green/10 text-stone-700 cursor-pointer transition-colors"
             >
               <Menu className="w-5.5 h-5.5" />
             </button>
             <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-lg bg-emerald-600 flex items-center justify-center shadow-md shadow-emerald-600/20">
+              <div className="w-7 h-7 rounded-lg bg-wa-green flex items-center justify-center shadow-md shadow-wa-green/20">
                 <Bot className="w-4 h-4 text-white" />
               </div>
               <span className="font-extrabold text-sm tracking-tight text-slate-900">WappFlow</span>
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse-soft" />
-            <span className="text-[9px] font-extrabold text-emerald-650 bg-emerald-50 px-2 py-1 rounded-lg border border-emerald-200/20 uppercase tracking-wide">SaaS Sandbox</span>
+            <span className="h-1.5 w-1.5 rounded-full bg-wa-green-light animate-pulse-soft" />
+            <span className="text-[9px] font-extrabold text-wa-green-dark bg-wa-green/10 px-2 py-1 rounded-lg border border-wa-green/20 uppercase tracking-wide">SaaS Sandbox</span>
           </div>
         </header>
 
