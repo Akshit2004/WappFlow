@@ -24,20 +24,17 @@ export async function GET(request: NextRequest) {
     const systemToken = process.env.WHATSAPP_SYSTEM_USER_TOKEN;
     const portfolios = [];
 
-    if (systemToken && org.metaBusinessId) {
-      const wabaRes = await fetch(`https://graph.facebook.com/v25.0/${org.metaBusinessId}/owned_whatsapp_business_accounts?access_token=${systemToken}`);
+    if (systemToken && org.whatsappBusinessAccountId) {
+      const wabaRes = await fetch(`https://graph.facebook.com/v25.0/${org.whatsappBusinessAccountId}?fields=id,name&access_token=${systemToken}`);
       if (wabaRes.ok) {
         const wabaData = await wabaRes.json();
-        const wabas = wabaData.data || [];
-        for (const waba of wabas) {
-          const phoneRes = await fetch(`https://graph.facebook.com/v25.0/${waba.id}/phone_numbers?access_token=${systemToken}`);
-          const phoneNumbers = phoneRes.ok ? (await phoneRes.json()).data : [];
-          portfolios.push({
-            wabaId: waba.id,
-            name: waba.name || `WABA (${waba.id})`,
-            phoneNumbers: phoneNumbers || []
-          });
-        }
+        const phoneRes = await fetch(`https://graph.facebook.com/v25.0/${org.whatsappBusinessAccountId}/phone_numbers?access_token=${systemToken}`);
+        const phoneNumbers = phoneRes.ok ? (await phoneRes.json()).data : [];
+        portfolios.push({
+          wabaId: wabaData.id,
+          name: wabaData.name || `WABA (${wabaData.id})`,
+          phoneNumbers: phoneNumbers || []
+        });
       }
     }
 
